@@ -1,0 +1,13 @@
+  kind: RoleBinding
+  apiVersion: rbac.authorization.k8s.io/v1beta1
+  metadata:
+    name: developer-manager-binding
+    namespace: dev
+  subjects:
+  - kind: User
+    name: dev1
+    apiGroup: ""
+  roleRef:
+    kind: Role
+    name: developer-manager
+    apiGroup: ""
