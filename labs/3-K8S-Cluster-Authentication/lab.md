@@ -40,5 +40,7 @@ kubectl logs <PodName> | grep -B 3 initialAdminPassword
 
 ## Exercise 2: Authenticating Jenkins to your Cluster
 
+1. We will be using the Kubernetes 
+
 
 ### Bonus - The version of Jenkins you deployed has plenty of known vulnerabilities. Update your Jenkins version to the latest (2.89.4 at the time of this writing). 

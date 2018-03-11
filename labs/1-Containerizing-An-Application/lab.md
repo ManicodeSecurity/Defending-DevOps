@@ -11,21 +11,21 @@ The included application located in /src/link-unshorten is a simple API that we 
 Open up the files in /src/link-unshorten in your favorite IDE or text editor and familarize yourself with the application.
 
 ### Task 2 (optional): Run the Golang Application
-If you have Go and [Dep](https://github.com/golang/dep) (Golang dependency management tool) installed locally, go ahead and run the following commands to fire up the application:
+If you have Golang and [Dep](https://github.com/golang/dep) (Golang dependency management tool) installed locally, go ahead and run the following commands to fire up the application:
 
-1. Run `dep ensure` to ensure vendor/ is in the correct state for your configuration.
+1. Run `dep ensure` to ensure the `vendor` directory is in the correct state for your configuration.
 
-2. Now run `go run *.go` to start the application.
+2. In the `src/link-unshorten` directory, run `go run *.go` to start the application.
 
 3. Visit `http://localhost:8080/api/check?url=bit.ly/test`
 
 ### Task 3: Build the Docker Container Locally
-In the /src/link-unshorten directory run the following command (substituting your name) to build the image on you laptop:
+In the `src/link-unshorten` directory run the following command (substituting your name) to build the image on you laptop:
 ```
 docker build -t <yourname>/link-unshorten:0.1 .
 ```
 
-Inspect the local Docker images:
+Inspect your local Docker images:
 ```
 docker images
 ```

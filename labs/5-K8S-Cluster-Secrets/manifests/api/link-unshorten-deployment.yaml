@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: link-unshorten
+  labels:
+    app: unshorten-api
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: unshorten-api
+  template: 
+    metadata:
+      labels:
+        app: unshorten-api
+    spec:
+      containers:
+      - name: unshorten-api-container
+        image: "jmbmxer/link-unshorten:0.3"
+        imagePullPolicy: Always
+        env:
+        - name: UNSHORTEN_DB_HOST
+          value: unshorten-mysql
+        - name: UNSHORTEN_DB_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: mysql-pass
+              key: password
+        ports:
+        - containerPort: 8080
+          name: http
+          protocol: TCP
