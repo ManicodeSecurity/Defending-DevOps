@@ -5,6 +5,8 @@ metadata:
   labels:
     app: unshorten-api
 spec:
+  securityContext:
+    runAsUser: 0
   replicas: 1
   selector:
     matchLabels:
@@ -16,16 +18,8 @@ spec:
     spec:
       containers:
       - name: unshorten-api-container
-        image: "jmbmxer/link-unshorten:0.3"
+        image: "jmbmxer/link-unshorten:0.1"
         imagePullPolicy: Always
-        env:
-        - name: UNSHORTEN_DB_HOST
-          value: unshorten-mysql
-        - name: UNSHORTEN_DB_PASSWORD
-          valueFrom:
-            secretKeyRef:
-              name: mysql-secrets
-              key: password
         ports:
         - containerPort: 8080
           name: http

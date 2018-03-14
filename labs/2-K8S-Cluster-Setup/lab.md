@@ -1,17 +1,6 @@
-# Kubernetes Setup
 
-The goal of this lab is to successfully setup a local Kubernetes cluster on your machine using minikube. We will use this cluster throughout the remainder of the labs.
-
-## About Minikube
-[Minikube](https://github.com/kubernetes/minikube) is a tool that makes it easy to run Kubernetes locally. Minikube runs a single-node Kubernetes cluster inside a VM on your laptop. Minikube supports a variety of drivers including:
-* virtualbox
-* vmwarefusion
-* kvm 
-* hyperkit
-
-For this lab we will be using Virtualbox, but feel free to experiment with others. Minikube does not offer everything a full cluster would such as provisioning load balancers but it can help us get started with Kubernetes quickly without spinning up costly cloud infrastructure. 
-
-!! This requires that you have Minikube and kubectl installed and configured correctly. Please go back to 0-Lab-Setup if you are not set up. !!
+## Deploying Your App to Kubernetes
+(!)This requires that you have Minikube and kubectl installed and configured correctly. Please go back to 0-Lab-Setup if you are not set up.
 
 ### Task 1: Getting to Know Your Cluster
 1. kubectl is the cli we will use to interact with our Kubernetes cluster. The first task is to view the Pods that are running on our cluster with an out-of-the-box installation. Run the following command in you terminal:
@@ -31,16 +20,17 @@ You can see loads of information regarding our VM. Things like memory availabili
 4. Use the `describe` command to describe one of the pods running in the kube-system namespace.
 
 Hint: Check out the official [kubectl cheatsheet](https://kubernetes.io/docs/reference/kubectl/cheatsheet/) for more useful tips.
+
 ### Task 2: Running our Application in Minikube
-2. Launch the application by creating a Kubernetes Deployment using the following command (this pulls down the image from Docker Hub so it may take a few minutes):
+1. Launch the application by creating a Kubernetes Deployment using the following command (this pulls down the image from Docker Hub so it may take a few minutes):
 ```
 kubectl run link-unshorten --image=jmbmxer/link-unshorten:0.1 --port=8080
 ```
-3. Take a look at your running Pods and make sure the container has been created successfully:
+2. Take a look at your running Pods and make sure the container has been created successfully:
 ```
 kubectl get pods
 ```
-4. You will also see that this command created a Deployment called link-unshorten. Run this command to show the Deployments running on our cluster:
+3. You will also see that this command created a Deployment called link-unshorten. Run this command to show the Deployments running on our cluster:
 ```
 kubectl get deployments
 ```
@@ -52,30 +42,30 @@ You will notice some information regarding our new deployment:
 - AVAILABLE displays how many replicas of the application are available to your users.
 - AGE displays the amount of time that the application has been running.
 
-5. Now, inspect the details of this deployment using `describe`:
+4. Now, inspect the details of this deployment using `describe`:
 ```
 kubectl describe deployment link-unshorten
 ```
 
-6. Run the following command to view more info about the deployment you just created. We use the `-l` flag here to tell kubernets to only get pods with the Label of `run=link-unshorten` which is the default label given to this particular Pod:
+5. Run the following command to view more info about the deployment you just created. We use the `-l` flag here to tell kubernets to only get pods with the Label of `run=link-unshorten` which is the default label given to this particular Pod:
 ```
 kubectl get pods -l run=link-unshorten -o yaml
 ```
 
-7. We can use grep to extract the IP address that was assigned to our Pod:
+6. We can use grep to extract the IP address that was assigned to our Pod:
 ```
 kubectl get pods -l run=link-unshorten -o yaml | grep podIP
 ```
 
-8. Use kubectl to get a shell to your container:
+7. Use kubectl to get a shell to your container:
 ```
 kubectl exec -it <podname> /bin/bash
 ```
 Hint: Retrieve podname using `kubectl get pods`
 
-9. If you `ls` in the shell you will see the golang app source code
+8. If you `ls` in the shell you will see the golang app source code
 
-10. We can use `curl` to hit our API locally once we have a shell:
+9. We can use `curl` to hit our API locally once we have a shell:
 ```
 curl localhost:8080/api/check?url=bit.ly/test
 ```

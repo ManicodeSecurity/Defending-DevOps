@@ -1,7 +1,7 @@
 apiVersion: extensions/v1beta1
 kind: PodSecurityPolicy
 metadata:
-  name: example
+  name: restrict-root
 spec:
   privileged: false
   runAsUser:
@@ -13,7 +13,4 @@ spec:
   supplementalGroups:
     rule: RunAsAny
   volumes:
-  - 'nfs'
-  hostPorts:
-  - min: 8080
-    max: 8080
+  - '*'

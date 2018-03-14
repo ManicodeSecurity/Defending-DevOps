@@ -2,6 +2,25 @@
 
 The goal of this lab is to enhance the security of our cluster using built in Kubernetes primitaves. We will explore several authentication strategies and apply them to our Minikube cluster.
 
+###
+`minikube delete`
+`minikube start --extra-config=apiserver.Authorization.Mode=RBAC`
+`kubectl get clusterroles`
+All Kubernetes clusters install a default set of ClusterRoles, representing common buckets users can be placed in. The “edit” role lets users perform basic actions like deploying pods; “view” lets a user observe non-sensitive resources; “admin” allows a user to administer a namespace; and “cluster-admin” grants access to administer a cluster.
+
+## Task 1: Manually a user to the edit ClusterRole
+ClusterRoleBindings grant a user, group, or service account a ClusterRole’s power across the entire cluster. Using kubectl, we can let a sample user “jane” perform basic actions in all namespaces by binding her to the “edit” ClusterRole:
+
+
+
+
+
+
+
+
+
+
+
 ### Deploying Jenkins to the Cluster
 We are now going into full DevOps mode. To build out our pipeline we will need an install of Jenkins. We will use Jenkins to dynamically spin up Pods as slaves in a particular namespace. But first, Jenkins will need a service account to authenticate against the Kubernetes API.
 
@@ -44,3 +63,8 @@ kubectl logs <PodName> | grep -B 3 initialAdminPassword
 
 
 ### Bonus - The version of Jenkins you deployed has plenty of known vulnerabilities. Update your Jenkins version to the latest (2.89.4 at the time of this writing). 
+
+
+
+
+kubectl config set-credentials cluster-admin --username=admin --password=uXFGweU9l35qcif
