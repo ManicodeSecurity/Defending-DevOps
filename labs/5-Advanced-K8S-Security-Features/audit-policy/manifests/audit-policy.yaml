@@ -1,0 +1,27 @@
+apiVersion: audit.k8s.io/v1beta1
+kind: Policy
+rules:
+  # only log request metadata for any operation
+  # on secrets or configmaps
+  - level: Metadata
+    resources:
+      - group: ""
+        resources:
+          - secrets
+          - configmaps
+
+  # do not log noisy services
+  # originating from the "kube-dns" ServiceAccount
+  - level: None
+    users:
+      - "system:serviceaccount:kube-system:kube-dns"
+    verbs:
+      - watch
+    resources:
+      - group: ""
+        resources:
+          - endpoints
+          - services
+
+  # log everything else with metadata and req/resp bodies
+  - level: RequestResponse

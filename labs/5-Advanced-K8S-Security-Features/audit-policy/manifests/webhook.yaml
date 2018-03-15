@@ -1,0 +1,11 @@
+kind: Config
+apiVersion: v1
+clusters:
+  - name: requestbin
+    cluster:
+      server: https://requestb.in/1est81i1
+contexts:
+- name: webhook
+  context:
+    cluster: requestbin
+current-context: webhook
