@@ -41,8 +41,8 @@ kubectl get events
 Great job! We just stopped a container running as r00t.
 
 ## Auditing
-
-https://kubernetes.io/docs/tasks/debug-application-cluster/audit/
+A recent addition to Kubernetes, (https://kubernetes.io/docs/tasks/debug-application-cluster/audit/)
+[auditing] gives adminstrators and security teams the ability to log and monitor security-related events occuring on a cluster. By using audit policies, we can create granular rulesets to focus on only on the meaningful events and cut down on the noise. 
 
 # Task 1: We will need to enable some flags in our cluster so we will start off with a clean cluster using the following command:
 ```
@@ -83,7 +83,7 @@ minikube start \
     --extra-config=apiserver.Audit.WebhookOptions.ConfigFile=/etc/kubernetes/addons/webhook.yaml 
 ```
 
-## Discussion Question: How would you ingest these logs in your current log management systems? What would you alert on?
+## Discussion Question: How would you ingest these logs into your current log management systems? What would you alert on?
 
 
 #Kubernetes security tip: if your pod doesn't need API access set `AutomountServiceAccountToken: false` for an extra layer of defense.
@@ -91,5 +91,6 @@ Disable the automounting of a default service account token
 https://kubernetes.io/docs/tasks/configure-pod-container/configure-service-account/#use-the-default-service-account-to-access-the-api-server'
 
 ISTIO - Super Bonus ++
+https://github.com/istio/istio/blob/master/tools/minikube.md
 
 
