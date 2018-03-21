@@ -1,6 +1,6 @@
 # Kubernetes Cluster Setup
 
-The goal of this lab is to successfully setup a local Kubernetes cluster on your machine using minikube. We will use this cluster throughout the remainder of the labs.
+The goal of this lab is to successfully setup a local Kubernetes cluster on your machine using Minikube. We will use this cluster throughout the remainder of the labs.
 
 ## About Minikube
 [Minikube](https://github.com/kubernetes/minikube) is a tool that makes it easy to run Kubernetes locally. Minikube runs a single-node Kubernetes cluster inside a VM on your laptop. Minikube supports a variety of drivers including:
@@ -14,8 +14,8 @@ For this lab we will be using Virtualbox, but feel free to experiment with other
 ## Task 1: Install Docker
 Make sure you have the latest version of [Docker for Mac Community Edition](https://store.docker.com/editions/community/docker-ce-desktop-mac) installed on your local machine. 
 
-## Task 2: Install Kubectl
-Kubectl is a command-line tool used to deploy and manage applications on Kubernetes. There are several ways to install kubectl locally. Homebrew and curl are the easiest options for Mac OS.
+## Task 2: Install kubectl
+`kubectl` is a command-line tool used to deploy and manage applications on Kubernetes. There are several ways to install kubectl locally. Homebrew and curl are the easiest options for Mac OS.
 
 [Kubectl Installation](https://kubernetes.io/docs/tasks/tools/install-kubectl/
 )

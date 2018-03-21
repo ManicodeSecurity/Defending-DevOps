@@ -3,7 +3,7 @@ https://itnext.io/kubernetes-monitoring-with-prometheus-in-15-minutes-8e54d1de2e
 
 ## Auditing
 A recent addition to Kubernetes, (https://kubernetes.io/docs/tasks/debug-application-cluster/audit/)
-[auditing] gives adminstrators and security teams the ability to log and monitor security-related events occuring on a cluster. By using audit policies, we can create granular rulesets to focus on only on the meaningful events and cut down on the noise. 
+[auditing] gives administrators and security teams the ability to log and monitor security-related events occurring on a cluster. By using audit policies, we can create granular rulesets to focus on only on the meaningful events and cut down on the noise. 
 
 # Task 1: We will need to enable some flags in our cluster so we will start off with a clean cluster using the following command:
 ```
@@ -32,7 +32,7 @@ minikube start \
 tail -f  ~/.minikube/logs/audit.log  | jq '.| select(.sourceIPs | contains(["127.0.0.1"]) | not)'
 ```
 
-## Bonus: Using a webhook, send the Kubernetes logs to an API such as requestb.in (this is VERY insecure so only do this for testing purposes). 
+## Bonus: Using a webhook, send the Kubernetes logs to an API such as requestb.in (This is obviously VERY insecure and should only be used for testing or learning purposes. Always ship logs to an approved log aggregation system.
 
 Hint 1: The `webhook.yaml` file should be copied to the same location as the `audit-policy.yaml` file in `.minikube/addons` directory.
 

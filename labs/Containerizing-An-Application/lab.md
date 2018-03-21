@@ -8,7 +8,7 @@ The included application located in /src/link-unshorten is a simple API that we 
 [Gin-Gonic Github Repository](https://github.com/gin-gonic/gin)
 
 ### Task 1: Browse the Application
-Open up the files in /src/link-unshorten in your favorite IDE or text editor and familarize yourself with the application.
+Open up the files in /src/link-unshorten in your favorite IDE or text editor and familiarize yourself with the application.
 
 ### Task 2 (optional): Run the Golang Application
 If you have Golang and [Dep](https://github.com/golang/dep) (Golang dependency management tool) installed locally, go ahead and run the following commands to fire up the application:
@@ -42,7 +42,7 @@ docker ps
 ```
 Visit `http://localhost:8080/api/check?url=bit.ly/test`
 
-Note: If you run into port confict errors, make sure to kill the Golang application if you ran the application manually in Task 2 or any other applications that may be running on port 8080.
+Note: If you run into port conflict errors, make sure to kill the Golang application if you ran the application manually in Task 2 or any other applications that may be running on port 8080.
 
 ### Bonus: Make the port in main.go an environment variable instead of a hardcoded value
 

@@ -1,6 +1,6 @@
 
 ## Deploying Your App to Kubernetes
-(!)This requires that you have Minikube and kubectl installed and configured correctly. Please go back to 0-Lab-Setup if you are not set up.
+(!)This requires that you have Minikube and kubectl installed and configured correctly. Please go back to 1-Lab-Setup if you are not set up.
 
 ### Task 1: Getting to Know Your Cluster
 1. kubectl is the cli we will use to interact with our Kubernetes cluster. The first task is to view the Pods that are running on our cluster with an out-of-the-box installation. Run the following command in you terminal:
@@ -47,7 +47,7 @@ You will notice some information regarding our new deployment:
 kubectl describe deployment link-unshorten
 ```
 
-5. Run the following command to view more info about the deployment you just created. We use the `-l` flag here to tell kubernets to only get pods with the Label of `run=link-unshorten` which is the default label given to this particular Pod:
+5. Run the following command to view more info about the deployment you just created. We use the `-l` flag here to tell Kubernetes to only get pods with the Label of `run=link-unshorten` which is the default label given to this particular Pod:
 ```
 kubectl get pods -l run=link-unshorten -o yaml
 ```
@@ -61,7 +61,7 @@ kubectl get pods -l run=link-unshorten -o yaml | grep podIP
 ```
 kubectl exec -it <podname> /bin/bash
 ```
-Hint: Retrieve podname using `kubectl get pods`
+Hint: Retrieve the <podname> using `kubectl get pods`
 
 8. If you `ls` in the shell you will see the golang app source code
 
@@ -114,7 +114,7 @@ kubectl get pods
 ```
 kubectl get replicaset
 ```
-5. Check out your newly created microservice using the following command to extract the IP address:
+5. Check out your newly created "microservice" using the following command to extract the IP address:
 ```
 minikube service link-unshorten-service --url
 ```
@@ -132,9 +132,9 @@ kubectl replace -f link-unshorten-deployment.yaml
  kubectl describe pod <podname>
  ```
 
-9. Uncomment the redis container lines in the link-unshorten-deployment.yaml manifest to deploy a second container within our Pod. Use `kubectl replace -f link-unshorten-deployment.yaml` to commit the changes after the lines have been uncommented.
+9. Un-comment the redis container lines in the link-unshorten-deployment.yaml manifest to deploy a second container within our Pod. Use `kubectl replace -f link-unshorten-deployment.yaml` to commit the changes after the lines have been un-commented.
 
-10. If you are curious about container-to-continer communication within a running Pod, exec into the pod using the following command. The ContainerName can be found in the link-unshorten-deployment.yaml file.
+10. If you are curious about container-to-container communication within a running Pod, exec into the pod using the following command. The ContainerName can be found in the link-unshorten-deployment.yaml file.
 ```
 kubectl exec -it <PodName> -c <ContainerName> /bin/bash
 redis-cli ping
@@ -151,7 +151,7 @@ curl 127.0.0.1:8080/api/check?url=bit.ly/test
  A critical RCE vulnerability was just reported through a bug bounty and was fixed late into the night. Roll out a new version of the app (0.2) in your local cluster to patch the vulnerability on each of your three running pods. No downtime allowed! Show the deployment history using `kubectl rollout history` 
 
 ### Bonus+ 
-The new version you just rolled out contains a critical bug! Quicky rollback the deployment to 0.1 (Yes, 0.1 is the vulnerable version, but this is just for practice!)
+The new version you just rolled out contains a critical bug! Quickly rollback the deployment to 0.1 (Yes, 0.1 is the vulnerable version, but this is just for practice!)
 
 ### Bonus++
 Add an ingress accessible at unshortenit.info 
@@ -174,4 +174,4 @@ Add a Self-Signed TLS certificate to the nginx ingress controller. Choose Your O
 What would be a good piece of your application or infrastructure to start breaking up into Pods within Kubernetes? 
 
 ### Discussion Question 
-What security challenges does adminstering a Kubernetes cluster using a tool like kubectl present? 
+What security challenges does administering a Kubernetes cluster using a tool like kubectl present? 
