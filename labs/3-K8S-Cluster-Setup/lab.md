@@ -1,7 +1,7 @@
 # Kubernetes Cluster Setup
 
 ## Deploying Your App to Kubernetes
-(!)This requires that you have Minikube and kubectl installed and configured correctly. Please go back to 1-Lab-Setup if you are not set up.
+(!)This requires that you have Minikube and kubectl installed and configured correctly. Please go back to `1-Lab-Setup` if you are not set up.
 
 ### Task 1: Getting to Know Your Cluster
 1. kubectl is the cli we will use to interact with our Kubernetes cluster. The first task is to view the Pods that are running on our cluster with an out-of-the-box installation. Run the following command in you terminal:
