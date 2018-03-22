@@ -176,7 +176,6 @@ Hint 4: The answer is in the `bonus` folder. Don't cheat!
 Add a Self-Signed TLS certificate to the nginx ingress controller. Choose Your Own Adventure.
 
 ### Discussion Question
-What would be a good piece of your application or infrastructure to start breaking up into Pods within Kubernetes? 
+1. What would be a good piece of your application or infrastructure to start breaking up into Pods within Kubernetes? 
 
-### Discussion Question 
-What security challenges does administering a Kubernetes cluster using a tool like kubectl present? 
+2. What security challenges does administering a Kubernetes cluster using a tool like kubectl present? 
