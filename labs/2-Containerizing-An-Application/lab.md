@@ -1,4 +1,4 @@
-# 1-Containerizing-An-Application
+# Containerizing an Application
 
 This lab will begin our DevOps journey by running a simple Golang application locally using Docker. Containers are at the core of how Kubernetes (any many other successful DevOps deployments) operate and this lab will set the stage for later, more advanced, labs.
 

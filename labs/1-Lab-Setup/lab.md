@@ -49,8 +49,3 @@ Kubectl should now be configured to interact with our newly formed, single-node 
 ```
 kubectl get pods --all-namespaces
 ```
-
-## Experimental - Docker for Mac: Deploy to Kubernetes
-Docker for Mac recently released a "Deploy to Kubernetes" feature which is worth taking a look at. These labs have *not* been tested using these tools so use at your own risk!
-
-[Deploy to Kubernetes for Docker For Mac](https://docs.docker.com/docker-for-mac/kubernetes/)

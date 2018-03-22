@@ -1,3 +1,4 @@
+# Kubernetes Cluster Setup
 
 ## Deploying Your App to Kubernetes
 (!)This requires that you have Minikube and kubectl installed and configured correctly. Please go back to 1-Lab-Setup if you are not set up.
