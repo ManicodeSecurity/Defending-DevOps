@@ -6,6 +6,7 @@ metadata:
 subjects:
 - kind: User
   name: jboss
+  namespace: development
   apiGroup: rbac.authorization.k8s.io
 roleRef:
   kind: Role
