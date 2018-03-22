@@ -13,7 +13,6 @@ minikube start
 ```
 
 2. Exec into the Kubernetes master and take a look at the kubelet configs:
-
 ```
 minikube ssh
 # grab your minikube IP address
@@ -23,9 +22,7 @@ minikube ip
 3. The Kubelet API runs on every node. If an individual as network access to a node in the kubernetes cluster, they are able to do some interesting things by default, including "exec-ing" into running pods!
 ```
 # port 10250 is the read/write port that the Kubelet API uses for communication to the master node
-
 curl --insecure https://<minikubeIP>:10250/pods | jq
-
 # jq is a tool to prettify JSON output - it is optional here but very useful
 ```
 
