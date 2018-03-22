@@ -70,6 +70,7 @@ Hint: Retrieve the `<podname>` using `kubectl get pods`
 ```
 curl localhost:8080/api/check?url=bit.ly/test
 ```
+
 ### Task 4: Exposing your Pod to Your (local) World
 There are a variety of ways to give make our Pod accessible to the outside world. A Service with the type NodePort will be used to give our Pod a stable existence and an IP we can reach from our web browser.
 
@@ -145,6 +146,7 @@ apt-get update && apt-get install curl
 ```
 curl 127.0.0.1:8080/api/check?url=bit.ly/test
 ```
+
 ### Bonus
  A critical RCE vulnerability was just reported through a bug bounty and was fixed late into the night. Roll out a new version of the app (0.2) in your local cluster to patch the vulnerability on each of your three running pods. No downtime allowed! Show the deployment history using `kubectl rollout history` 
 
