@@ -37,12 +37,17 @@ kubectl get deployments
 ```
 You will notice some information regarding our new deployment:
 
-- *NAME* lists the names of the Deployments in the cluster.
-- *DESIRED* displays the desired number of replicas of the application, which you define when you create the Deployment. This is the desired state.
-- *CURRENT* displays how many replicas are currently running.
-- *UP-TO-DATE* displays the number of replicas that have been updated to achieve the desired state.
-- *AVAILABLE* displays how many replicas of the application are available to your users.
-- *AGE* displays the amount of time that the application has been running.
+*NAME* lists the names of the Deployments in the cluster.
+
+*DESIRED* displays the desired number of replicas of the application, which you define when you create the Deployment. This is the desired state.
+
+*CURRENT* displays how many replicas are currently running.
+
+*UP-TO-DATE* displays the number of replicas that have been updated to achieve the desired state.
+
+*AVAILABLE* displays how many replicas of the application are available to your users.
+
+*AGE* displays the amount of time that the application has been running.
 
 4. Now, inspect the details of this deployment using `describe`:
 ```
