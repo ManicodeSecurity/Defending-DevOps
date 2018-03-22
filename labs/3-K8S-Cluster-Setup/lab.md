@@ -110,6 +110,7 @@ kubectl create -f link-unshorten-service.yaml
 ```
 
 3. Make sure the pods are running without error:
+
 ```
 kubectl get pods
 ```
