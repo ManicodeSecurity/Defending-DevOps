@@ -5,8 +5,6 @@ metadata:
   labels:
     app: unshorten-api
 spec:
-  securityContext:
-    runAsUser: 0
   replicas: 1
   selector:
     matchLabels:
@@ -16,6 +14,8 @@ spec:
       labels:
         app: unshorten-api
     spec:
+      securityContext:
+        runAsUser: 0
       containers:
       - name: unshorten-api-container
         image: "jmbmxer/link-unshorten:0.1"

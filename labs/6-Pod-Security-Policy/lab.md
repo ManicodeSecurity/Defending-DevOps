@@ -15,18 +15,19 @@ minikube start \
 ```
 
 ## Task 2: Create our PodSecurityPolicy
-1. In the `podsecuritypolicy/manifests` directory, take a look at the `pod-security-policy.yaml` file and launch it into our new cluster:
+1. In the `manifests/podsecuritypolicy` directory, take a look at the `pod-security-policy.yaml` file and launch it into our new cluster:
 ```
-kubectl create -f pod-security-policy.yaml`
+kubectl create -f pod-security-policy.yaml
 ```
 
 2. Inspect our new PodSecurityPolicy:
 ```
 kubectl get psp
+kubectl describe psp restrict-root
 ```
 
 ## Task 3: Launch a Pod That Runs as Root
-1. Inspect the modified Unshorten API deployment located in the `pod-security-policy/manifests` directory and notice the new `runAsUser` field. This field specifies that for any Containers in the Pod, the first process runs with user ID 0 (root). 
+1. Inspect the modified Unshorten API deployment located in the `manifests` directory and notice the new `runAsUser` field. This field specifies that for any Containers in the Pod, the first process runs with user ID 0 (root). 
 
 2. Launch the Deployment and service:
 ```
