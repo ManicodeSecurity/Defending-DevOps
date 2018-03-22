@@ -36,6 +36,7 @@ kubectl get pods
 kubectl get deployments
 ```
 You will notice some information regarding our new deployment:
+
 - *NAME* lists the names of the Deployments in the cluster.
 - *DESIRED* displays the desired number of replicas of the application, which you define when you create the Deployment. This is the desired state.
 - *CURRENT* displays how many replicas are currently running.
