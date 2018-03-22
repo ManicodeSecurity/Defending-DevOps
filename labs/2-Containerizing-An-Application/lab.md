@@ -48,8 +48,12 @@ Note: If you run into port conflict errors, make sure to kill the Golang applica
 
 Hint 1: Check out the [OS](https://golang.org/pkg/os) package for Golang
 
-Hint 2: Use the `-e` flag in your docker run command
+Hint 2: Use the `-e` flag to pass an environment variable into your `docker run` command
 
+Hint 3: Yes, the answer is commented in the source code
+
+Hint 4: You will need to run `docker stop` on the first running container before running another one with the same port
+ 
 ### Bonus+ : Scan the Dockerfile for vulnerabilities using Clair 
 Documentation can be found in the Clair [Github](https://github.com/arminc/clair-scanner) repository:
 
