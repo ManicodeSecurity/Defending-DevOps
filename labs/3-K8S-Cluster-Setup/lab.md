@@ -28,10 +28,12 @@ Hint: Check out the official [kubectl cheatsheet](https://kubernetes.io/docs/ref
 ```
 kubectl run link-unshorten --image=jmbmxer/link-unshorten:0.1 --port=8080
 ```
+
 2. Take a look at your running Pods and make sure the container has been created successfully:
 ```
 kubectl get pods
 ```
+
 3. You will also see that this command created a Deployment called link-unshorten. Run this command to show the Deployments running on our cluster:
 ```
 kubectl get deployments
