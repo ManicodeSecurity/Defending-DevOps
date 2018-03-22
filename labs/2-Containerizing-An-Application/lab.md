@@ -43,7 +43,8 @@ Hint 3: Yes, the answer is commented in the source code
 
 Hint 4: You will need to run `docker stop` on the first running container before running another one with the same port
 
-### Bonus+ : Check out [Anchore](https://anchore.io) and investigate some popular Docker images and their vulnerabilities. 
+### Bonus+
+Check out [Anchore](https://anchore.io) and investigate some popular Docker images and their vulnerabilities. 
 
 
 ### Discussion Question: How would you plug a Docker vulnerability scanning utility into your current CI/CD pipeline? 

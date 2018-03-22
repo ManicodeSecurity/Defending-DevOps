@@ -36,12 +36,12 @@ kubectl get pods
 kubectl get deployments
 ```
 You will notice some information regarding our new deployment:
-- NAME lists the names of the Deployments in the cluster.
-- DESIRED displays the desired number of replicas of the application, which you define when you create the Deployment. This is the desired state.
-- CURRENT displays how many replicas are currently running.
-- UP-TO-DATE displays the number of replicas that have been updated to achieve the desired state.
-- AVAILABLE displays how many replicas of the application are available to your users.
-- AGE displays the amount of time that the application has been running.
+- *NAME* lists the names of the Deployments in the cluster.
+- *DESIRED* displays the desired number of replicas of the application, which you define when you create the Deployment. This is the desired state.
+- *CURRENT* displays how many replicas are currently running.
+- *UP-TO-DATE* displays the number of replicas that have been updated to achieve the desired state.
+- *AVAILABLE* displays how many replicas of the application are available to your users.
+- *AGE* displays the amount of time that the application has been running.
 
 4. Now, inspect the details of this deployment using `describe`:
 ```
@@ -62,7 +62,7 @@ kubectl get pods -l run=link-unshorten -o yaml | grep podIP
 ```
 kubectl exec -it <podname> /bin/bash
 ```
-Hint: Retrieve the <podname> using `kubectl get pods`
+Hint: Retrieve the `<podname>` using `kubectl get pods`
 
 8. If you `ls` in the shell you will see the golang app source code
 
@@ -70,7 +70,7 @@ Hint: Retrieve the <podname> using `kubectl get pods`
 ```
 curl localhost:8080/api/check?url=bit.ly/test
 ```
-### Task 4: Exposing your Pod to the World
+### Task 4: Exposing your Pod to Your (local) World
 There are a variety of ways to give make our Pod accessible to the outside world. A Service with the type NodePort will be used to give our Pod a stable existence and an IP we can reach from our web browser.
 
 1. To expose the application we create a Service with the type of NodePort:
@@ -103,22 +103,28 @@ Running ad hoc commands in a terminal are no way to maintain a proper DevOps inf
 
 1. In the `manifests` folder of this lab you will find a few files needed to launch our API. Open them up in a text editor or IDE and take a look.
 2. Go to the `manifests` directory using your terminal and use kubectl to launch the Service and the Deployment in your local Minikube cluster. The `-f` flag is used to specify a manifest file:
+
 ```
 kubectl create -f link-unshorten-deployment.yaml
 kubectl create -f link-unshorten-service.yaml
 ```
+
 3. Make sure the pods are running without error:
 ```
 kubectl get pods
 ```
 4. Under the hood we can see the new ReplicaSet that was created. Remember, a Deployment actually creates a ReplicaSet. Deployments provide the same replication functions via ReplicaSets and also the ability to rollout changes and roll them back if necessary. 
+
 ```
 kubectl get replicaset
 ```
+
 5. Check out your newly created "microservice" using the following command to extract the IP address:
+
 ```
 minikube service link-unshorten-service --url
 ```
+
 6. Similar to how we interacted with our application earlier, we use the IP from the above output and paste it into our browser.
 ```
 http://<ServiceIP>:<AssignedPort>/api/check?url=bit.ly/test
