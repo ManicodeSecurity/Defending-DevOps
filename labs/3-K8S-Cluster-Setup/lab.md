@@ -98,6 +98,7 @@ Note: Using a NodePort to give a Service an external IP address is a limitation 
 Running ad hoc commands in a terminal are no way to maintain a proper DevOps infrastructure. Luckily, Kubernetes is built with "Infrastructure as Code" in mind by using manifests. Manifests can be written in JSON and YAML. We will be using YAML for all labs.
 
 1. In the `manifests` folder of this lab you will find a few files needed to launch our API. Open them up in a text editor or IDE and take a look.
+
 2. Go to the `manifests` directory using your terminal and use kubectl to launch the Service and the Deployment in your local Minikube cluster. The `-f` flag is used to specify a manifest file:
 ```
 kubectl create -f link-unshorten-deployment.yaml
