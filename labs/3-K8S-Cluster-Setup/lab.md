@@ -103,40 +103,49 @@ Running ad hoc commands in a terminal are no way to maintain a proper DevOps inf
 kubectl create -f link-unshorten-deployment.yaml
 kubectl create -f link-unshorten-service.yaml
 ```
+
 3. Make sure the pods are running without error:
 ```
 kubectl get pods
 ```
+
 4. Under the hood we can see the new ReplicaSet that was created. Remember, a Deployment actually creates a ReplicaSet. Deployments provide the same replication functions via ReplicaSets and also the ability to rollout changes and roll them back if necessary. 
 ```
 kubectl get replicaset
 ```
+
 5. Check out your newly created "microservice" using the following command to extract the IP address:
 ```
 minikube service link-unshorten-service --url
 ```
+
 6. Similar to how we interacted with our application earlier, we use the IP from the above output and paste it into our browser.
 ```
 http://<ServiceIP>:<AssignedPort>/api/check?url=bit.ly/test
 ``` 
+
 7. Deployments offer the ability to scale Pod counts simply. Open the Deployment manifest and scale the number of pods to three. Once the change has been made and saved, use the `replace` command to scale your Deployment. You can also use `apply` here to accomplish the same result. Too the moon!
 ```
 kubectl replace -f link-unshorten-deployment.yaml
 ```
+
 8. Inspect the Pod details using:
  ```
  kubectl describe pod <podname>
  ```
+
 9. Un-comment the redis container lines in the link-unshorten-deployment.yaml manifest to deploy a second container within our Pod. Use `kubectl replace -f link-unshorten-deployment.yaml` to commit the changes after the lines have been un-commented.
 10. If you are curious about container-to-container communication within a running Pod, exec into the pod using the following command. The ContainerName can be found in the link-unshorten-deployment.yaml file.
 ```
 kubectl exec -it <PodName> -c <ContainerName> /bin/bash
 redis-cli ping
 ```
+
 11. This Redis container has very few Linux packages installed (a good thing!) installed so we can go get curl using:
 ```
 apt-get update && apt-get install curl
 ```
+
 12. Since containers within a Pod communicate over Localhost, we are able to access our API endpoint using curl as follows:
 ```
 curl 127.0.0.1:8080/api/check?url=bit.ly/test
