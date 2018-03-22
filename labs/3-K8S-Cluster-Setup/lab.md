@@ -72,6 +72,7 @@ There are a variety of ways to give make our Pod accessible to the outside world
 ```
 kubectl expose deployment link-unshorten --type=NodePort
 ```
+
 2. We can now see our new Service details by running the following command:
 ```
 kubectl get svc
