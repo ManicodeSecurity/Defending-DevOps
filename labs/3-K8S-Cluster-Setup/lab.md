@@ -9,19 +9,15 @@
 kubectl get pods
 ``` 
 
-2. As you can see no pods are running. This is because our default namespace has nothing deployed to it. Try running the same command with the following flag:
+2. As you can see no pods are running. This is because our default namespace has nothing deployed to it. Try running the same command with the following argument. This will list the pods used by the Kubernetes system:
 ```
 kubectl get pods --all-namespaces
-``` 
-
-We can see that there are several Pods running in the kube-system namespace. These Pods are used by Kubernetes to manage the cluster.
+```
 
 3. Let's take a look at a new command called describe. Run the following command to inspect the details about our single-node cluster:
 ```
 kubectl describe node
 ```
-
-You can see loads of information regarding our VM. Things like memory availability, Kubernetes version, kernel version, namespaces, and more can be found using this command.
 
 4. Use the `describe` command to describe one of the pods running in the kube-system namespace.
 
