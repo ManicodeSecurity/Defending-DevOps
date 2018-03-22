@@ -40,7 +40,4 @@ kubectl get events
 ```
 Great job! We just stopped a container running as r00t.
 
-ISTIO - Super Bonus ++
-https://github.com/istio/istio/blob/master/tools/minikube.md
-
 
