@@ -39,6 +39,7 @@ Poor jboss.
 kubectl create -f .
 kubectl describe rolebinding read-secrets-development
 ```
+
 2. We can now try our `curl` command again and with any luck, jboss will be able to read the secrets in the development namespace:
 ```
 curl -H "Authorization: Basic amJvc3M6c3VwZXJ0b3BzZWNyZXRwYXNzd29yZA==" https://minikubeIP:8443/api/v1/namespaces/development/secrets -k
