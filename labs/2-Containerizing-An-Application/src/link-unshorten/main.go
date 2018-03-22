@@ -4,7 +4,6 @@ import (
 	"log"
 	"net/http"
 	"net/url"
-	"os"
 	"strings"
 
 	"github.com/gin-gonic/gin"
@@ -12,8 +11,8 @@ import (
 
 func main() {
 
-	//port := ":8080"
-	port := ":" + os.Getenv("PORT")
+	port := ":8080"
+	//port := ":" + os.Getenv("PORT")
 
 	r := gin.Default()
 	r.Use(globalRecover)

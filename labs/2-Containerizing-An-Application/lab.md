@@ -8,14 +8,16 @@ The source code for the application located in the `src/link-unshorten` director
 ### Task 1: Browse the Application
 Open up the files in `src/link-unshorten` in your favorite IDE or text editor and familiarize yourself with the application.
 
-### Task 2 (optional): Run the Golang Application
+### Task 2 (optional - do not spend too much time on this): Run the Golang Application
 If you have Golang and [Dep](https://github.com/golang/dep) (Golang dependency management tool) installed locally, go ahead and run the following commands to fire up the application:
 
-1. Run `dep ensure` to ensure the `vendor` directory is in the correct state for your configuration.
+1. Copy the contents of the `src/link-unshorten` directory to your GOPATH. The GOPATH is often located at `~/go/src` on Mac OS. 
 
-2. In the `src/link-unshorten` directory, run `go run *.go` to start the application.
+2. Run `dep ensure` to ensure the `vendor` directory is in the correct state for your configuration.
 
-3. Visit `http://localhost:8080/api/check?url=bit.ly/test`
+3. In the `src/link-unshorten` directory of the directory copied to your GOPATH, run `go run *.go` to start the application.
+
+4. Visit `http://localhost:8080/api/check?url=bit.ly/test`
 
 ### Task 3: Build the Docker Container Locally
 In the `src/link-unshorten` directory run the following command (substituting <yourname> with your own identifier) to build the image on you laptop:
