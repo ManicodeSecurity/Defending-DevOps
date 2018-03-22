@@ -2,11 +2,12 @@
 Pod security policies provide a framework to ensure that pods and containers run only with the appropriate privileges and access only a finite set of resources. Security policies also provide a way for cluster administrators to control resource creation, by limiting the capabilities available to specific roles, groups or namespaces.
 
 ## Task 1: Launch a New Minikube Cluster
-We need to pass some flags to our Kubernetes API Server in order to use Pod Security Policies. First we delete our cluster:
+1. We need to pass some flags to our Kubernetes API Server in order to use Pod Security Policies. First we delete our cluster:
 ```
 minikube delete
 ```
-Now we launch a new cluster as follows:
+
+2. Now we launch a new cluster as follows:
 ```
 minikube start \
    --extra-config=apiserver.Authorization.Mode=RBAC \
@@ -18,7 +19,8 @@ minikube start \
 ```
 kubectl create -f pod-security-policy.yaml`
 ```
-Now, we can inspect our new PodSecurityPolicy:
+
+2. Inspect our new PodSecurityPolicy:
 ```
 kubectl get psp
 ```
@@ -38,6 +40,7 @@ kubectl get pods
 # Inspect the event that occurred to cause the failure
 kubectl get events
 ```
+
 Great job! We just stopped a container running as r00t.
 
 
