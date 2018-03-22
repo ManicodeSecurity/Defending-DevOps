@@ -136,13 +136,13 @@ kubectl replace -f link-unshorten-deployment.yaml
  ```
 
 9. Un-comment the redis container lines in the link-unshorten-deployment.yaml manifest to deploy a second container within our Pod. Use `kubectl replace -f link-unshorten-deployment.yaml` to commit the changes after the lines have been un-commented.
-10. If you are curious about container-to-container communication within a running Pod, exec into the pod using the following command. The ContainerName can be found in the link-unshorten-deployment.yaml file.
+10. If you are curious about container-to-container communication within a running Pod, exec into the Redis container using the following command. The name of the Redis container is `unshorten-redis-cache` which is declared in the link-unshorten-deployment.yaml file.
 ```
-kubectl exec -it <PodName> -c <ContainerName> /bin/bash
+kubectl exec -it <PodName> -c unshorten-redis-cache /bin/bash
 redis-cli ping
 ```
 
-11. This Redis container has very few Linux packages installed (a good thing!) installed so we can go get curl using:
+11. This Redis container has very few Linux packages installed (a good thing!) installed so we can go get curl using the following command. This is for demonstration purposes. It is not recommended to install ad hoc tools in running containers...remember CATTLE not PETS!
 ```
 apt-get update && apt-get install curl
 ```
