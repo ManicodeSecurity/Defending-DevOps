@@ -23,7 +23,7 @@ kubectl get secret mysql-secrets -o yaml
 kubectl create -f .
 ```
 
-4. launch the API Deployment and Service in the `manifests/api` directory`. This is a new image version which also handles the creation of all necessary MySQL databases and tables.
+4. launch the API Deployment and Service in the `manifests/api` directory. This is a new image version which also handles the creation of all necessary MySQL databases and tables.
 ```
 kubectl create -f .
 ```
@@ -33,7 +33,7 @@ kubectl create -f .
 minikube service link-unshorten-service --url
 ```
 
-6. After everything is running and healthy, let's look under the hood at the secret that injected into an environment variable by Kubernetes:
+6. After everything is running and healthy, let's look under the hood at the environment variable that was injected into the link-unshorten Pod:
 ```
 kubectl exec -it <podname> /bin/bash
 env | grep MYSQL_DB_PASSWORD
@@ -58,6 +58,7 @@ NOTE: This is just one way to launch secrets and may not be the best for your pa
 echo -n "supertopsecretpassword" | base64
 export MYSQL_PASSWORD="c3VwZXJ0b3BzZWNyZXRwYXNzd29yZA=="
 ```
+
 4. In the `manifests/secrets` directory, we `cat` our YAML file and pipe it to sed, substituting the `$MYSQL_PASSWORD` placeholder with the value stored in our local environment variable. This is then piped into our `kubectl create -f` command:
 ```
 # hacks ahead!
