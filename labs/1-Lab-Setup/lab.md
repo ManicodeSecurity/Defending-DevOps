@@ -9,7 +9,7 @@ The goal of this lab is to successfully setup a local Kubernetes cluster on your
 * kvm 
 * hyperkit
 
-For this lab we will be using Virtualbox, but feel free to experiment with others. Minikube does not offer everything a full cluster would such as provisioning load balancers but it can help us get started with Kubernetes quickly without spinning up costly cloud infrastructure. 
+We will be using Virtualbox for all of the labs.
 
 ## Task 1: Install Docker
 Make sure you have the latest version of [Docker for Mac Community Edition](https://store.docker.com/editions/community/docker-ce-desktop-mac) installed on your local machine. 
@@ -19,6 +19,14 @@ Make sure you have the latest version of [Docker for Mac Community Edition](http
 
 [Kubectl Installation](https://kubernetes.io/docs/tasks/tools/install-kubectl/
 )
+
+Install using `curl`
+```
+curl -LO https://storage.googleapis.com/kubernetes-release/release/`curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt`/bin/darwin/amd64/kubectl
+chmod +x ./kubectl
+# !! Change this to a tools directory !!
+sudo mv ./kubectl /usr/local/bin/kubectl
+```
 
 Once installed, make sure that the kubectl is available on your machine by running the following command:
 ```
@@ -32,20 +40,35 @@ Check out the [latest release](https://github.com/kubernetes/minikube/releases) 
 
 For Mac OS downloading the binary using `curl` is the easiest option:
 ```
-curl -Lo minikube https://storage.googleapis.com/minikube/releases/v0.25.0/minikube-darwin-amd64 && chmod +x minikube && sudo mv minikube /usr/local/bin/
+curl -Lo minikube https://storage.googleapis.com/minikube/releases/v0.25.0/minikube-darwin-amd64 && chmod +x minikube && 
+# !! Change this to a tools directory !!
+sudo mv minikube /usr/local/bin/
 ```
 Feel free to leave off the sudo mv minikube /usr/local/bin if you would like to add Minikube to your path manually.
 
 ## Task 4: Launch a Minikube Cluster
 Once all of the underlying tools have been installed, it's time to launch our cluster!
+
+We first need to tell Minikube where to put our Kubernetes configuration files. This is done be setting an environment variable.
 ```
-minikube start
+# !! Do we want everything to go on the Desktop? !!
+export MINIKUBE_HOME=~/Desktop/.kube
 ```
+
+Now, we launch the cluster:
+```
+# !! From the new tools directory !!
+./minikube start
+```
+
 Make sure Minikube is running:
 ```
-minikube status
+./minikube status
 ```
+
 Kubectl should now be configured to interact with our newly formed, single-node cluster:
 ```
-kubectl get pods --all-namespaces
+
+# !! From the new tools directory !!
+./kubectl get pods --all-namespaces
 ```

