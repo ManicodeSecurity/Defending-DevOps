@@ -94,46 +94,50 @@ kubectl get pods
 # notice the name of the Vault pod. Because it is managed by a StatefulSet it will always be named vault-0.
 kubectl get svc
 ```
+
 2. In order to use the Vault service from our local machine, we first forward a local port to the Vault port (8200) using `kubectl port-forward`.
 ```
 kubectl port-forward vault-0 8200:8200
 ```
-3. We will need the Vault CLI installed locally in order to interact with our Vault cluster. Download the appropriate Vault binary.
 
-[Vault Project Download Page](https://www.vaultproject.io/downloads.html)
+3. We will use `curl` to interact with our newly created Vault cluster. The following commands will write secrets to the cluster:
+```
+curl \
+    -H "X-Vault-Token: not-intended-for-production-deployments" \
+    http://127.0.0.1:8200/v1/sys/health
+```
 
- 4. Now we export two environment variables the Vault CLI needs in order to communicate with our Vault deployment:
+4. Now write our MySQL secrets to Vault using the API:
 ```
-export VAULT_ADDR="http://127.0.0.1:8200"
-export VAULT_TOKEN="not-intended-for-production-deployments"
+curl \
+    -H "X-Vault-Token: not-intended-for-production-deployments" \
+    -H "Content-Type: application/json" \
+    -X POST \
+    -d '{"password":"vaultftw!"}' \
+    http://127.0.0.1:8200/v1/secret/mysql
 ```
-5. We can now interact with Vault running in our Kubernetes cluster:
-```
-vault status
-# This should return information about our Vault cluster
 
-vault write secret/test \
-  username=admin \
-  password=vaultftw!
-
-vault read secret/test
+5. List all secrets in Vault:
 ```
+curl \
+    -H "X-Vault-Token: not-intended-for-production-deployments" \
+    -X LIST \
+    http://127.0.0.1:8200/v1/secret
+```
+6. Retrieve our MySQL Secrets from the API:
+```
+curl \
+    -H "X-Vault-Token: not-intended-for-production-deployments" \
+    http://127.0.0.1:8200/v1/secret/mysql
+```
+
 # Bonus+: ## Using Vault to Store and our MySQL Password
 
 Hint: Moar Sed!
 ```
-vault_mysql_pass=`vault read -field=password secret/test | base64`; cat mysql-secrets.yaml | sed "s/\$\$MYSQL_PASSWORD/$vault_mysql_pass/" | kubectl create -f -
+vault_mysql_pass=`curl -H "X-Vault-Token: not-intended-for-production-deployments" http://127.0.0.1:8200/v1/secret/mysql | jq -r '.password' | base64`; cat mysql-secrets.yaml | sed "s/\$\$MYSQL_PASSWORD/$vault_mysql_pass/" | kubectl create -f -
 ```
 
 ## Discussion Question: What secrets management systems are you using in-house? How could they better plug into DevOps pipelines?
-
-
-
- REMOVE ! ? 
-## Bonus+: Encrypting Secrets at Rest
-
-Hint:
-minikube delete
-minikube start --bootstrapper=kubeadm --mount --mount-string="/Users/jb0ss/Desktop/Defending-DevOps-Training/labs/5-K8S-Cluster-Secrets/manifests/bonus":/encryption-config
 
 
