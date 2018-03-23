@@ -132,7 +132,7 @@ curl \
 
 # Bonus+: ## Using Vault to Store and our MySQL Password
 
-Hint: Moar Sed!
+Hint: Moar Sed! (and `jq`)
 ```
 vault_mysql_pass=`curl -H "X-Vault-Token: not-intended-for-production-deployments" http://127.0.0.1:8200/v1/secret/mysql | jq -r '.password' | base64`; cat mysql-secrets.yaml | sed "s/\$\$MYSQL_PASSWORD/$vault_mysql_pass/" | kubectl create -f -
 ```
