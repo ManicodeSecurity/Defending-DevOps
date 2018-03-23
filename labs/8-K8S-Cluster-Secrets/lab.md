@@ -49,9 +49,7 @@ kubectl delete -f .
 kubectl delete secret mysql-secrets
 ```
 
-2. Take a look at the manifest located at `manifests/mysql-secrets.yaml`. While it is very possible to put our Base64 encoded MySQL password in this file and deploy it, that is not the responsible mechanism for storing sensitive strings such as passwords for a variety of reasons. This lab will rely on a local environment variable and a command to perform variable substitution into our manifest file. 
-
-NOTE: This is just one way to launch secrets and may not be the best for your particular pipeline. Please don't judge the use of `sed` : ) 
+2. Take a look at the manifest located at `manifests/mysql-secrets.yaml`. While it is very possible to put our Base64 encoded MySQL password in this file and deploy it, that is not the responsible mechanism for storing sensitive strings such as passwords for a variety of reasons. This lab will rely on a local environment variable and a command to perform variable substitution into our manifest file. This is just one way to launch secrets and may not be the best for your particular pipeline.  
 
 3. Create a Base64 representation of our password and store it in a local environment variable:
 ```
@@ -61,7 +59,7 @@ export MYSQL_PASSWORD="c3VwZXJ0b3BzZWNyZXRwYXNzd29yZA=="
 
 4. In the `manifests/secrets` directory, we `cat` our YAML file and pipe it to sed, substituting the `$MYSQL_PASSWORD` placeholder with the value stored in our local environment variable. This is then piped into our `kubectl create -f` command:
 ```
-# hacks ahead!
+# sed ahead!
 cat mysql-secrets.yaml | sed s/\$\$MYSQL_PASSWORD/$MYSQL_PASSWORD/ | kubectl create -f -
 ```
 
@@ -124,6 +122,7 @@ curl \
     -X LIST \
     http://127.0.0.1:8200/v1/secret
 ```
+
 6. Retrieve our MySQL Secrets from the API:
 ```
 curl \
