@@ -84,6 +84,7 @@ kubectl describe svc link-unshorten
 
 3. If you set the type field to "NodePort", the Kubernetes master will allocate a port from a flag-configured range (default: 30000-32767), and each Node will proxy that port (the same port number on every Node) into your Service. We can view the IP address and randomly assigned port by running the following command:
 ```
+export MINIKUBE_HOME=~/Desktop/lab-tools/.kube
 minikube service link-unshorten --url
 ```
 4. Visit the IP address listed in the terminal in your browser. Don't forget to add the API endpoint path.
@@ -120,6 +121,7 @@ kubectl get replicaset
 
 5. Check out your newly created "microservice" using the following command to extract the IP address:
 ```
+export MINIKUBE_HOME=~/Desktop/lab-tools/.kube
 minikube service link-unshorten-service --url
 ```
 
@@ -168,6 +170,7 @@ Hint 1: Ingress must be enabled manually in Minikube
 
 Hint 2: You will use a command like this to make add the domain to your /etc/hosts file:
 ```
+export MINIKUBE_HOME=~/Desktop/lab-tools/.kube
 echo "$(minikube ip) unshortenit.info" | sudo tee -a /etc/hosts
 ```
 

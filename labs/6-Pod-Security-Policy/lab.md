@@ -4,11 +4,13 @@ Pod security policies provide a framework to ensure that pods and containers run
 ## Task 1: Launch a New Minikube Cluster
 1. We need to pass some flags to our Kubernetes API Server in order to use Pod Security Policies. First we delete our cluster:
 ```
+export MINIKUBE_HOME=~/Desktop/lab-tools/.kube
 minikube delete
 ```
 
 2. Now we launch a new cluster as follows:
 ```
+export MINIKUBE_HOME=~/Desktop/lab-tools/.kube
 minikube start \
    --extra-config=apiserver.Authorization.Mode=RBAC \
    --extra-config=apiserver.Admission.PluginNames=PodSecurityPolicy

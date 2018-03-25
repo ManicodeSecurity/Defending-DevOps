@@ -6,6 +6,7 @@ Since version 1.7 Dashboard uses more secure setup. It means, that by default it
 ## Launch the Dashboard in Minikube
 1. Destroy our old cluster and create a fresh one:
 ```
+export MINIKUBE_HOME=~/Desktop/lab-tools/.kube
 minikube delete
 #kubeadm starts a cluster with the dashboard enabled by default
 minikube start --bootstrapper kubeadm
@@ -13,6 +14,7 @@ minikube start --bootstrapper kubeadm
 
 2. Use the `minikube` command to view the URL for the dashboard:
 ```
+export MINIKUBE_HOME=~/Desktop/lab-tools/.kube
 minikube dashboard --url
 ```
 

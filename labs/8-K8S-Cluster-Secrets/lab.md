@@ -30,6 +30,7 @@ kubectl create -f .
 
 5. Ensure our API is running and everything is wired up:
 ```
+export MINIKUBE_HOME=~/Desktop/lab-tools/.kube
 minikube service link-unshorten-service --url
 ```
 
