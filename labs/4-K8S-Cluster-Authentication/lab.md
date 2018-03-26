@@ -16,9 +16,10 @@ minikube start --extra-config=apiserver.Authorization.Mode=RBAC --extra-config=a
 ```
 export MINIKUBE_HOME=~/Desktop/lab-tools/.kube
 minikube ip
-curl  https://<minikubeIP>:8443/ -k
+curl https://<minikubeIP>:8443/ -k
 # DENIED
 ```
+
 3. Now we can spin up our environment along with our Roles and RoleBinding for the new user. First, launch the Deployment, Service, and Namespace located in the `manifests` directory:
 ```
 kubectl create -f .
