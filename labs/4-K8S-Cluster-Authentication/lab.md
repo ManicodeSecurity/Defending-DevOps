@@ -40,7 +40,7 @@ Poor jboss.
 1. We will now create a rule that explicitly allows the user jboss to list secrets in the development namespace and *only* that namespace. In the in the `manifests/role` directory, run the following commands:
 ```
 kubectl create -f .
-kubectl describe rolebinding read-secrets-development
+kubectl describe rolebinding read-secrets-development --namespace=development
 ```
 
 2. We can now try our `curl` command again and with any luck, jboss will be able to read the secrets in the development namespace:
