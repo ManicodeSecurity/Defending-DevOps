@@ -68,7 +68,7 @@ Hint: Retrieve the `<podname>` using `kubectl get pods`
 curl localhost:8080/api/check?url=bit.ly/test
 ```
 
-### Task 4: Exposing your Pod to Your (local) World
+### Task 3: Exposing your Pod to Your (local) World
 There are a variety of ways to give make our Pod accessible to the outside world. A Service with the type NodePort will be used to give our Pod a stable existence and an IP we can reach from our web browser.
 
 1. To expose the application we create a Service with the type of NodePort:
@@ -98,7 +98,7 @@ kubectl delete svc link-unshorten
 ``` 
 Note: Using a NodePort to give a Service an external IP address is a limitation of Minikube. In a cloud deployment, we would use either a `LoadBalancer` type to have our provider spin up a cloud Load Balancer or create an Ingress.
 
-### Task 3: "Codifying" Your Deployment
+### Task 4: "Codifying" Your Deployment
 Running ad hoc commands in a terminal are no way to maintain a proper DevOps infrastructure. Luckily, Kubernetes is built with "Infrastructure as Code" in mind by using manifests. Manifests can be written in JSON and YAML. We will be using YAML for all labs.
 
 1. In the `manifests` folder of this lab you will find a few files needed to launch our API. Open them up in a text editor or IDE and take a look.
