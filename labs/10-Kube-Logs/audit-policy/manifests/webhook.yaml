@@ -3,7 +3,7 @@ apiVersion: v1
 clusters:
   - name: requestbin
     cluster:
-      server: https://requestb.in/1est81i1
+      server: <your.internal.logging.service>
 contexts:
 - name: webhook
   context:

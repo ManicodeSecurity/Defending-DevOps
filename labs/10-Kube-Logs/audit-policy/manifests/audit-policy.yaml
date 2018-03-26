@@ -1,27 +1,29 @@
-apiVersion: audit.k8s.io/v1beta1
+apiVersion: audit.k8s.io/v1beta1 # This is required.
 kind: Policy
+# Don't generate audit events for all requests in RequestReceived stage.
+omitStages:
+  - "RequestReceived"
 rules:
-  # only log request metadata for any operation
-  # on secrets or configmaps
+  # Log pod changes at RequestResponse level
+  - level: RequestResponse
+    resources:
+    - group: ""
+      # Resource "pods" doesn't match requests to any subresource of pods,
+      # which is consistent with the RBAC policy.
+      resources: ["pods"]
+  #/ Log "pods/log", "pods/status" at Metadata level
   - level: Metadata
     resources:
-      - group: ""
-        resources:
-          - secrets
-          - configmaps
+    - group: ""
+      resources: ["pods/log", "pods/status"]
 
-  # do not log noisy services
-  # originating from the "kube-dns" ServiceAccount
-  - level: None
-    users:
-      - "system:serviceaccount:kube-system:kube-dns"
-    verbs:
-      - watch
+  # Log configmap and secret changes in all other namespaces at the Metadata level.
+  - level: Metadata
     resources:
-      - group: ""
-        resources:
-          - endpoints
-          - services
+    - group: "" # core API group
+      resources: ["secrets", "configmaps"]
 
-  # log everything else with metadata and req/resp bodies
-  - level: RequestResponse
+  # A catch-all rule to log all other requests at the None level. For testing purposes to cut down on noise.
+  - level: None
+    omitStages:
+      - "RequestReceived"

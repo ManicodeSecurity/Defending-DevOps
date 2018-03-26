@@ -5,7 +5,7 @@ First, we blow away our old cluster and launch a fresh one:
 ```
 export MINIKUBE_HOME=~/Desktop/lab-tools/.kube
 minikube delete
-# Jenkins is ram-hungry so let's give our cluster a little extra juice
+# Jenkins is a ram-hungry beast, so let's give our cluster a little extra juice!
 minikube start --memory 4096
 ```
 ## Task 1: Build the Internal Registry
@@ -38,13 +38,8 @@ export MINIKUBE_HOME=~/Desktop/lab-tools/.kube
 minikube service jenkins --url
 ```
 
-6. DO NOT INSTALL SUGGESTED PLUGINS! Click manually install plugins and deselect all of them. Only select two plugins from the web UI - `git` and `pipeline`. Search for them.
+6. DO NOT INSTALL SUGGESTED PLUGINS! Click deselect all, and manually install the plugins needed for this lab. Only select two plugins from the web UI; `git` and `pipeline`. Use the search feature to find them.
 
-7. Take a look at our new private image registry as well. It has a web interface for browsing.
-```
-export MINIKUBE_HOME=~/Desktop/lab-tools/.kube
-minikube service registry-ui --url
-```
 
 ## Task 2: Build our Pipeline
 
