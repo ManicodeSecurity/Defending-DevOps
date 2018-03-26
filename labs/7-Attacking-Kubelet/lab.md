@@ -8,6 +8,7 @@ So let's exploit this "misconfiguration" within Minikube.
 
 1. Start Minikube using the default localkube bootstrapper:
 ```
+export MINIKUBE_HOME=~/Desktop/lab-tools/.kube
 minikube delete
 minikube start
 ```
