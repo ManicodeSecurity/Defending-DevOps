@@ -41,7 +41,7 @@ env | grep MYSQL_DB_PASSWORD
 ```
 
 ## Task 2: Using Manifests to Deploy Secrets
-Sticking to IaaS principals, we want to avoid creating secrets using the command line. We will now create our MySQL password using a YAML manifest located in the `manifests/secrets` directory.
+Sticking to DevOps principals, we want to avoid creating secrets using one-off commands. We will now create our MySQL password using a YAML manifest located in the `manifests/secrets` directory.
 
 1. To simplify things, we first tear down our cluster. Run the following command in both the `manifests/api` and `manifests/mysql` directories to delete the running Deployments and Services:
 ```
@@ -131,7 +131,7 @@ curl \
     http://127.0.0.1:8200/v1/secret/mysql
 ```
 
-# Bonus+: ## Using Vault to Store and our MySQL Password
+# Bonus+: ## Using Vault to Store and inject our MySQL Password
 
 Hint: Moar Sed! (and `jq`)
 ```
