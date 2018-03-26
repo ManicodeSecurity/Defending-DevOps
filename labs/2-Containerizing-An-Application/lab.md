@@ -31,8 +31,6 @@ docker ps
 ```
 Visit `http://localhost:8080/api/check?url=bit.ly/test`
 
-Note: If you run into port conflict errors, make sure to kill the Golang application if you ran the application manually in Task 2 or any other applications that may be running on port 8080.
-
 ### Bonus: Change the value for `port` in main.go an environment variable instead of a hardcoded value
 
 Hint 1: Check out the [OS](https://golang.org/pkg/os) package for Golang
