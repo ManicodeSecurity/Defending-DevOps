@@ -21,7 +21,7 @@ touch ~/Desktop/lab-tools/.kube/.minikube/logs/audit.log
 ```
 # Some shells including zsh will prefer this on one line...
 
-minikube start --extra-config=apiserver.Authorization.Mode=RBAC --feature-gates=AdvancedAuditing --extra-config=apiserver.Audit.LogOptions.Path=/Users/jb0ss/Desktop/lab-tools/.kube/.minikube/logs/audit.log --extra-config=apiserver.Audit.PolicyFile=/etc/kubernetes/addons/audit-policy.yaml
+minikube start --extra-config=apiserver.Authorization.Mode=RBAC --feature-gates=AdvancedAuditing --extra-config=apiserver.Audit.LogOptions.Path=/path/to/Desktop/lab-tools/.kube/.minikube/logs/audit.log --extra-config=apiserver.Audit.PolicyFile=/etc/kubernetes/addons/audit-policy.yaml
 ```
 
 ## Take a look at the logs coming in If you have [https://stedolan.github.io/jq/download/](jq) installed it will help format the JSON but it is not necessary. 
