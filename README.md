@@ -22,3 +22,5 @@ This repository contains all of the labs for the 2-day "Defending Modern DevOps 
 9-Security-Pipeline
 
 10-Kube-Logs
+
+11-Finale
