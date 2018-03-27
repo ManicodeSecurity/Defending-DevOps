@@ -131,7 +131,7 @@ curl \
     http://127.0.0.1:8200/v1/secret/mysql
 ```
 
-# Bonus+: ## Using Vault to Store and inject our MySQL Password
+## Bonus+: Using Vault to Store and inject our MySQL Password
 
 Hint: Moar Sed! (and `jq`)
 ```
