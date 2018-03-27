@@ -5,7 +5,7 @@ omitStages:
   - "RequestReceived"
 rules:
   # Log pod changes at RequestResponse level
-  - level: RequestResponse
+  - level: Metadata
     resources:
     - group: ""
       # Resource "pods" doesn't match requests to any subresource of pods,
@@ -21,7 +21,7 @@ rules:
   - level: Metadata
     resources:
     - group: "" # core API group
-      resources: ["secrets", "configmaps"]
+      resources: ["secrets"]
 
   # A catch-all rule to log all other requests at the None level. For testing purposes to cut down on noise.
   - level: None
