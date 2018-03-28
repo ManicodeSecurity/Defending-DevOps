@@ -24,3 +24,14 @@ This repository contains all of the labs for the 2-day "Defending Modern DevOps 
 10-Kube-Logs
 
 11-Finale
+
+
+## Useful Debugging Commands
+```
+minikube logs
+kubectl get logs <podname>
+kubectl exec -it <podname> /bin/bash
+kubectl describe pod|service|deployment <name> 
+kubectl get secret <secretname> 
+kubectl get events | grep <thething>
+```
