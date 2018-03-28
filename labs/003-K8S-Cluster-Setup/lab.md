@@ -147,7 +147,7 @@ kubectl exec -it <PodName> -c unshorten-redis-cache /bin/bash
 redis-cli ping
 ```
 
-11. This Redis container has very few Linux packages installed (a good thing!) installed so we can go get curl using the following command. This is for demonstration purposes. It is not recommended to install ad hoc tools in running containers...remember CATTLE not PETS!
+11. This Redis container has very few Linux packages installed (a good thing!) so we can go get curl using the following command. This is for demonstration purposes. It is not recommended to install ad hoc tools in running containers...remember CATTLE not PETS!
 ```
 apt-get update && apt-get install curl
 ```
