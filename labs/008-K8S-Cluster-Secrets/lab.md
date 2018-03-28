@@ -1,13 +1,16 @@
 # Kubernetes Secrets
 
-The goal of this lab is to utilize the native Kubernetes Secrets functionality to create and consume Kubernetes secrets within our application.
+The goal of this lab is to utilize the native Kubernetes Secrets functionality to create and consume Kubernetes secrets within our application. 
 
-## About Secrets
+First, launch a fresh cluster using Minikube:
+```
+minikube delete
+minikube start
+```
 
+## Task 1: Create a Mysql Deployment and Service (the insecure way)
 
-## Task 1: Create a Mysql Deployment and Service
-
-1. We first must create our Secret using kubectl. This will allow our API to communicate with MySQL. 
+1. We now must create our Secret using kubectl. This will allow our API to communicate with MySQL.
 ```
 kubectl create secret generic mysql-secrets --from-literal=password=supertopsecretpassword
 ```
@@ -40,7 +43,7 @@ kubectl exec -it <podname> /bin/bash
 env | grep MYSQL_DB_PASSWORD
 ```
 
-## Task 2: Using Manifests to Deploy Secrets
+## Task 2: Using Manifests to Deploy Secrets (the more secure way)
 Sticking to DevOps principals, we want to avoid creating secrets using one-off commands. We will now create our MySQL password using a YAML manifest located in the `manifests/secrets` directory.
 
 1. To simplify things, we first tear down our cluster. Run the following command in both the `manifests/api` and `manifests/mysql` directories to delete the running Deployments and Services:
@@ -73,7 +76,7 @@ kubectl get secret mysql-secrets -o yaml
 
 6. As before, we launch our MySQL components and the API:
 ```
-# In manifests/mysql
+# In manifests/mysql (give MySQL a few minutes to start up before running the next command)
 kubectl create -f .
 # In manifests/api
 kubectl create -f .
@@ -81,7 +84,7 @@ kubectl create -f .
 
 Everything should now be up and running.
 
-## Deploying Vault in our Cluster
+## Task 3: Deploying Vault in our Cluster
 HashiCorp Vault secures, stores, and tightly controls access to tokens, passwords, certificates, API keys, and other secrets in modern computing. Vault handles leasing, key revocation, key rolling, and auditing. Through a unified API, users can access an encrypted Key/Value store and network encryption-as-a-service, or generate AWS IAM/STS credentials, SQL/NoSQL databases, X.509 certificates, SSH credentials, and more.
 
 We can use Vault in our own Kubernetes to store and retrieve a variety of secrets.
@@ -131,9 +134,9 @@ curl \
     http://127.0.0.1:8200/v1/secret/mysql
 ```
 
-## Bonus+: Using Vault to Store and inject our MySQL Password
+## Task 4: Using Vault to Store and inject our MySQL Password ()
 
-Hint: Moar Sed! (and `jq`)
+We can now call the Vault API to inject our secret into our `kubectl create` command on the fly as follows:
 ```
 vault_mysql_pass=`curl -H "X-Vault-Token: not-intended-for-production-deployments" http://127.0.0.1:8200/v1/secret/mysql | jq -r '.password' | base64`; cat mysql-secrets.yaml | sed "s/\$\$MYSQL_PASSWORD/$vault_mysql_pass/" | kubectl create -f -
 ```
