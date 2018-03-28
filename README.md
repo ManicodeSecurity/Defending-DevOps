@@ -34,4 +34,5 @@ kubectl exec -it <podname> /bin/bash
 kubectl describe pod|service|deployment <name> 
 kubectl get secret <secretname> 
 kubectl get events | grep <thething>
+kubectl create --v 10 -f .
 ```
