@@ -38,7 +38,7 @@ tail -f  ~/Desktop/lab-tools/.kube/.minikube/logs/audit.log  | jq
 ## Bonus: 
 Using a webhook, send the Kubernetes logs to an internal logging mechanism if you have an approved one available. If not, just check out the `webhook.yaml` file.
 
-Hint 1: The `webhook.yaml` file should be copied to the same location as the `audit-policy.yaml` file in `~/Desktop/lab-tools/.kube/minikube/addons` directory.
+Hint 1: The `webhook.yaml` file should be copied to the same location as the `audit-policy.yaml` file in `~/Desktop/lab-tools/.kube/.minikube/addons` directory.
 
 Hint 2: We need to pass additional flags to Minikube to enable the webhook. Starting a new cluster should look like this:
 ```
