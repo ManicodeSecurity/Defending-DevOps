@@ -40,7 +40,7 @@ minikube service link-unshorten-service --url
 6. After everything is running and healthy, let's look under the hood at the environment variable that was injected into the link-unshorten Pod:
 ```
 kubectl exec -it <podname> /bin/bash
-env | grep MYSQL_DB_PASSWORD
+env | grep UNSHORTEN_DB_PASSWORD
 ```
 
 ## Task 2: Using Manifests to Deploy Secrets (the more secure way)
