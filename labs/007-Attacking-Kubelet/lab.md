@@ -51,6 +51,7 @@ See any issues here?
 ## Task 2: Fix the Issue
 There are a number of way to address the kubelet-api "misconfiguration" issue. To do this locally, our most simple solution is to bootstrap our cluster using the `kubeadm` bootstrapper. Out of the box, Minikube still uses `localkube` to build clusters. `localkube` runs every cluster component as a single binary in the Kubernetes environment. This project is in the process of being deprecated in favor of `kubeadm` which offers us a much more robust solution that matches production clusters more closely.
 ```
+minikube delete
 minikube start --bootstrapper kubeadm
 ```
 
