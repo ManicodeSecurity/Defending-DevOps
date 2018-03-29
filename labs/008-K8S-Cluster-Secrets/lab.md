@@ -100,10 +100,12 @@ kubectl get svc
 2. In order to use the Vault service from our local machine, we first forward a local port to the Vault port (8200) using `kubectl port-forward`.
 ```
 kubectl port-forward vault-0 8200:8200
+# This will open a foreground process and may appear like it is hanging - but it isn't!
 ```
 
 3. We will use `curl` to interact with our newly created Vault cluster. The following commands will write secrets to the cluster:
 ```
+# Run the following command in a separate terminal window or tab
 curl \
     -H "X-Vault-Token: not-intended-for-production-deployments" \
     http://127.0.0.1:8200/v1/sys/health
