@@ -24,6 +24,7 @@ touch ~/Desktop/lab-tools/.kube/.minikube/logs/audit.log
 ```
 # Some shells including zsh will prefer this on one line...
 
+export MINIKUBE_HOME=~/Desktop/lab-tools/.kube
 minikube start --extra-config=apiserver.Authorization.Mode=RBAC --feature-gates=AdvancedAuditing --extra-config=apiserver.Audit.LogOptions.Path=/path/to/Desktop/lab-tools/.kube/.minikube/logs/audit.log --extra-config=apiserver.Audit.PolicyFile=/etc/kubernetes/addons/audit-policy.yaml
 ```
 
