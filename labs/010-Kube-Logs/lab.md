@@ -10,7 +10,7 @@ minikube delete
 
 2. To enable audition in Minikube we must utilize the `addons` feature. To do this, we must copy over the `audit-policy.yaml` manifest to the `~/Desktop/lab-tools/.kube/.minikube/addons` directory:
 ```
-cp /path/to/10-Kube-Logs/audit-policy/manifests/audit-policy.yaml ~/Desktop/lab-tools/.kube/.minikube/addons
+cp /path/to/010-Kube-Logs/audit-policy/manifests/audit-policy.yaml ~/Desktop/lab-tools/.kube/.minikube/addons
 ```
 
 ## Task 2: Create the audit file locally
