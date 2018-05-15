@@ -9,11 +9,15 @@ Please ensure you have an approved version of Virtualbox installed on your lapto
 
 [Virtualbox Extension Pack from Oath Artifact Repo](https://artifactory.ouroath.com/artifactory/paranoids_training/Oracle_VM_VirtualBox_Extension_Pack-5.2.8.vbox-extpack)
 
+Once downloaded, follow the instructions to install Virtualbox.
+
 ## About Minikube
 [Minikube](https://artifactory.ouroath.com/artifactory/paranoids_training/minikube-darwin-amd64) is a tool that makes it easy to run Kubernetes locally. Minikube runs a single-node Kubernetes cluster inside a VM on your laptop. 
 
 ## Task 1: Install Docker
 Make sure you have the latest version of [Docker for Mac Community Edition](https://artifactory.ouroath.com/artifactory/paranoids_training/Docker.dmg) installed on your local machine. 
+
+Once downloaded, follow the instructions to install Docker.
 
 ## Task 2: Create a lab-tools directory on your Desktop
 We will be downloading a few binaries to spin up and interact with our Kubernetes cluster throughout the labs. Please *only* download binaries from the approved Oath artifact repository and into a `lab-tools` directory that we will later destroy upon completion of the class:
