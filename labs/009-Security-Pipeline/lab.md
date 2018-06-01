@@ -64,9 +64,9 @@ minikube service jenkins --url
 
 3. Select `Git` in the SCM dropdown.
 
-4. Enter the following repo URL. This repo contains our unshorten-api source code and a few other files. 
+4. Enter the following repo URL. This repo contains our unshorten-api source code and a few other files that help construct our CI/CD build.
 ```
-https://gitlab.com/jb0ss/unshorten-api-jenkins
+https://github.com/ManicodeSecurity/unshorten-jenkins-demo
 ```
 
 5. Inspect the `Jenkinsfile` in the repo. It has the humble beginnings of an AppSec and DevSecOps pipeline. Each stage is meant to apply automation to the process where issues result in failed builds. 
