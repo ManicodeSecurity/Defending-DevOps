@@ -9,10 +9,12 @@ spec:
       labels:
         app: jenkins
     spec:
+      securityContext:
+        runAsUser: 0
+      serviceAccountName: jenkins
       containers:
       - name: jenkins
-        # Do not try this at home - build your own image!
-        image: vishalbiyani/jenkins-docker
+        image: manicode/jenkins-dind
         ports:
         - containerPort: 8080
         volumeMounts:
