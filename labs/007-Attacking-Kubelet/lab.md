@@ -45,6 +45,7 @@ wscat -c "https://<minikubeIP>:10250/cri/exec/<valueFrom302>" --no-check
 ```
     
 You can use cURL too:
+### !! Please note that this command only works reliably with the newer versions of cURL. If you are getting errors, try updating cURL !!
 ```
 curl -k --include \
      --no-buffer \

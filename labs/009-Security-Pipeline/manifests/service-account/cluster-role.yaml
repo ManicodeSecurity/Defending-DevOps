@@ -5,10 +5,11 @@ metadata:
   name: jenkins-limited
 rules:
 - apiGroups: [""]
-  resources: ["pods"]
-  verbs: ["create", "list", "update", "watch"]
+  resources: 
+    - pods
+    - pods/log
+    - pods/attach
+  verbs: ["get", "list", "watch", "create", "update", "delete"]
 - apiGroups: ["extensions", "apps"]
   resources: ["deployments"]
-  verbs: ["get", "list", "watch", "create", "update", "patch"]
-
-
+  verbs: ["get", "list", "watch", "create", "update"]
