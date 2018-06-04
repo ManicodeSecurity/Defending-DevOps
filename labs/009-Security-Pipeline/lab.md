@@ -23,7 +23,7 @@ kubectl create -f .
  kubectl describe clusterrole jenkins-limited
  ```
 
-## Task 2: Build the Internal Registry
+## Task 2: Build the Internal Registry and Launch Jenkins
 We need a location to store our versioned Docker images within our Kubernetes cluster. This deployment uses the official Registry image from Docker.
 
 1. In the `manifests/registry` directory run the following:
