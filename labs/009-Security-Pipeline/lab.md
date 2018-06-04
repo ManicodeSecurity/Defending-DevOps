@@ -24,6 +24,7 @@ kubectl create -f .
  ```
 
 ## Task 2: Build the Internal Registry
+We need a location to store our versioned Docker images within our Kubernetes cluster. This deployment uses the official Registry image from Docker.
 
 1. In the `manifests/registry` directory run the following:
 ```
