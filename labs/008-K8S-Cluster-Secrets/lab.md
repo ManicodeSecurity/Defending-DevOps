@@ -1,6 +1,6 @@
 # Kubernetes Secrets
 
-The goal of this lab is to utilize the native Kubernetes Secrets functionality to create and consume Kubernetes secrets within our application. 
+The goal of this lab is to utilize the native Kubernetes Secrets functionality to create and consume Kubernetes secrets within our application.
 
 First, launch a fresh cluster using Minikube:
 ```
@@ -53,7 +53,7 @@ kubectl delete -f .
 kubectl delete secret mysql-secrets
 ```
 
-2. Take a look at the manifest located at `manifests/secrets/mysql-secrets.yaml`. While it is very possible to put our Base64 encoded MySQL password in this file and deploy it, that is not the responsible mechanism for storing sensitive strings such as passwords for a variety of reasons. This lab will rely on a local environment variable and a command to perform variable substitution into our manifest file. This is just one way to launch secrets and may not be the best for your particular pipeline.  
+2. Take a look at the manifest located at `manifests/secrets/mysql-secrets.yaml`. While it is very possible to put our Base64 encoded MySQL password in this file and deploy it, that is not the responsible mechanism for storing sensitive strings such as passwords for a variety of reasons. This lab will rely on a local environment variable and a command to perform variable substitution into our manifest file. This is just one way to launch secrets and may not be the best for your particular pipeline.
 
 3. Create a Base64 representation of our password and store it in a local environment variable:
 ```
@@ -139,6 +139,8 @@ curl \
 ## Task 4: Using Vault to Store and inject our MySQL Password ()
 
 We can now call the Vault API to inject our secret into our `kubectl create` command on the fly as follows:
+
+navigate to `manifests/secrets` and run:
 ```
 vault_mysql_pass=`curl -H "X-Vault-Token: not-intended-for-production-deployments" http://127.0.0.1:8200/v1/secret/mysql | jq -r '.password' | base64`; cat mysql-secrets.yaml | sed "s/\$\$MYSQL_PASSWORD/$vault_mysql_pass/" | kubectl create -f -
 ```
