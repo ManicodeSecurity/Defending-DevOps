@@ -21,6 +21,9 @@ touch ~/Desktop/lab-tools/.kube/.minikube/logs/audit.log
 
 ## Task 3: Launch the cluster with the appropriate flags and files
 1. Launch the cluster with the following flags. Make sure to enter the correct path to the .minikube folder!
+
+## You must change the `/path/to` part of the following command to your own absolute path! Things will break if you do not change it.
+
 ```
 # Some shells including zsh will prefer this on one line...
 

@@ -6,6 +6,8 @@ The goal of this lab is to enhance the security of our cluster using built in Ku
 First, we delete any dangling clusters and create a new one using the `extra-config` parameter which tells the api-server to use our CSV file as a username/password store and RBAC as our authorization mechanism. 
 
 1. This is *not* the most secure method of authentication for a variety of reasons but demonstrates authentication in K8S. Replace the path to `BasicAuthFile` with your own before running the `minikube start` command. 
+
+## You must change the `/path/to` part of the following command to your own absolute path! Things will break if you do not change it.
 ```
 export MINIKUBE_HOME=~/Desktop/lab-tools/.kube
 minikube delete
@@ -16,7 +18,7 @@ minikube start --extra-config=apiserver.Authorization.Mode=RBAC --extra-config=a
 ```
 export MINIKUBE_HOME=~/Desktop/lab-tools/.kube
 minikube ip
-curl https://<minikubeIP>:8443/ -k
+curl https://$(minikube ip):8443/ -k
 # DENIED
 ```
 
@@ -29,7 +31,7 @@ kubectl create -f .
 ```
 echo -n jboss:supertopsecretpassword | base64
 # Use this base64 encoded value in our Basic HTTP header below
-curl -H "Authorization: Basic amJvc3M6c3VwZXJ0b3BzZWNyZXRwYXNzd29yZA==" https://minikubeIP:8443/api/v1/namespaces/development/secrets -k
+curl -H "Authorization: Basic amJvc3M6c3VwZXJ0b3BzZWNyZXRwYXNzd29yZA==" https://$(minikube ip):8443/api/v1/namespaces/development/secrets -k
 ```
 
 5. Access should be denied for our user jboss. 
@@ -45,5 +47,5 @@ kubectl describe rolebinding read-secrets-development --namespace=development
 
 2. We can now try our `curl` command again and with any luck, jboss will be able to read the secrets in the development namespace:
 ```
-curl -H "Authorization: Basic amJvc3M6c3VwZXJ0b3BzZWNyZXRwYXNzd29yZA==" https://minikubeIP:8443/api/v1/namespaces/development/secrets -k
+curl -H "Authorization: Basic amJvc3M6c3VwZXJ0b3BzZWNyZXRwYXNzd29yZA==" https://$(minikube ip):8443/api/v1/namespaces/development/secrets -k
 ```
