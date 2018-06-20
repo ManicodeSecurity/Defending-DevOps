@@ -5,17 +5,15 @@ The goal of this lab is to successfully setup a local Kubernetes cluster on your
 ## Requirements
 Please ensure you have an approved version of Virtualbox installed on your laptop:
 
-[Virtualbox Download from Oath Artifact Repo](https://artifactory.ouroath.com/artifactory/paranoids_training/VirtualBox-5.2.8-121009-OSX.dmg)
-
-[Virtualbox Extension Pack from Oath Artifact Repo](https://artifactory.ouroath.com/artifactory/paranoids_training/Oracle_VM_VirtualBox_Extension_Pack-5.2.8.vbox-extpack)
+[Virtualbox Download](https://www.virtualbox.org/wiki/Downloads)
 
 Once downloaded, follow the instructions to install Virtualbox.
 
 ## About Minikube
-[Minikube](https://artifactory.ouroath.com/artifactory/paranoids_training/minikube-darwin-amd64) is a tool that makes it easy to run Kubernetes locally. Minikube runs a single-node Kubernetes cluster inside a VM on your laptop. 
+[Minikube](https://storage.googleapis.com/minikube/releases/v0.25.2/minikube-darwin-amd64) is a tool that makes it easy to run Kubernetes locally. Minikube runs a single-node Kubernetes cluster inside a VM on your laptop. Please use version 0.25.2 for the labs.
 
 ## Task 1: Install Docker
-Make sure you have the latest version of [Docker for Mac Community Edition](https://artifactory.ouroath.com/artifactory/paranoids_training/Docker.dmg) installed on your local machine. 
+Make sure you have the latest version of [Docker for Mac Community Edition](https://store.docker.com/editions/community/docker-ce-desktop-mac) installed on your local machine. 
 
 Once downloaded, follow the instructions to install Docker.
 
@@ -31,7 +29,7 @@ mkdir lab-tools && cd lab-tools
 
 ```
 cd ~/Desktop/lab-tools
-curl -LO https://artifactory.ouroath.com/artifactory/paranoids_training/kubectl
+curl -o kubectl https://storage.googleapis.com/kubernetes-release/release/v1.9.0/bin/darwin/amd64/kubectl
 chmod +x ./kubectl
 # This creates a symlink to our PATH so that we can use the kubectl command in other locations throughout the lab
 sudo ln -s ~/Desktop/lab-tools/kubectl /usr/local/bin/kubectl
@@ -48,8 +46,7 @@ Minikube is a tool that makes it easy to run Kubernetes locally. Minikube runs a
 Download the binary using `curl` from the official Oath artifactory repo:
 ```
 cd ~/Desktop/lab-tools
-curl -Lo minikube https://artifactory.ouroath.com/artifactory/paranoids_training/minikube-darwin-amd64 
-chmod +x minikube
+curl -Lo minikube https://storage.googleapis.com/minikube/releases/v0.25.2/minikube-darwin-amd64 +x minikube
 # This creates a symlink to our PATH so that we can use the minikube command in other locations throughout the lab
 sudo ln -s ~/Desktop/lab-tools/minikube /usr/local/bin/minikube
 ```
