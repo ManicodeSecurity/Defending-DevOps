@@ -10,7 +10,7 @@ Please ensure you have an approved version of Virtualbox installed on your lapto
 Once downloaded, follow the instructions to install Virtualbox.
 
 ## About Minikube
-[Minikube](https://storage.googleapis.com/minikube/releases/v0.25.2/minikube-darwin-amd64) is a tool that makes it easy to run Kubernetes locally. Minikube runs a single-node Kubernetes cluster inside a VM on your laptop. Please use version 0.25.2 for the labs.
+Minikube is a tool that makes it easy to run Kubernetes locally. Minikube runs a single-node Kubernetes cluster inside a VM on your laptop. Please use version 0.25.2 for the labs.
 
 ## Task 1: Install Docker
 Make sure you have the latest version of [Docker for Mac Community Edition](https://store.docker.com/editions/community/docker-ce-desktop-mac) installed on your local machine. 
