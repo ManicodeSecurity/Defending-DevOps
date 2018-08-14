@@ -1,6 +1,7 @@
 ### Defending Modern DevOps Environments 
 
 This repository contains all of the labs for the 2-day "Defending Modern DevOps Course"
+[![Open in Cloud Shell](http://gstatic.com/cloudssh/images/open-btn.svg)](https://console.cloud.google.com/cloudshell/open/git_repo=https://github.com/ManicodeSecurity/Defending-DevOps.git)
 
 # Agenda:
 001-Lab-Setup
