@@ -5,54 +5,114 @@ policy-binding manicodeveevalabs-veeva1xmanic --member=user:veeva1+test@manicode
 YOU HAVE TO GET CREDENTIALS
 gcloud container clusters get-credentials k8slabstest-veeva1xmanicodexus --zone us-west1-a --project k8slabstest-veeva1xmanicodexus
 
-# Kubernetes Authentication
+# Authentication and Authorization
 
-The goal of this lab is to enhance the security of our cluster using built in Kubernetes primitives. We will explore authentication and authorization strategies and apply them to our GKE cluster.
+The goal of this lab is to enhance the security of our cluster using built-in Kubernetes primitives. We will explore authentication and authorization strategies and apply them to our GKE cluster.
 
-### Simple Authentication
-First, we delete any dangling clusters and create a new one using the `extra-config` parameter which tells the api-server to use our CSV file as a username/password store and RBAC as our authorization mechanism. 
+We will be setting up our cluster with two namespaces - `development` and `production`. User 1 (our admin user) will have full-access to administer the objects in the cluster and we will restrict access to only the `development` namespace for User 2 by using RBAC policies.
 
-1. This is *not* the most secure method of authentication for a variety of reasons but demonstrates authentication in K8S. Replace the path to `BasicAuthFile` with your own before running the `minikube start` command. 
-
-## You must change the `/path/to` part of the following command to your own absolute path! Things will break if you do not change it.
+### Lab Setup
+Your GCP Project has two end users provisioned with the following permissions:
 ```
-export MINIKUBE_HOME=~/Desktop/lab-tools/.kube
-minikube delete
-minikube start --extra-config=apiserver.Authorization.Mode=RBAC --extra-config=apiserver.Authentication.PasswordFile.BasicAuthFile=/path/to/Defending-DevOps/labs/004-K8S-Cluster-Authentication/creds.csv
+User 1: <your-username>@manicode.us
+Roles:
+Kubernetes Engine Admin
+Editor
+
+User 2: jboss@manicode.us
+Roles: 
+Minimal GKE Role
+Browser
+```
+The role titled `Minimal GKE Role` is a custom role in GCP. It includes the bare-minimum permissions to be able to access the cluster but not the resources within. The `Minimal GKE Role` has only the following permissions:
+```
+container.apiServices.get
+container.apiServices.list
+container.clusters.get
+container.clusters.getCredentials
+```
+### Task 1: Launch Your Infrastructure
+First, we will spin up our application in both a `development` and `production` namespace. 
+
+Note: You should be logged in to Cloud Shell using the custom account given to you on the slip of paper to run the following commands.
+
+We need to retrieve the credentials of our running cluster using the `gcloud get-credentials` command. This command updates our kubeconfig in Cloud Shell file with appropriate credentials and endpoint information to point kubectl at a specific cluster in Google Kubernetes Engine. 
+
+```
+# Use gcloud get-credentials to retrieve 
+gcloud container clusters get-credentials <cluster-id> --zone us-west1-a --project <project-id>
+```
+Now we launch our pods and services for each Namespace:
+```
+# in the manifests/development directory
+
+kubectl create -f link-unshorten-ns.yaml
+kubectl create -f link-unshorten-service.yaml
+kubectl create -f link-unshorten-deployment.yaml
+```
+Do the same for the production namespace:
+```
+# in the manifests/production directory
+
+kubectl create -f link-unshorten-ns.yaml
+kubectl create -f link-unshorten-service.yaml
+kubectl create -f link-unshorten-deployment.yaml
+```
+Ensure pods are running without error in both namespaces:
+```
+kubectl get pods --all-namespaces
 ```
 
-2. We have been using `kubectl` for these labs so far, but the Kubernetes API is also accessible using standard REST endpoints on port 8443. If we try to `curl` our API endpoint we will be denied because RBAC is enabled and we did not pass our credentials to the API:
+Take note of this process. Our user has full administrative access to our cluster due to being provisioned with the `Kubernetes Engine Admin` role. We will now see how RBAC helps give us granular access control at the object-level within our cluster.
+
+### Task 2: Authenticate as a Developer
+We will now log in using a separate user who has very locked down access to the entire project. In an incognito tab open browse to `cloud.google.com` and authenticate with the user `jboss@manicode.us` and the password provided to you on the slip of paper for that user. 
+
+Note: This user has read-access to all projects in class. *Please only interact with your own cluster.*
+
+Now open up Cloud Shell and use the following `gcloud get-credentials` command to retrieve the credentials for your user so we can start interacting with the cluster. This is the same cluster you just launched the `production` and `development` namespace / infrastructure in. 
+
 ```
-export MINIKUBE_HOME=~/Desktop/lab-tools/.kube
-minikube ip
-curl https://$(minikube ip):8443/ -k
-# DENIED
+gcloud container clusters get-credentials <cluster-id> --zone us-west1-a --project <project-id>
+
+```
+Now, attempt to run some `kubectl` queries on the cluster.
+```
+kubectl get pods --namespace=production
+kubectl get pods --namespace=development
+kubectl get secrets 
+kubectl run link-unshorten --image=jmbmxer/link-unshorten:0.1 --port=8080
+```
+These should all fail with a `Forbidden` error. While jboss@manicode.us does technically have an account on the cluster, RBAC is stopping it from accessing any of the objects.
+
+### Task 3: Create RBAC Rules 
+Our user `jboss` is an intern so we only want to grant access to read pods in the `development` namespace and nothing more. We will use RBAC to enforcy a policy
+
+Switch back to your Cloud Shell for User 1 (the administrative user) and run the following commands:
+
+(!)You must grant your user the ability to create roles in Kubernetes by running the following command.
+```
+kubectl create clusterrolebinding cluster-admin-binding \
+  --clusterrole cluster-admin \
+  --user $(gcloud config get-value account)
 ```
 
-3. Now we can spin up our environment along with our Roles and RoleBinding for the new user. First, launch the Deployment, Service, and Namespace located in the `manifests` directory:
 ```
+# In the manifests/role directory
 kubectl create -f .
+kubectl get role --all-namespaces
 ```
 
-4. Now, we can prove that RBAC is working if we try to list the Secrets in the Development Namespace using valid credentials (this request will be denied because we have not yet created our RBAC rules):
-```
-echo -n jboss:supertopsecretpassword | base64
-# Use this base64 encoded value in our Basic HTTP header below
-curl -H "Authorization: Basic amJvc3M6c3VwZXJ0b3BzZWNyZXRwYXNzd29yZA==" https://$(minikube ip):8443/api/v1/namespaces/development/secrets -k
-```
+### Task 4: Verify Pods can be Accessed by the Intern
 
-5. Access should be denied for our user jboss. 
+Switch back to the Cloud Shell for `jboss@manicode.us` and run the following commands:
+```
+kubectl get pods --namespace=development
+# success
+kubectl get pods --namespace=production
+# fail
 
-Poor jboss.
+We have successfully limited access using RBAC.
 
-### Applying RBAC
-1. We will now create a rule that explicitly allows the user jboss to list secrets in the development namespace and *only* that namespace. In the in the `manifests/role` directory, run the following commands:
-```
-kubectl create -f .
-kubectl describe rolebinding read-secrets-development --namespace=development
-```
 
-2. We can now try our `curl` command again and with any luck, jboss will be able to read the secrets in the development namespace:
-```
-curl -H "Authorization: Basic amJvc3M6c3VwZXJ0b3BzZWNyZXRwYXNzd29yZA==" https://$(minikube ip):8443/api/v1/namespaces/development/secrets -k
-```
+
