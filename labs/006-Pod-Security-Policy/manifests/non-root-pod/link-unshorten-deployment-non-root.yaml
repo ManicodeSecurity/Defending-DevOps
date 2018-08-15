@@ -14,6 +14,8 @@ spec:
       labels:
         app: unshorten-api
     spec:
+      securityContext:
+        runAsUser: 999
       containers:
       - name: unshorten-api-container
         image: "jmbmxer/link-unshorten:0.1"
