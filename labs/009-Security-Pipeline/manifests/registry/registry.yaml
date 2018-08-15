@@ -57,7 +57,7 @@ spec:
   selector:
     app: registry
     tier: registry
-  type: NodePort
+  type: LoadBalancer
 ---
 
 apiVersion: extensions/v1beta1
