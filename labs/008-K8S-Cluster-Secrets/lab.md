@@ -28,9 +28,13 @@ kubectl create -f .
 
 5. Ensure our API is running and everything is wired up:
 ```
-export MINIKUBE_HOME=~/Desktop/lab-tools/.kube
-minikube service link-unshorten-service --url
+kubectl get svc
 ```
+In your browser visit the IP address provided at `EXTERNAL-IP`. For example:
+```
+http://35.197.56.177/api/check?url=bit.ly/test
+```
+Note: The order in which these pods are deployed matters. Make sure MySQL is up first before launching the API.
 
 6. After everything is running and healthy, let's look under the hood at the environment variable that was injected into the link-unshorten Pod:
 ```
@@ -43,6 +47,9 @@ Sticking to DevOps principals, we want to avoid creating secrets using one-off c
 
 1. To simplify things, we first tear down our cluster. Run the following command in both the `manifests/api` and `manifests/mysql` directories to delete the running Deployments and Services:
 ```
+# In the manifests/api directory
+kubectl delete -f .
+# In the manifests/mysql directory
 kubectl delete -f .
 # Delete our existing Secret
 kubectl delete secret mysql-secrets
@@ -50,7 +57,7 @@ kubectl delete secret mysql-secrets
 
 2. Take a look at the manifest located at `manifests/secrets/mysql-secrets.yaml`. While it is very possible to put our Base64 encoded MySQL password in this file and deploy it, that is not the responsible mechanism for storing sensitive strings such as passwords for a variety of reasons. This lab will rely on a local environment variable and a command to perform variable substitution into our manifest file. This is just one way to launch secrets and may not be the best for your particular pipeline.
 
-3. Create a Base64 representation of our password and store it in a local environment variable:
+3. Create a Base64 representation of our password and store it in an environment variable in Cloud Shell:
 ```
 echo -n "supertopsecretpassword" | base64
 export MYSQL_PASSWORD="c3VwZXJ0b3BzZWNyZXRwYXNzd29yZA=="
@@ -92,10 +99,10 @@ kubectl get pods
 kubectl get svc
 ```
 
-2. In order to use the Vault service from our local machine, we first forward a local port to the Vault port (8200) using `kubectl port-forward`.
+2. In order to use the Vault service from our Cloud Shell instance, we first forward a local port to the Vault port (8200) using `kubectl port-forward`.
 ```
-kubectl port-forward vault-0 8200:8200
-# This will open a foreground process and may appear like it is hanging - but it isn't!
+kubectl port-forward vault-0 8200:8200 &
+# This will open a background process
 ```
 
 3. We will use `curl` to interact with our newly created Vault cluster. The following commands will write secrets to the cluster:
@@ -138,6 +145,12 @@ We can now call the Vault API to inject our secret into our `kubectl create` com
 navigate to `manifests/secrets` and run:
 ```
 vault_mysql_pass=`curl -H "X-Vault-Token: not-intended-for-production-deployments" http://127.0.0.1:8200/v1/secret/mysql | jq -r '.data.password' | base64`; cat mysql-secrets.yaml | sed "s/\$\$MYSQL_PASSWORD/$vault_mysql_pass/" | kubectl create -f -
+```
+### Clean Up
+Let's tear down the objects created in this lab.
+```
+# In the manifests directory
+kubectl delete -f vault -f secrets -f api
 ```
 
 ## Discussion Question: What secrets management systems are you using in-house? How could they better plug into DevOps pipelines?
