@@ -1,88 +1,41 @@
 # Kubernetes Cluster Setup
 
-The goal of this lab is to successfully setup a local Kubernetes cluster on your machine using Minikube. We will use this cluster throughout the remainder of the labs.
+The goal of this lab is to successfully setup a Kubernetes cluster using Google Kubernetes Engine (GKE). We will use this cluster throughout the remainder of the labs.
 
 ## Requirements
-Please ensure you have an approved version of Virtualbox installed on your laptop:
+To minimize software and configuration on your local machine, will be using a service called [Google Cloud Shell](https://cloud.google.com/shell/docs/) which provides you with command-line access to your cloud resources directly from your browser. Cloud Shell supports the latest versions of Google Chrome, Mozilla Firefox, Microsoft Edge, Microsoft Internet Explorer 11+ and Apple Safari 8+. Safari in private browser mode is not supported.
 
-[Virtualbox Download](https://www.virtualbox.org/wiki/Downloads)
-
-Once downloaded, follow the instructions to install Virtualbox.
-
-## About Minikube
-Minikube is a tool that makes it easy to run Kubernetes locally. Minikube runs a single-node Kubernetes cluster inside a VM on your laptop. Please use version 0.25.2 for the labs.
-
-## Task 1: Install Docker
-Make sure you have the latest version of [Docker for Mac Community Edition](https://store.docker.com/editions/community/docker-ce-desktop-mac) installed on your local machine. 
-
-Once downloaded, follow the instructions to install Docker.
-
-## Task 2: Create a lab-tools directory on your Desktop
-We will be downloading a few binaries to spin up and interact with our Kubernetes cluster throughout the labs. Please *only* download binaries from the approved Oath artifact repository and into a `lab-tools` directory that we will later destroy upon completion of the class:
+## About GKE
+Kubernetes Engine is a managed, production-ready environment for deploying containerized applications in Google Cloud Platform. Each student has been provisioned with a Google account under the `manicode.us` domain as well as a cluster with the following specs:
 ```
-cd ~/Desktop
-mkdir lab-tools && cd lab-tools
+Cluster Size: 4 Nodes
+Total Ram: 15GB
+Total Cores: 4vCPUs
+Location: US-West1-a
 ```
+The cluster master runs the Kubernetes control plane processes, including the Kubernetes API server, scheduler, and core resource controllers. The master's lifecycle is managed by Kubernetes Engine when you create or delete a cluster. This includes upgrades to the Kubernetes version running on the cluster master, which Kubernetes Engine performs automatically, or manually at your request if you prefer to upgrade earlier than the automatic schedule.
 
-## Task 3: Install kubectl
-`kubectl` is a command-line tool used to deploy and manage applications on Kubernetes. There are several ways to install kubectl locally. We will be using `curl` to install the binary from the Oath artifact repo.
+## Task 1: Authenticate to Google Cloud Platform
+Navigate to the [GCP Console](https://console.cloud.google.com/) and enter the credentials you received on the slip of paper at your desk.
 
+## Task 2: Explore Your Pre-Provisioned Kubernetes Cluster
+In the navigation on the left side of the console, click `Kubernetes Engine`. Here you will find the details about the cluster and a GUI for accessing and administering workloads and services.
+
+## Task 3: Launch Cloud Shell
+There is a button named "Activate Google Cloud Shell" located in the top-bar navigation of the console. When clicked, a terminal will appear in the lower half of the console. This gives you direct command-line access to your Kubernetes cluster. 
+
+Cloud shell comes packaged with a beta feature called `code editor` which gives you a minimal IDE for viewing and editing files. This will be used throughout the remainder of the labs. The link is found in the upper-right hand corner of the terminal.
+
+## Task 4: Clone the Git Repository
+In your home directory, we are going to pull in the documentation and source code used for the course labs. We can do this by running the following command:
 ```
-cd ~/Desktop/lab-tools
-curl -o kubectl https://storage.googleapis.com/kubernetes-release/release/v1.9.0/bin/darwin/amd64/kubectl
-chmod +x ./kubectl
-# This creates a symlink to our PATH so that we can use the kubectl command in other locations throughout the lab
-sudo ln -s ~/Desktop/lab-tools/kubectl /usr/local/bin/kubectl
+git clone https://github.com/ManicodeSecurity/Defending-DevOps/ 
 ```
 
-Once installed, make sure that the kubectl is available on your machine by running the following command:
-```
-kubectl version
-```
+## Task 5: Explore your Kubernetes Cluster
+Most of the tools necessary to complete the labs come pre-installed in Google Cloud Shell including `kubectl` which is used extensively to interact with your cluster. Ensure your cluster is operational by running the following commands:
 
-## Task 4: Install Minikube
-Minikube is a tool that makes it easy to run Kubernetes locally. Minikube runs a single-node Kubernetes cluster inside a VM on your laptop.
-
-Download the binary using `curl` from the official Oath artifactory repo:
-```
-cd ~/Desktop/lab-tools
-curl -Lo minikube https://storage.googleapis.com/minikube/releases/v0.25.2/minikube-darwin-amd64 +x minikube
-# This creates a symlink to our PATH so that we can use the minikube command in other locations throughout the lab
-sudo ln -s ~/Desktop/lab-tools/minikube /usr/local/bin/minikube
-```
-
-## Task 5: Launch a Minikube Cluster
-Once all of the underlying tools have been installed, it's time to launch our cluster!
-
-We first need to tell Minikube where to put our Kubernetes configuration files. This is done be setting an environment variable. DO NOT SKIP THIS STEP!
-```
-export MINIKUBE_HOME=~/Desktop/lab-tools/.kube
-```
-
-Now, we bootstrap the cluster:
-```
-# from the lab-tools directory
-minikube start
-# Grab a coffee, this bootstrap process may take a few minutes
-```
-
-Ensure the configs are located in the right location:
-```
-cd ~/Desktop/lab-tools
-ls -a
-# you should see the following two binaries and the .kube directory
-.kube    kubectl  minikube
-# Feel free to browse around the .kube directory and inspect the Kubernetes configurations
-```
-
-Make sure Minikube is running:
-```
-minikube status
-```
-
-Kubectl should now be configured to interact with our newly formed, single-node cluster:
 ```
 kubectl get pods --all-namespaces
+kubectl get svc --all-namespaces
 ```
-
-# Important! All binaries should be installed in the ~/Desktop/lab-tools directory only

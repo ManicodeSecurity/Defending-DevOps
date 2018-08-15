@@ -3,6 +3,7 @@ kind: Deployment
 metadata:
   # A Deployment named link-unshorten is created using the metadata: name field
   name: link-unshorten
+  namespace: development
   # We give the deployment a label 
   labels:
     app: unshorten-api

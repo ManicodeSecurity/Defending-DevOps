@@ -1,0 +1,48 @@
+apiVersion: networking.istio.io/v1alpha3
+kind: ServiceEntry
+metadata:
+  name: bitly-ext
+spec:
+  hosts:
+  - bit.ly
+  - www.bit.ly
+  ports:
+  - number: 80
+    name: http
+    protocol: HTTP
+  resolution: DNS
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: ServiceEntry
+metadata:
+  name: bitly
+spec:
+  hosts:
+  - bit.ly
+  - www.bit.ly
+  ports:
+  - number: 443
+    name: https
+    protocol: HTTPS
+  resolution: DNS
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: bitly
+spec:
+  hosts:
+  - bit.ly
+  - www.bit.ly
+  tls:
+  - match:
+    - port: 443
+      sni_hosts:
+      - bit.ly
+      - www.bit.ly
+    route:
+    - destination:
+        host: www.bit.ly
+        port:
+          number: 443
+      weight: 100

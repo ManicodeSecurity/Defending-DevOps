@@ -2,13 +2,13 @@
 kind: RoleBinding
 apiVersion: rbac.authorization.k8s.io/v1
 metadata:
-  name: read-secrets-development
+  name: read-pods-development
   namespace: development
 subjects:
 - kind: User
-  name: jboss
+  name: jboss@manicode.us
   apiGroup: ""
 roleRef:
   kind: Role
-  name: secret-reader
+  name: pod-reader
   apiGroup: ""

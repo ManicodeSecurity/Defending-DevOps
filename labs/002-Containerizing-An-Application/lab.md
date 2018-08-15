@@ -6,15 +6,15 @@ This lab will begin our DevOps journey by running a simple Golang application lo
 The source code for the application located in the `src/link-unshorten` directory is a simple API that we will eventually Dockerize and deploy using Kubernetes. The API takes a shortened link as a parameter in the URL and returns the destination URL as JSON. The application is built using a lightweight HTTP web framework called [Gin-Gonic](https://github.com/gin-gonic/gin).
 
 ### Task 1: Browse the Application
-Open up the files in `src/link-unshorten` in your favorite IDE or text editor and familiarize yourself with the application.
+Open up the files in `src/link-unshorten` in your favorite IDE or the Cloud Shell editor and familiarize yourself with the application.
 
-### Task 2: Build the Docker Container Locally
-In the `src/link-unshorten` directory run the following command (substituting <yourname> with your own identifier) to build the image on you laptop:
+### Task 2: Build the Docker Container 
+In the `src/link-unshorten` directory run the following command (substituting <yourname> with your own identifier) to build the image on the Cloud Shell VM:
 ```
 docker build -t <yourname>/link-unshorten:0.1 .
 ```
 
-Inspect your local Docker images:
+Inspect your Docker images:
 ```
 docker images
 ```
@@ -29,7 +29,13 @@ Make sure the image is running without any errors:
 ```
 docker ps
 ```
-Visit `http://localhost:8080/api/check?url=bit.ly/test`
+We will use the `Web Preview` feature within Cloud Shell to view our running conatiner.
+
+First, in the top-bar navigation of Cloud Shell (next to the editor button) click `Web Preview` and select "Preview on Port 8080".
+
+This will open a new tab with a `appspot.com` URL and likely throw a 404. Replace URL path with like so (your URL will look slightly different):
+
+`https://8080-dot-1234567-dot-devshell.appspot.com/api/check?url=bit.ly/test`
 
 ### Bonus: Change the value for `port` in main.go an environment variable instead of a hardcoded value
 

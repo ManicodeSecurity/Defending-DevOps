@@ -1,6 +1,13 @@
+gcloud projects add-iam-
+policy-binding manicodeveevalabs-veeva1xmanic --member=user:veeva1+test@manicode.us --role=roles/container.admin
+
+
+YOU HAVE TO GET CREDENTIALS
+gcloud container clusters get-credentials k8slabstest-veeva1xmanicodexus --zone us-west1-a --project k8slabstest-veeva1xmanicodexus
+
 # Kubernetes Authentication
 
-The goal of this lab is to enhance the security of our cluster using built in Kubernetes primitives. We will explore several authentication strategies and apply them to our Minikube cluster.
+The goal of this lab is to enhance the security of our cluster using built in Kubernetes primitives. We will explore authentication and authorization strategies and apply them to our GKE cluster.
 
 ### Simple Authentication
 First, we delete any dangling clusters and create a new one using the `extra-config` parameter which tells the api-server to use our CSV file as a username/password store and RBAC as our authorization mechanism. 
