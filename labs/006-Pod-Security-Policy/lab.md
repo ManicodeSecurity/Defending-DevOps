@@ -1,24 +1,14 @@
 ## PodSecurityPolicy
 Pod security policies provide a framework to ensure that pods and containers run only with the appropriate privileges and access only a finite set of resources. Security policies also provide a way for cluster administrators to control resource creation, by limiting the capabilities available to specific roles, groups or namespaces.
 
-### FIXX THISS!
-gc
-loud beta container clusters update k8slabsveeva-veeva1xmanicodexu --no-enable-pod-security-policy --region=us-west1-a
-
-
-## Task 1: Launch a New Minikube Cluster
-1. We need to pass some flags to our Kubernetes API Server in order to use Pod Security Policies. First we delete our cluster:
+## Task 1: Enable PSP on your Cluster
+1. We need to first enable PSP in our GKE cluster. In Cloud Shell, run the following command:
 ```
-export MINIKUBE_HOME=~/Desktop/lab-tools/.kube
-minikube delete
-```
-
-2. Now we launch a new cluster as follows:
-```
-export MINIKUBE_HOME=~/Desktop/lab-tools/.kube
-minikube start \
-   --extra-config=apiserver.Authorization.Mode=RBAC \
-   --extra-config=apiserver.Admission.PluginNames=PodSecurityPolicy
+# Retrieve the name of your cluster using the following command:
+gcloud container clusters list
+# Enable PSP
+gcloud beta container clusters update <CLUSTER-NAME> --enable-pod-security-policy --region=us-west1-a
+# Grab a coffee..this will take a few minutes
 ```
 
 ## Task 2: Create our PodSecurityPolicy
@@ -50,5 +40,15 @@ kubectl get events
 ```
 
 Great job! We just stopped a container running as r00t.
+
+### Clean Up
+1. Disable PSP on your cluster
+```
+# Retrieve the name of your cluster using the following command:
+gcloud container clusters list
+# Enable PSP
+gcloud beta container clusters update <CLUSTER-NAME> --no-enable-pod-security-policy --region=us-west1-a
+# Grab a coffee..this will take a few minutes
+```
 
 
