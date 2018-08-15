@@ -17,6 +17,7 @@ spec:
         image: manicode/jenkins-dind
         ports:
         - containerPort: 8080
+          imagePullPolicy: Always
         volumeMounts:
         - mountPath: /var/run/docker.sock
           name: docker-sock
