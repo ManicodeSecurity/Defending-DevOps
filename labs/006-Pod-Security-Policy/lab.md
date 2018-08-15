@@ -74,23 +74,15 @@ You will notice that the Pod launches successfully:
 ```
 kubectl get pods
 ```
-3. Delete the Deployment and Service
-```
-# In the manifests/root-pod directory
-kubectl delete -f .
-```
+
 ### Clean Up
 1. Remove the PSP
 ```
-# In the manifests/psp directory
-kubectl delete -f .
+# In the manifests directory
+kubectl delete -f psp -f role -f non-root-pod -f root-pod
 ```
-2. Remove the RBAC rules
-```
-# In the manifests/role directory
-kubectl 
-```
-3. Disable PSP on your cluster
+
+2. Disable PSP on your cluster
 ```
 # Retrieve the name of your cluster using the following command:
 gcloud container clusters list
