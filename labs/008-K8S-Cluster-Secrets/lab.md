@@ -2,12 +2,6 @@
 
 The goal of this lab is to utilize the native Kubernetes Secrets functionality to create and consume Kubernetes secrets within our application.
 
-First, launch a fresh cluster using Minikube:
-```
-minikube delete
-minikube start
-```
-
 ## Task 1: Create a Mysql Deployment and Service (the insecure way)
 
 1. We now must create our Secret using kubectl. This will allow our API to communicate with MySQL.
@@ -20,7 +14,7 @@ kubectl create secret generic mysql-secrets --from-literal=password=supertopsecr
 kubectl get secrets
 kubectl describe secret mysql-secrets
 kubectl get secret mysql-secrets -o yaml
-kubectl get secret mysql-secrets -o jsonpath='{.data.password}' | base64 ---decode; echo
+kubectl get secret mysql-secrets -o jsonpath='{.data.password}' | base64 --decode; echo
 ```
 3. After inspecting the MySQL manifest files located in the `manifests/mysql` directory, launch both the Deployment and the Service using the following command:
 ```
