@@ -3,7 +3,7 @@ kind: Service
 metadata:
   name: jenkins
 spec:
-  type: LoadBalancer
+  type: NodePort
   ports:
     - port: 8080
       targetPort: 8080
