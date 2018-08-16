@@ -30,4 +30,4 @@ spec:
     - destination:
         host: link-unshorten-service
         port:
-          number: 8081
+          number: 8080
