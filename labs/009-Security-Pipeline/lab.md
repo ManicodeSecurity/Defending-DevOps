@@ -1,13 +1,6 @@
 # Security Pipeline and Automation
 This lab will spin up Jenkins in our cluster along with a private Docker image repository. Jenkins will also handle zero-downtime deploys of the unshorten API upon a successful build. The humble beginnings of a self-contained DevSecOps pipeline. 
 
-First, we blow away our old cluster and launch a fresh one:
-```
-export MINIKUBE_HOME=~/Desktop/lab-tools/.kube
-minikube delete
-# Jenkins is a ram-hungry beast, so let's give our cluster a little extra juice!
-minikube start --memory 4096 --bootstrapper=kubeadm
-```
 
 ## Task 1: Create the Jenkins Service Account
 Jenkins does not need full administrative access in our cluster. It is crucial to implement RBAC policies that allow Jenkins to carry out the necessary tasks but nothing more. Take a look at the Jenkins Service Account and associated ClusterRole and ClusterRoleBinding then create the SA as follows:
@@ -31,10 +24,13 @@ We need a location to store our versioned Docker images within our Kubernetes cl
 kubectl create -f .
 ```
 
-2. Once all of the Pods and Services are up and healthy, grab the URL for our freshly created registry and visit it in your browser:
+2. Once all of the Pods and Services are up and healthy, grab the URL for our freshly created registry and visit it in your browser. 
+
+Note: The registry runs on port `8080`.
 ```
-export MINIKUBE_HOME=~/Desktop/lab-tools/.kube
-minikube service registry-ui --url
+kubectl get svc
+# Copy the EXTERNAL-IP value and paste it into your browser
+# It will look like this -> http://35.199.183.47:8080/
 ```
 
 3. Now we deploy Jenkins from the `manifests/jenkins` directory:
@@ -48,10 +44,14 @@ kubectl get pods
 kubectl logs <jenkinsPodName> | grep -B 3 initialAdminPassword
 ```
 
-5. Now we can check out the Jenkins UI:
+5. Now we can check out the Jenkins UI (it also runs on port `8080`):
 ```
-export MINIKUBE_HOME=~/Desktop/lab-tools/.kube
-minikube service jenkins --url
+# Grab the pod name and place it in an environment variable
+export POD_NAME=$(kubectl 
+get pods -l "app=jenkins" -o jsonpath="{.items[0].metadata.name}")
+
+# Run a port forward to expose the Jenkins UI
+kubectl port-forward $POD_NAME 8080:8080 >> /dev/null &
 ```
 
 6. DO NOT INSTALL SUGGESTED PLUGINS! Click deselect all, and manually install the plugins needed for this lab. Only select two plugins from the web UI; `git` and `pipeline`. Use the search feature to find them.
