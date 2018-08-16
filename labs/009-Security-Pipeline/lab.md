@@ -40,16 +40,15 @@ kubectl create -f .
 
 4. Make sure the Jenkins Deployment is up and grab the logs from the Pod:
 ```
-kubectl get pods
-kubectl logs <jenkinsPodName> | grep -B 3 initialAdminPassword
+# Grab the pod name and place it in an environment variable
+export POD_NAME=$(kubectl get pods -l "app=jenkins" -o jsonpath="{.items[0].metadata.name}")
+
+# Copy the initial Admin password provided by Jenkins
+kubectl logs $POD_NAME | grep -B 3 initialAdminPassword
 ```
 
 5. Now we can check out the Jenkins UI (it also runs on port `8080`):
 ```
-# Grab the pod name and place it in an environment variable
-export POD_NAME=$(kubectl 
-get pods -l "app=jenkins" -o jsonpath="{.items[0].metadata.name}")
-
 # Run a port forward to expose the Jenkins UI
 kubectl port-forward $POD_NAME 8080:8080 >> /dev/null &
 ```
