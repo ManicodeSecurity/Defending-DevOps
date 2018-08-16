@@ -3,7 +3,6 @@ kind: Service
 metadata:
  name: link-unshorten-service
 spec:
- type: LoadBalancer
  ports:
    - port: 8080
      targetPort: 8080
