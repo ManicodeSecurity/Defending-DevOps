@@ -13,8 +13,10 @@ kubectl apply -f dashboard.yaml
 
 2. Since Kubernetes 1.9, authentication to the dashboard is enabled by default. We need to retrieve a service account token that has the appropriate access. In Cloud Shell run the following command:
 
+Note: All secrets in the `kube-system` namespace have full access. The `clusterrole-aggregation-controller` is one of those but others will work.
+
 ```
-kubectl -n kube-system describe secrets    `kubectl -n kube-system get secrets | awk '/clusterrole-aggregation-controller/ {print $1}'` | awk '/token:/ {print $2}'
+kubectl -n kube-system describe secrets `kubectl -n kube-system get secrets | awk '/clusterrole-aggregation-controller/ {print $1}'` | awk '/token:/ {print $2}'
 ```
 Copy this value to your clipboard.
 

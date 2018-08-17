@@ -1,10 +1,3 @@
-gcloud projects add-iam-
-policy-binding manicodeveevalabs-veeva1xmanic --member=user:veeva1+test@manicode.us --role=roles/container.admin
-
-
-YOU HAVE TO GET CREDENTIALS
-gcloud container clusters get-credentials k8slabstest-veeva1xmanicodexus --zone us-west1-a --project k8slabstest-veeva1xmanicodexus
-
 # Authentication and Authorization
 
 The goal of this lab is to enhance the security of our cluster using built-in Kubernetes primitives. We will explore authentication and authorization strategies and apply them to our GKE cluster.
@@ -34,7 +27,7 @@ container.clusters.getCredentials
 ### Task 1: Launch Your Infrastructure
 First, we will spin up our application in both a `development` and `production` namespace. 
 
-Note: You should be logged in to Cloud Shell using the custom account given to you on the slip of paper to run the following commands.
+Note: You should be logged in to Cloud Shell using the custom account given to you on the slip of paper to run the following commands, not jboss@manicode.us.
 
 We need to retrieve the credentials of our running cluster using the `gcloud get-credentials` command. This command updates our kubeconfig in Cloud Shell file with appropriate credentials and endpoint information to point kubectl at a specific cluster in Google Kubernetes Engine. 
 
@@ -50,6 +43,11 @@ kubectl create -f link-unshorten-ns.yaml
 kubectl create -f link-unshorten-service.yaml
 kubectl create -f link-unshorten-deployment.yaml
 ```
+Make sure our pods are running in the `development` namespace:
+```
+kubectl get pods --namespace=development
+```
+
 Do the same for the production namespace:
 ```
 # in the manifests/production directory
@@ -66,9 +64,9 @@ kubectl get pods --all-namespaces
 Take note of this process. Our user has full administrative access to our cluster due to being provisioned with the `Kubernetes Engine Admin` role. We will now see how RBAC helps give us granular access control at the object-level within our cluster.
 
 ### Task 2: Authenticate as a Developer
-We will now log in using a separate user who has very locked down access to the entire project. In an incognito tab open browse to `cloud.google.com` and authenticate with the user `jboss@manicode.us` and the password provided to you on the slip of paper for that user. 
+We will now log in using a separate user who has very locked down access to the entire project. In an incognito window browse to `cloud.google.com` and authenticate with the user `jboss@manicode.us` and the password provided to you in class (yes, this is a shared account). 
 
-Note: This user has read-access to all projects in class. *Please only interact with your own cluster.*
+Note: This user has read-access to all projects in class. *I am aware this account allows for read-only access to all projects in the class. Please only interact with your own cluster and project.* 
 
 Now open up Cloud Shell and use the following `gcloud get-credentials` command to retrieve the credentials for your user so we can start interacting with the cluster. This is the same cluster you just launched the `production` and `development` namespace / infrastructure in. 
 

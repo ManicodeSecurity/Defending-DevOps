@@ -2,7 +2,7 @@
 
 The goal of this lab is to utilize the native Kubernetes Secrets functionality to create and consume Kubernetes secrets within our application.
 
-## Task 1: Create a Mysql Deployment and Service (the insecure way)
+### Task 1: Create a Mysql Deployment and Service (the insecure way)
 
 1. We now must create our Secret using kubectl. This will allow our API to communicate with MySQL.
 ```
@@ -42,7 +42,7 @@ kubectl exec -it <podname> /bin/bash
 env | grep UNSHORTEN_DB_PASSWORD
 ```
 
-## Task 2: Using Manifests to Deploy Secrets (the more secure way)
+### Task 2: Using Manifests to Deploy Secrets (the more secure way)
 Sticking to DevOps principals, we want to avoid creating secrets using one-off commands. We will now create our MySQL password using a YAML manifest located in the `manifests/secrets` directory.
 
 1. To simplify things, we first tear down our cluster. Run the following command in both the `manifests/api` and `manifests/mysql` directories to delete the running Deployments and Services:

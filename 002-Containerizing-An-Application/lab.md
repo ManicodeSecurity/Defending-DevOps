@@ -29,11 +29,13 @@ Make sure the image is running without any errors:
 ```
 docker ps
 ```
-We will use the `Web Preview` feature within Cloud Shell to view our running conatiner.
+We will use the `Web Preview` feature within Cloud Shell to view our running container.
 
 First, in the top-bar navigation of Cloud Shell (next to the editor button) click `Web Preview` and select "Preview on Port 8080".
 
-This will open a new tab with a `appspot.com` URL and likely throw a 404. Replace URL path with like so (your URL will look slightly different):
+This will open a new tab with a `appspot.com` URL and likely throw a 404. That's ok - we need to provide a valid API path.
+
+Replace URL path with like so (your URL will look slightly different):
 
 `https://8080-dot-1234567-dot-devshell.appspot.com/api/check?url=bit.ly/test`
 

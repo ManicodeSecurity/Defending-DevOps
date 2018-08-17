@@ -12,8 +12,9 @@ Note: The Istio directory included in the lab is an extremely stripped down vers
 ```
 # In the istio-1.0.0 directory
 export PATH=$PWD/bin:$PATH
+
 # Ensure the binary is available
-istio version
+istioctl version
 ```
 
 ### Task 2: Install Istio Components and Enable Automatic Sidecar Injection

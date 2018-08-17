@@ -4,17 +4,17 @@
 (!)This requires that you have GKE and Cloud Shell configured correctly. Please go back to `001-Lab-Setup` if you are not set up.
 
 ### Task 1: Getting to Know Your Cluster
-1. kubectl is the cli we will use to interact with our Kubernetes cluster. The first task is to view the Pods that are running on our cluster with an out-of-the-box installation. Run the following command in you terminal:
+1. `kubectl` is the cli we will use to interact with our Kubernetes cluster. The first task is to view the Pods that are running on our cluster with an out-of-the-box installation. Run the following command in you terminal:
 ```
 kubectl get pods
 ``` 
 
-2. As you can see no pods are running. This is because our `default` namespace has nothing deployed to it. Try running the same command with the following argument. This will list the pods used by the Kubernetes system:
+2. As you can see no pods are running. This is because we are dropped into the `default` namespace and the `default` namespace has nothing deployed to it. Try running the same command with the following argument. This will list the pods used by the Kubernetes system itself:
 ```
 kubectl get pods --all-namespaces
 ```
 
-3. Let's take a look at a new command called describe. Run the following command to inspect the details about our single-node cluster:
+3. Let's take a look at a new command called describe. Run the following command to inspect the details about our cluster:
 ```
 kubectl describe node
 ```
@@ -25,8 +25,10 @@ Hint: Check out the official [kubectl cheatsheet](https://kubernetes.io/docs/ref
 
 ### Task 2: Running our Application in GKE
 1. Launch the application by creating a Kubernetes Deployment using the following command (this pulls down an image from Docker Hub so it may take a few minutes):
+
+Note: DO NOT CHANGE IMAGE NAME TO YOUR OWN - THIS IS AN IMAGE ON DOCKER HUB
+
 ```
-# DO NOT CHANGE IMAGE NAME TO YOUR OWN : )
 kubectl run link-unshorten --image=jmbmxer/link-unshorten:0.1 --port=8080
 ```
 
@@ -64,7 +66,7 @@ Hint: Retrieve the `<podname>` using `kubectl get pods`
 
 8. If you `ls` in the shell you will see the golang app source code
 
-9. We can use `curl` to hit our API locally once we have a shell:
+9. We can use `curl` to hit our API from localhost once we have a shell:
 ```
 curl localhost:8080/api/check?url=bit.ly/test
 ```
@@ -82,7 +84,6 @@ The `LoadBalancer` type spins up a load balancer in GCP automatically.
 ```
 kubectl expose deployment link-unshorten --type=LoadBalancer
 
-kubectl expose deployment link-unshorten --port=8080 --target-port=8080 --name=link-unshorten-service --type=LoadBalancer
 ```
 
 2. We can now see our new Service details by running the following command:
@@ -93,12 +94,12 @@ kubectl describe svc link-unshorten
 
 3. Visit the IP address listed in the terminal in your browser (labeled as `LoadBalancer Ingress`. Don't forget to add the API endpoint path.
 ```
-http://<EXTERNAL-IP>/api/check?url=bit.ly/test
+http://<EXTERNAL-IP>:8080/api/check?url=bit.ly/test
 ```
-4. Tear down your app using the following commands:
+4. This is no way to manage a real Kubernetes cluster. Tear down your app using the following commands:
 ```
 kubectl delete deployment link-unshorten
-kubectl delete svc link-unshorten-service
+kubectl delete svc link-unshorten
 ``` 
 
 ### Task 4: "Codifying" Your Deployment
@@ -132,22 +133,23 @@ kubectl describe svc link-unshorten-service
 http://<EXTERNAL-IP>/api/check?url=bit.ly/test
 ``` 
 
-7. Deployments offer the ability to scale Pod counts simply. Open the Deployment manifest and scale the number of pods to three. Once the change has been made and saved, use the `replace` command to scale your Deployment. You can also use `apply` here to accomplish the same result. Too the moon!
+7. Deployments offer the ability to scale Pod counts simply. Open the Deployment manifest and scale the number of pods to six. Once the change has been made and saved, use the `replace` command to scale your Deployment. You can also use `apply` here to accomplish the same result. Too the moon!
 ```
 kubectl replace -f link-unshorten-deployment.yaml
 ```
 
-8. Inspect the Pod details using:
+8. Inspect the Pods scaling. Note that others will be terminating at the same time:
  ```
- kubectl describe pod <podname>
+ kubectl get pods 
  ```
  
- or inspect all three at once:
+ Inspect all six pods at once:
  ```
- kubectl get pods | tail -3 | awk '{print $1}' | xargs kubectl describe pod
+ kubectl get pods | tail -6 | awk '{print $1}' | xargs kubectl describe pod
  ```
 
 9. Un-comment the redis container lines in the link-unshorten-deployment.yaml manifest to deploy a second container within our Pod. Use `kubectl replace -f link-unshorten-deployment.yaml` to commit the changes after the lines have been un-commented.
+
 10. If you are curious about container-to-container communication within a running Pod, exec into the Redis container using the following command. The name of the Redis container is `unshorten-redis-cache` which is declared in the link-unshorten-deployment.yaml file.
 ```
 kubectl exec -it <PodName> -c unshorten-redis-cache /bin/bash
@@ -170,7 +172,7 @@ kubectl delete deployment link-unshorten
 kubectl delete service link-unshorten-service
 ```
 ### Bonus
- A critical RCE vulnerability was just reported through a bug bounty and was fixed late into the night. Roll out a new version of the app (0.2) in your local cluster to patch the vulnerability on each of your three running pods. No downtime allowed! Show the deployment history using `kubectl rollout history` 
+ A critical RCE vulnerability was just reported through a bug bounty and was fixed late into the night. Roll out a new version of the app (0.2) in your cluster to patch the vulnerability on each of your three running pods. No downtime allowed! Show the deployment history using `kubectl rollout history` 
 
 ### Bonus
 The new version you just rolled out contains a critical bug! Quickly rollback the deployment to 0.1 (Yes, 0.1 is the vulnerable version, but this is just for practice!)
