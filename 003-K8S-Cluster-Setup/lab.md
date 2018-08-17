@@ -26,7 +26,7 @@ Hint: Check out the official [kubectl cheatsheet](https://kubernetes.io/docs/ref
 ### Task 2: Running our Application in GKE
 1. Launch the application by creating a Kubernetes Deployment using the following command (this pulls down an image from Docker Hub so it may take a few minutes):
 ```
-# DO NOT CHANGE IMAGE NAME
+# DO NOT CHANGE IMAGE NAME TO YOUR OWN : )
 kubectl run link-unshorten --image=jmbmxer/link-unshorten:0.1 --port=8080
 ```
 

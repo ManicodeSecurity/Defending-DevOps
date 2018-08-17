@@ -1,12 +1,14 @@
 ### Task 1: Cluster Prep
-Istio is a complex collection of Kubernetes objects. This task will help us prep our cluster for successful installation. Since we will be creating some RBAC rules, we want to first make sure that we are cluster admin (it is ok to run this again to be safe):
+Istio is a complex collection of Kubernetes objects. This task will help us prep our cluster for successful installation. Since we will be creating some RBAC rules, we want to first make sure that we are cluster admin (it is ok to run this again to be safe). Run the following command in Cloud Shell:
 ```
 kubectl create clusterrolebinding cluster-admin-binding \
   --clusterrole=cluster-admin \
   --user="$(gcloud config get-value core/account)"
 ```
 
-To interact with Istio, we will use `istioctl` which is bundled as a binary with the Istio install package.
+To interact with Istio, we will use `istioctl` which is bundled as a binary with the Istio install package. 
+
+Note: The Istio directory included in the lab is an extremely stripped down version of what comes with the Istio 1.0 release.
 ```
 # In the istio-1.0.0 directory
 export PATH=$PWD/bin:$PATH
@@ -15,12 +17,14 @@ istio version
 ```
 
 ### Task 2: Install Istio Components and Enable Automatic Sidecar Injection
-Istio is a massive project. Check out the yaml file located at `istio-1.0.0/install/kubernetes/istio-demo-auth.yaml`. Wow. Such yaml. Let's install the components necessary in our cluster:
+Istio is a massive project. Check out the yaml file located at `istio-1.0.0/install/kubernetes/istio-demo-auth.yaml`. Wow. Many configs. Such Yaml.
+
+Let's install the components necessary in our cluster:
 ```
 # In the istio-1.0.0 directory 
 kubectl create -f install/kubernetes
 ```
-Each pod in the mesh must be running an Istio compatible sideecar. The sidecar is how all traffic to and from pods in the mesh
+Each pod in the mesh must be running an Istio compatible sidecar. The sidecar is how all traffic to and from pods in the mesh
 
 Manual injection modifies the controller configuration, e.g. deployment. It does this by modifying the pod template spec such that all pods for that deployment are created with the injected sidecar. Adding/Updating/Removing the sidecar requires modifying the entire deployment.
 
@@ -60,11 +64,28 @@ Once the rules are created, try to visit the API again and you should be able to
 
 ### Task 5: Logging and Monitoring with Istio
 
+Grafana is an open source visualization tool that can be used on top of a variety of different data stores and comes with a Prometheus integration out of the box in our Istio deployment.
 
-
-
-Grafana
 kubectl -n istio-system port-forward $(kubectl -n istio-system get pod -l app=grafana -o jsonpath='{.items[0].metadata.name}') 8080:3000
 
 Then Click "Web Preview" in cloud shell
+
+Go to `Istio Mesh Dashboard` to see a high-level overview of our Istio service mesh.
+
+The `Istio Workload Dashboard`  gives details about metrics for each workload and then inbound workloads (workloads that are sending request to this workload) and outbound services (services to which this workload send requests) for that workload.
+
+We can visualize our outbound requests by running the following command in your local terminal:
+```
+for ((i=1;i<=1000;i++)); do   curl -v --header "Connection: keep-alive" "http://<YOUR-IP>/api/check?url=https://bit.ly/hi"; done
+```
+
+As you can see our `Outbound Services` graphs are looking normal. Keep this dashboard up and run the following command:
+
+```
+for ((i=1;i<=1000;i++)); do   curl -v --header "Connection: keep-alive" "http://<YOUR-IP>/api/check?url=https://t.co/hi"; done
+```
+
+Since `t.co` is not explicitly allowed per our egress rules we see the graphs change drastically.
+
+Take some time and explore the rest of the Grafana graphs.
 
