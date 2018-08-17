@@ -19,11 +19,11 @@ This repository contains all of the labs for the 2-day "Defending Modern DevOps 
 
 008-K8S-Cluster-Secrets
 
-009-Security-Pipeline
+009-Kube-Logs
+
+010-Security-Pipeline
 
 DEMO-Attacking-Kubelet
-
-010-Kube-Logs
 
 Finale
 
