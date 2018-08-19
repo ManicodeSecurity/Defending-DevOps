@@ -25,14 +25,16 @@ kubectl create -f .
 ```
 
 ## Task 3: Enable PSP on your Cluster
-We need to first enable PSP in our GKE cluster. Warning! If you enable the PodSecurityPolicy controller without first defining and authorizing any actual policies, no users, controllers, or service accounts can create or update Pods. If you are working with an existing cluster, you should define and authorize policies before enabling the controller.
+We need to enable PSP in our GKE cluster. Warning! If you enable the PodSecurityPolicy controller without first defining and authorizing any actual policies, no users, controllers, or service accounts can create or update Pods. If you are working with an existing cluster, you should define and authorize policies before enabling the controller.
 
 In Cloud Shell, run the following command:
 ```
 # Retrieve the name of your cluster using the following command:
 gcloud container clusters list
+
 # Enable PSP
 gcloud beta container clusters update <CLUSTER-NAME> --enable-pod-security-policy --region=us-west1-a
+
 # Grab a coffee..this will take a few minutes
 ```
 
@@ -76,9 +78,8 @@ kubectl get pods
 ```
 
 ### Clean Up
-1. Remove the PSP
+1. In the `manifests` directory:
 ```
-# In the manifests directory
 kubectl delete -f psp -f role -f non-root-pod -f root-pod
 ```
 
@@ -86,8 +87,10 @@ kubectl delete -f psp -f role -f non-root-pod -f root-pod
 ```
 # Retrieve the name of your cluster using the following command:
 gcloud container clusters list
-# Enable PSP
+
+# Disable PSP
 gcloud beta container clusters update <CLUSTER-NAME> --no-enable-pod-security-policy --region=us-west1-a
+
 # Grab a coffee..this will take a few minutes
 ```
 

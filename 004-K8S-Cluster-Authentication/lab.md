@@ -66,7 +66,7 @@ Take note of this process. Our user has full administrative access to our cluste
 ### Task 2: Authenticate as a Developer
 We will now log in using a separate user who has very locked down access to the entire project. In an incognito window browse to `cloud.google.com` and authenticate with the user `jboss@manicode.us` and the password provided to you in class (yes, this is a shared account). 
 
-Note: This user has read-access to all projects in class. *I am aware this account allows for read-only access to all projects in the class. Please only interact with your own cluster and project.* 
+Note: *I am aware this account allows for read-only access to all projects in the class. Please only interact with your own cluster and project.* 
 
 Now open up Cloud Shell and use the following `gcloud get-credentials` command to retrieve the credentials for your user so we can start interacting with the cluster. This is the same cluster you just launched the `production` and `development` namespace / infrastructure in. 
 
