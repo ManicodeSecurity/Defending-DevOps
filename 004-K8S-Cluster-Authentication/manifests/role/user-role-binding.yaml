@@ -1,0 +1,14 @@
+# This cluster role binding allows the reading of secrets in the development namespace
+kind: RoleBinding
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: read-pods-development
+  namespace: development
+subjects:
+- kind: User
+  name: jboss@manicode.us
+  apiGroup: ""
+roleRef:
+  kind: Role
+  name: pod-reader
+  apiGroup: ""

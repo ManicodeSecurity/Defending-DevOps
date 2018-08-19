@@ -15,13 +15,15 @@ This repository contains all of the labs for the 2-day "Defending Modern DevOps 
 
 006-Pod-Security-Policy
 
-007-Attacking-Kubelet
+007-Istio
 
-008-K8s-Cluster-Secrets
+008-K8S-Cluster-Secrets
 
-009-Security-Pipeline
+009-Kube-Logs
 
-010-Kube-Logs
+010-Security-Pipeline
+
+DEMO-Attacking-Kubelet
 
 Finale
 
