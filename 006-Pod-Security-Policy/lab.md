@@ -68,8 +68,8 @@ Great job! We just stopped a container running as r00t.
 2. Launch the Deployment and service:
 ```
 # In the manifests/non-root-pod directory
-kubectl create -f link-unshorten-deployment.yaml
-kubectl create -f link-unshorten-service.yaml
+kubectl create -f link-unshorten-deployment-non-root.yaml
+kubectl create -f link-unshorten-service-non-root.yaml
 ```
 
 You will notice that the Pod launches successfully:
