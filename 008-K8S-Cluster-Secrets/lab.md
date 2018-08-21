@@ -4,6 +4,11 @@ The goal of this lab is to utilize the native Kubernetes Secrets functionality t
 
 ### Task 1: Create a Mysql Deployment and Service (the insecure way)
 
+First, make sure all Istio objects and prior unshorten deployments are deleted:
+```
+kubectl label --overwrite namespace default istio-injection=
+```
+
 1. We now must create our Secret using kubectl. This will allow our API to communicate with MySQL.
 ```
 kubectl create secret generic mysql-secrets --from-literal=password=supertopsecretpassword
