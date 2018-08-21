@@ -4,6 +4,14 @@ Kubernetes Dashboard is a general purpose, web-based UI for Kubernetes clusters.
 Since version 1.7 Dashboard uses more secure setup. It means, that by default it has minimal set of privileges and can only be accessed over HTTPS. It is recommended to read Access Control guide before performing any further steps.
 
 ## Launch the Dashboard in GKE
+
+FIRST CREATE THE CLUSTER-ADMIN ROLEBINDING!
+```
+kubectl create clusterrolebinding cluster-admin-binding \
+  --clusterrole cluster-admin \
+  --user $(gcloud config get-value account)
+  ```
+  
 1. The Dashboard UI is not deployed by default. To deploy it, run the following command in Cloud Shell:
 
 ```
