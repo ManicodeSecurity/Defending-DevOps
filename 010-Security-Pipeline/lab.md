@@ -52,7 +52,8 @@ kubectl logs $POD_NAME | grep -B 3 initialAdminPassword
 # Run a port forward to expose the Jenkins UI
 kubectl port-forward $POD_NAME 8080:8080 >> /dev/null &
 ```
-Use the Web View in Cloud Shell to now visit Jenkins.
+(!)Use the Web View in Cloud Shell to now visit Jenkins.
+
 6. DO NOT INSTALL SUGGESTED PLUGINS! Click deselect all, and manually install the plugins needed for this lab. Only select two plugins from the web UI; `git` and `pipeline`. Use the search feature to find them.
 
 
