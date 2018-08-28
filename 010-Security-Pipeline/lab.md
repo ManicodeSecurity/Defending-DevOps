@@ -87,3 +87,9 @@ Use what we have learned so far to debug and fix the issue to run Jenkins with a
 ## What Just Happened?
 
 Jenkins is taking the place of us running `kubectl` and `docker` commands locally. Through automation, we were able to build a Docker image, tag it appropriately, and use the Kubernetes rollout feature to ensure a zero-downtime deploy to our cluster. The Pipeline is very bare-bones but can be augmented with your favorite scanning tools for static analysis, dynamic testing, and container vulnerability scanning. This is the beginnings of DevSecOps.
+
+### Task 5: Clean Up
+In the `manifests` directory:
+```
+kubectl delete -f jenkins -f registry -f service-account
+```

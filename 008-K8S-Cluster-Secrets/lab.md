@@ -155,7 +155,7 @@ vault_mysql_pass=`curl -H "X-Vault-Token: not-intended-for-production-deployment
 Let's tear down the objects created in this lab.
 ```
 # In the manifests directory
-kubectl delete -f vault -f secrets -f api
+kubectl delete -f vault -f secrets -f api -f mysql
 ```
 
 ## Discussion Question: What secrets management systems are you using in-house? How could they better plug into DevOps pipelines?
