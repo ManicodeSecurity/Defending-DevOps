@@ -83,7 +83,7 @@ kubectl get pods
 kubectl delete -f psp -f role -f non-root-pod -f root-pod
 ```
 
-2. Disable PSP on your cluster
+2. (!!) *IMPORTANT* (!!) Disable PSP on your cluster
 ```
 # Retrieve the name of your cluster using the following command:
 gcloud container clusters list

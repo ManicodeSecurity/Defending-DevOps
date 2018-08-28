@@ -109,8 +109,13 @@ kubectl get pods --namespace=development
 # success
 kubectl get pods --namespace=production
 # fail
+```
 
 We have successfully limited access using RBAC.
 
-
+### Task 5: Cleanup
+In the `manifests` directory:
+```
+kubectl delete -f development -f production -f role
+```
 

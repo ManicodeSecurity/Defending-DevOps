@@ -3,7 +3,7 @@ Kubernetes Dashboard is a general purpose, web-based UI for Kubernetes clusters.
 
 Since version 1.7 Dashboard uses more secure setup. It means, that by default it has minimal set of privileges and can only be accessed over HTTPS. It is recommended to read Access Control guide before performing any further steps.
 
-## Launch the Dashboard in GKE
+### Task 1: Launch the Dashboard in GKE
 
 FIRST CREATE THE CLUSTER-ADMIN ROLEBINDING!
 ```
@@ -21,7 +21,7 @@ kubectl apply -f dashboard.yaml
 
 2. Since Kubernetes 1.9, authentication to the dashboard is enabled by default. We need to retrieve a service account token that has the appropriate access. In Cloud Shell run the following command:
 
-Note: All secrets in the `kube-system` namespace have full access. The `clusterrole-aggregation-controller` is one of those but others will work.
+Note: All secrets in the `kube-system` namespace have full administrator access to your cluster. The `clusterrole-aggregation-controller` is one of those but others will work.
 
 ```
 kubectl -n kube-system describe secrets `kubectl -n kube-system get secrets | awk '/clusterrole-aggregation-controller/ {print $1}'` | awk '/token:/ {print $2}'
@@ -41,6 +41,12 @@ https://8080-dot-4279646-dot-devshell.appspot.com/api/v1/namespaces/kube-system/
 5. Paste your token from the previous command into the dashboard to authenticate.
 
 6. Take a look around the dashboard. What data can you extract from it?
+
+### Task 2: Cleanup
+In the `manifests` directory:
+```
+kubectl delete -f dashboard.yaml
+```
 
 ## Bonus: Launch the unshorten-api deployment using only the dashboard
 

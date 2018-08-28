@@ -54,7 +54,7 @@ http://35.197.37.188/api/check?url=https://bit.ly/hi
 ```
 
 ### Task 4: Build Egress Rules
-Lets build some rules to explictlly allow outbound egress traffic to only bit.ly. This can be accomplished by using a `ServiceEntry`. Check out the file `link-unshorten-egress.yaml` located in the `istio-rules` directory and create it as follows:
+Lets build some rules to explict allow outbound egress traffic to only bit.ly. This can be accomplished by using a `ServiceEntry`. Check out the file `link-unshorten-egress.yaml` located in the `istio-rules` directory and create it as follows:
 
 ```
 # In the manifests/istio-rules directory
@@ -90,3 +90,13 @@ Since `t.co` is not explicitly allowed per our egress rules we see the graphs ch
 
 Take some time and explore the rest of the Grafana graphs.
 
+### Task 6: Cleanup
+In the `istio-1.0.0/install/kubernetes` directory:
+```
+kubectl delete -f istio-demo-auth.yaml
+```
+
+In the `manifests` directory:
+```
+kubectl delete -f api -f istio-rules
+```
