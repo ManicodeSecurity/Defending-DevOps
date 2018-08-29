@@ -1,6 +1,6 @@
 ### Defending Modern DevOps Environments 
 
-This repository contains all of the labs for the 2-day "Defending Modern DevOps Course"
+This repository contains all of the labs for the Manicode "Defending Modern DevOps Course"
 
 # Agenda:
 001-Lab-Setup
