@@ -10,7 +10,8 @@ FIRST CREATE THE CLUSTER-ADMIN ROLEBINDING!
 kubectl create clusterrolebinding cluster-admin-binding \
   --clusterrole cluster-admin \
   --user $(gcloud config get-value account)
-  ```
+  
+```
   
 1. The Dashboard UI is not deployed by default. To deploy it, run the following command in Cloud Shell:
 
