@@ -102,6 +102,6 @@ kubectl delete -f api -f istio-rules
 ```
 (!!) *IMPORTANT* (!!)  Disable auto istio-injection for the `default` namespace:
 ```
-kubectl label namespace default istio-injection=
+kubectl label namespace default istio-injection= --overwrite
 ```
 Make sure Grafana is also shut down by killing the port-forward.
