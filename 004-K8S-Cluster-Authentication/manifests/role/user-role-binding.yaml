@@ -6,7 +6,7 @@ metadata:
   namespace: development
 subjects:
 - kind: User
-  name: jboss@manicode.us
+  name: <your-intern-email>@manicode.us
   apiGroup: ""
 roleRef:
   kind: Role

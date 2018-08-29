@@ -12,7 +12,7 @@ Roles:
 Kubernetes Engine Admin
 Editor
 
-User 2: jboss@manicode.us
+User 2: <your-intern-email>@manicode.us
 Roles: 
 Minimal GKE Role
 Browser
@@ -27,12 +27,12 @@ container.clusters.getCredentials
 ### Task 1: Launch Your Infrastructure
 First, we will spin up our application in both a `development` and `production` namespace. 
 
-Note: You should be logged in to Cloud Shell using the custom account given to you on the slip of paper to run the following commands, not jboss@manicode.us.
+Note: You should be logged in to Cloud Shell using the custom account given to you on the slip of paper to run the following commands, not <your-intern-email>@manicode.us.
 
 We need to retrieve the credentials of our running cluster using the `gcloud get-credentials` command. This command updates our kubeconfig in Cloud Shell file with appropriate credentials and endpoint information to point kubectl at a specific cluster in Google Kubernetes Engine. 
 
 ```
-# Use gcloud get-credentials to retrieve 
+# Use gcloud get-credentials to retrieve the cert
 gcloud container clusters get-credentials <cluster-id> --zone us-west1-a --project <project-id>
 ```
 Now we launch our pods and services for each Namespace:
@@ -64,9 +64,9 @@ kubectl get pods --all-namespaces
 Take note of this process. Our user has full administrative access to our cluster due to being provisioned with the `Kubernetes Engine Admin` role. We will now see how RBAC helps give us granular access control at the object-level within our cluster.
 
 ### Task 2: Authenticate as a Developer
-We will now log in using a separate user who has very locked down access to the entire project. In an incognito window browse to `cloud.google.com` and authenticate with the user `jboss@manicode.us` and the password provided to you in class (yes, this is a shared account). 
+We will now log in using a separate user who has very locked down access to the entire project. In an incognito window browse to `cloud.google.com` and authenticate with the user `<your-intern-email>@manicode.us` and the same password that was provided to you for the admin user. 
 
-Note: *I am aware this account allows for read-only access to all projects in the class. Please only interact with your own cluster and project.* 
+Note: *Using the same password for multiple accounts is bad. Don't do this at home.* 
 
 Now open up Cloud Shell and use the following `gcloud get-credentials` command to retrieve the credentials for your user so we can start interacting with the cluster. This is the same cluster you just launched the `production` and `development` namespace / infrastructure in. 
 
@@ -81,10 +81,10 @@ kubectl get pods --namespace=development
 kubectl get secrets 
 kubectl run link-unshorten --image=jmbmxer/link-unshorten:0.1 --port=8080
 ```
-These should all fail with a `Forbidden` error. While jboss@manicode.us does technically have an account on the cluster, RBAC is stopping it from accessing any of the objects.
+These should all fail with a `Forbidden` error. While <your-intern-email>@manicode.us does technically have an account on the cluster, RBAC is stopping it from accessing any of the objects.
 
 ### Task 3: Create RBAC Rules 
-Our user `jboss` is an intern so we only want to grant access to read pods in the `development` namespace and nothing more. We will use RBAC to enforcy a policy
+Our user `<your-intern-email>@manicode.us` is an intern so we only want to grant access to read pods in the `development` namespace and nothing more. We will use RBAC to enforcy a policy
 
 Switch back to your Cloud Shell for User 1 (the administrative user) and run the following commands:
 
@@ -94,7 +94,7 @@ kubectl create clusterrolebinding cluster-admin-binding \
   --clusterrole cluster-admin \
   --user $(gcloud config get-value account)
 ```
-
+Now, open the file `user-role.yaml` in the `manifests/role` directory and replace <your-intern-email> with the one provided to you. It will be the same as your admin account but with the word `intern` at the end (eg. `manicode0003intern@manicode.us`). 
 ```
 # In the manifests/role directory
 kubectl create -f .
@@ -103,7 +103,7 @@ kubectl get role --all-namespaces
 
 ### Task 4: Verify Pods can be Accessed by the Intern
 
-Switch back to the Cloud Shell for `jboss@manicode.us` and run the following commands:
+Switch back to the Cloud Shell for `<your-intern-email>@manicode.us` and run the following commands:
 ```
 kubectl get pods --namespace=development
 # success
