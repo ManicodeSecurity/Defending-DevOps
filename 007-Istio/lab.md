@@ -66,9 +66,9 @@ Once the rules are created, try to visit the API again and you should be able to
 ### Task 5: Logging and Monitoring with Istio
 
 Grafana is an open source visualization tool that can be used on top of a variety of different data stores and comes with a Prometheus integration out of the box in our Istio deployment.
-'''
+```
 kubectl -n istio-system port-forward $(kubectl -n istio-system get pod -l app=grafana -o jsonpath='{.items[0].metadata.name}') 8080:3000
-'''
+```
 Then Click "Web Preview" in cloud shell
 
 Go to `Istio Mesh Dashboard` to see a high-level overview of our Istio service mesh.
@@ -102,6 +102,6 @@ kubectl delete -f api -f istio-rules
 ```
 (!!) *IMPORTANT* (!!)  Disable auto istio-injection for the `default` namespace:
 ```
-kubectl label namespace default istio-injection=
+kubectl label namespace default istio-injection= --overwrite
 ```
 Make sure Grafana is also shut down by killing the port-forward.

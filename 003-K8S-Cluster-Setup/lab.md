@@ -76,7 +76,7 @@ exit
 ```
 
 ### Task 3: Exposing your Pod to the World
-There are a variety of ways to give make our Pod accessible to the outside world. A Service with the type `LoadBalancer` will be used to give our Pod a stable existence and an IP we can reach from our web browser.
+There are a variety of ways to make our Pod accessible to the outside world. A Service with the type `LoadBalancer` will be used to give our Pod a stable existence and an IP we can reach from our web browser.
 
 The `LoadBalancer` type spins up a load balancer in GCP automatically. 
 

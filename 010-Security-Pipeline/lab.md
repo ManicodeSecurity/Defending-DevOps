@@ -42,7 +42,6 @@ kubectl create -f .
 ```
 # Grab the pod name and place it in an environment variable
 export POD_NAME=$(kubectl get pods -l "app=jenkins" -o jsonpath="{.items[0].metadata.name}")
-
 # Copy the initial Admin password provided by Jenkins
 kubectl logs $POD_NAME | grep -B 3 initialAdminPassword
 ```

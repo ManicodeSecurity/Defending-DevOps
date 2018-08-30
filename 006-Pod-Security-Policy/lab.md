@@ -1,6 +1,13 @@
 ## PodSecurityPolicy
 Pod security policies provide a framework to ensure that pods and containers run only with the appropriate privileges and access only a finite set of resources. Security policies also provide a way for cluster administrators to control resource creation, by limiting the capabilities available to specific roles, groups or namespaces.
 
+FIRST CREATE THE CLUSTER-ADMIN!
+
+```
+kubectl create clusterrolebinding cluster-admin-binding \
+  --clusterrole cluster-admin \
+  --user $(gcloud config get-value account)
+```
 
 ### Task 1: Define our PodSecurityPolicy
 
