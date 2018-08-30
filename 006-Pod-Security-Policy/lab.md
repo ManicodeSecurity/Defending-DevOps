@@ -46,7 +46,7 @@ gcloud beta container clusters update <CLUSTER-NAME> --enable-pod-security-polic
 # Grab a coffee..this will take a few minutes
 ```
 
-#### Task 4: Launch a Pod That Runs as Root
+### Task 4: Launch a Pod That Runs as Root
 1. Inspect the modified Unshorten API deployment located in the `manifests` directory and notice the new `runAsUser` field. This field specifies that for any Containers in the Pod, the first process runs with user ID 0 (root). 
 
 2. Launch the Deployment and service:
