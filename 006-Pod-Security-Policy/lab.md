@@ -4,14 +4,6 @@ Pod security policies provide a framework to ensure that pods and containers run
 
 ### Task 1: Define our PodSecurityPolicy
 
-FIRST CREATE THE CLUSTER-ADMIN!
-
-```
-kubectl create clusterrolebinding cluster-admin-binding \
-  --clusterrole cluster-admin \
-  --user $(gcloud config get-value account)
-```
-
 1. In the `manifests/psp` directory, take a look at the `pod-security-policy.yaml` file and launch it into our new cluster:
 ```
 kubectl create -f pod-security-policy.yaml
