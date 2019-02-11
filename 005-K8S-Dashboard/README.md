@@ -5,15 +5,17 @@ Since version 1.7 Dashboard uses more secure setup. It means, that by default it
 
 ### Task 1: Launch the Dashboard in GKE
 
-FIRST CREATE THE CLUSTER-ADMIN ROLEBINDING!
+IF YOU DIDN'T ALREADY DO THIS IN LAB 004, CREATE THE CLUSTER-ADMIN ROLEBINDING!
+
 ```
+# You should have done this already but it won't hurt to run again
 kubectl create clusterrolebinding cluster-admin-binding \
   --clusterrole cluster-admin \
   --user $(gcloud config get-value account)
   
 ```
   
-1. The Dashboard UI is not deployed by default. To deploy it, run the following command in Cloud Shell:
+1. The Dashboard UI is not always deployed by default. To deploy it, run the following command in Cloud Shell:
 
 ```
 # In the manifests directory
@@ -22,10 +24,10 @@ kubectl apply -f dashboard.yaml
 
 2. Since Kubernetes 1.9, authentication to the dashboard is enabled by default. We need to retrieve a service account token that has the appropriate access. In Cloud Shell run the following command:
 
-Note: All secrets in the `kube-system` namespace have full administrator access to your cluster. The `clusterrole-aggregation-controller` is one of those but others will work.
+Note: The token below is auth token `kubectl` uses itself to authenticate as you. You can use any valid token to authenticate to the dashboard. 
 
 ```
-kubectl -n kube-system describe secrets `kubectl -n kube-system get secrets | awk '/clusterrole-aggregation-controller/ {print $1}'` | awk '/token:/ {print $2}'
+gcloud config config-helper --format=json | jq -r '.credential.access_token'
 ```
 Copy this value to your clipboard.
 
@@ -49,8 +51,14 @@ In the `manifests` directory:
 kubectl delete -f dashboard.yaml
 ```
 
-## Bonus: Launch the unshorten-api deployment using only the dashboard
+## Bonus 1
+Launch and scale the unshorten-api deployment using only the dashboard.
 
-## Discussion Question: Is your Kubernetes dashboard accessible to the internet? What authentication mechanism is enforced?
+## Bonus 2
+The Service Account needed to run the dashboard is located in the `manifests/dashboard.yaml` file. 
 
-## Further Reading: [Heptio - Securing K8S Dashboard](https://blog.heptio.com/on-securing-the-kubernetes-dashboard-16b09b1b7aca)
+## Discussion Question
+ Is your Kubernetes dashboard accessible to the internet? What authentication mechanism is enforced?
+
+## Further Reading
+ [Heptio - Securing K8S Dashboard](https://blog.heptio.com/on-securing-the-kubernetes-dashboard-16b09b1b7aca)

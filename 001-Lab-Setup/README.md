@@ -51,43 +51,7 @@ The command you are running will look like this:
 gcloud container clusters get-credentials <YOUR-CLUSTER-NAME> --zone us-west1-a --project <YOUR-PROJECT-NAME>
 ```
 
-## Task 6: Interacting with the Cluster using `kubectl`
-
-Helpful `kubectl` commands to interact with your cluster and its components:
-
-### Retrieve Info about your cluster
+You can ensure you are connected to your cluster by running the following command. This will display all of the default pods running in the cluster.
 ```
-# View your cluster credentials and location
-kubectl config view
-
-# View list of services running on your cluster
-kubectl cluster-info
-
-# View node info
-kubectl describe nodes
+kubectl get pods --all -namespaces
 ```
-
-### Interact with running pods 
-```
-# Display all pods in all namespaces in the cluster
-kubectl get pods --all-namespaces
-
-# Use -o wide to show more detail
-kubectl get pod -o wide --all-namespaces
-
-# List all services running in the cluster
-kubectl get svc --all-namespaces
-
-# Get a shell in a container within the pod
-kubectl exec -it <you-pod-name> --namespace=<namespace> /bin/bash
-```
-
-### View Logs
-```
-# View pods logs (first container in pod)
-kubectl logs <your-pod-name>
-
-# View pod logs (specific container)
-kubectl logs <your-pod-name> -c <your-container-name>
-```
-For more useful `kubectl` commands check out the [kubectl cheat sheet](https://kubernetes.io/docs/reference/kubectl/cheatsheet/#interacting-with-nodes-and-cluster)

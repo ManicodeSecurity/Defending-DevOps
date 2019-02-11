@@ -1,4 +1,4 @@
-# This cluster role binding allows the reading of secrets in the development namespace
+# This RoleBinding allows the reading of pods in the development namespace
 kind: RoleBinding
 apiVersion: rbac.authorization.k8s.io/v1
 metadata:

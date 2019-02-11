@@ -4,7 +4,7 @@
 (!)This requires that you have GKE and Cloud Shell configured correctly. Please go back to `001-Lab-Setup` if you are not set up.
 
 ### Task 1: Getting to Know Your Cluster
-1. `kubectl` is the cli we will use to interact with our Kubernetes cluster. The first task is to view the Pods that are running on our cluster with an out-of-the-box installation. Run the following command in you terminal:
+1. `kubectl` is the command line utility that we will use to interact with our Kubernetes cluster. The first task is to view the Pods that are running on our cluster with an out-of-the-box installation. Run the following command in you terminal:
 ```
 kubectl get pods
 ``` 
