@@ -1,8 +1,7 @@
 ## PodSecurityPolicy
 Pod security policies provide a framework to ensure that pods and containers run only with the appropriate privileges and access only a finite set of resources. Security policies also provide a way for cluster administrators to control resource creation, by limiting the capabilities available to specific roles, groups or namespaces.
 
-FIRST CREATE THE CLUSTER-ADMIN!
-
+If you haven't already or have been checking email and Slacking for the past 5 labs, please ensure you are `cluster-admin`. 
 ```
 kubectl create clusterrolebinding cluster-admin-binding \
   --clusterrole cluster-admin \
@@ -23,9 +22,11 @@ kubectl describe psp restrict-root
 ```
 ### Task 2: Authorize Policies using RBAC
 
-You use role-based access control to create a Role or ClusterRole that grants the desired service accounts access to PodSecurityPolicies. A ClusterRole grants cluster-wide permissions, and a Role grants permissions within a namespace that you define.
+When a PodSecurityPolicy resource is created, it does nothing. In order to use it, the requesting user or target pod’s service account must be authorized to use the policy, by allowing the use verb on the policy.
 
-For simplicity, we will create a ClusterRole and Rolebinding that applies to all service accounts in the default namespace.
+RBAC is used to create a Role or ClusterRole that grants the desired service accounts access to PodSecurityPolicies. A ClusterRole grants cluster-wide permissions, and a Role grants permissions within a namespace that you define.
+
+For simplicity, we will create a ClusterRole and ClusterRolebinding that applies to all authenticated users in a default namespace.
 
 ```
 # in the manifests/role directory run
@@ -61,6 +62,9 @@ You will notice that the Pod fails to instantiate:
 kubectl get pods
 # Inspect the event that occurred to cause the failure
 kubectl get events
+
+# Events are in non-sequential order by default - use this to order by timestamp
+kubectl get events  --sort-by='.metadata.creationTimestamp'  -o 'go-template={{range .items}}{{.involvedObject.name}}{{"\t"}}{{.involvedObject.kind}}{{"\t"}}{{.message}}{{"\t"}}{{.reason}}{{"\t"}}{{.type}}{{"\t"}}{{.firstTimestamp}}{{"\n"}}{{end}}'
 ```
 3. Delete the Deployment and Service
 ```
@@ -99,7 +103,7 @@ gcloud container clusters list
 # Disable PSP
 gcloud beta container clusters update <CLUSTER-NAME> --no-enable-pod-security-policy --region=us-west1-a
 
-# Grab a coffee..this will take a few minutes
+# Grab another coffee..this will take a few minutes
 ```
 
 

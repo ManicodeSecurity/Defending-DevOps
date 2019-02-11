@@ -4,6 +4,7 @@ metadata:
   name: restrict-root
 spec:
   privileged: false
+  allowPrivilegeEscalation: false
   runAsUser:
     rule: MustRunAsNonRoot
   seLinux:

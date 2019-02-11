@@ -43,22 +43,27 @@ https://8080-dot-4279646-dot-devshell.appspot.com/api/v1/namespaces/kube-system/
 
 5. Paste your token from the previous command into the dashboard to authenticate.
 
-6. Take a look around the dashboard. What data can you extract from it?
-
-### Task 2: Cleanup
-In the `manifests` directory:
-```
-kubectl delete -f dashboard.yaml
-```
+6. Take a look around the dashboard. What data can you extract from it? Check out the `Secrets` listed in the namespace `kube-system`. 
 
 ## Bonus 1
 Launch and scale the unshorten-api deployment using only the dashboard.
 
 ## Bonus 2
-The Service Account needed to run the dashboard is located in the `manifests/dashboard.yaml` file. 
+The Service Account that the dashboard uses to launch is located in the `manifests/dashboard.yaml` file. This looks suspicious. Can you restrict the dashboard Service Account?
+
+## Bonus 3
+Authenticate to the dashboard using a token that is has a more restricted RBAC policy attached (maybe an intern?). Does the dashboard look any different?
 
 ## Discussion Question
  Is your Kubernetes dashboard accessible to the internet? What authentication mechanism is enforced?
 
 ## Further Reading
  [Heptio - Securing K8S Dashboard](https://blog.heptio.com/on-securing-the-kubernetes-dashboard-16b09b1b7aca)
+
+ [Kubernetes Dashboard Wiki - Access Control](https://github.com/kubernetes/dashboard/wiki/Access-control)
+
+ ### Task 2: Cleanup 
+In the `manifests` directory:
+```
+kubectl delete -f dashboard.yaml
+```

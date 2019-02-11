@@ -9,13 +9,14 @@ spec:
   selector:
     matchLabels:
       app: unshorten-api
+  securityContext:
+    # I don't always use k8s..but when I do I run containers as root
+    runAsUser: 0
   template: 
     metadata:
       labels:
         app: unshorten-api
     spec:
-      securityContext:
-        runAsUser: 0
       containers:
       - name: unshorten-api-container
         image: "jmbmxer/link-unshorten:0.1"
