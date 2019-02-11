@@ -25,7 +25,7 @@ spec:
   http:
   - match:
     - uri:
-        prefix: /api/
+        prefix: /api
     route:
     - destination:
         host: link-unshorten-service

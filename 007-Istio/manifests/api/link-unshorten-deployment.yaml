@@ -28,10 +28,3 @@ spec:
         - containerPort: 8080
           name: http
           protocol: TCP
-      # # You can even have multiple containers running in a Pod
-      # - name: unshorten-redis-cache
-      #   image: redis
-      #   ports:
-      #   - containerPort: 6379
-      #     name: redis
-      #     protocol: TCP
