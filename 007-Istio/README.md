@@ -8,7 +8,7 @@ kubectl create clusterrolebinding cluster-admin-binding \
 
 To interact with Istio, we will use `istioctl` which is bundled as a binary with the Istio install package. 
 
-Note: The Istio directory included in the lab is an extremely stripped down version of what comes with the Istio 1.0 release.
+Note: The Istio directory included in the lab is an extremely stripped down version of what comes with the Istio 1.0.5 release.
 ```
 # In the istio-1.0.5 directory
 export PATH=$PWD/bin:$PATH
