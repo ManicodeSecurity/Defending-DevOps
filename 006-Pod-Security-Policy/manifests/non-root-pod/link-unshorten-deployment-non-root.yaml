@@ -27,7 +27,7 @@ spec:
         imagePullPolicy: Always
         volumeMounts:
         - name: i-need-this
-          mountPath: /go/src/unshorten-api
+          mountPath: /mnt/mystuff
         ports:
         - containerPort: 8080
           name: http
