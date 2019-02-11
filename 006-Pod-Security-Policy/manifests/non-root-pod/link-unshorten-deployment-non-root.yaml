@@ -19,8 +19,8 @@ spec:
       volumes:
       - name: i-need-this-volume
         hostPath:
-        path: /etc/passwd
-        type: File
+          path: /etc/passwd
+          type: File
       containers:
       - name: unshorten-api-container
         image: "jmbmxer/link-unshorten:0.1"
