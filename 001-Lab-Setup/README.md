@@ -37,18 +37,57 @@ In your home directory, we are going to pull in the documentation and source cod
 git clone https://github.com/ManicodeSecurity/Defending-DevOps/ 
 ```
 
-## Task 5: Explore your Kubernetes Cluster
+## Task 5: Connect to your Kubernetes Cluster
 Most of the tools necessary to complete the labs come pre-installed in Google Cloud Shell including `kubectl` which is used extensively to interact with your cluster. Ensure your cluster is operational by running the following commands. 
 
-First, we need to use `gcloud` to retrieve the credentials from the cluster in order to start interacting with it. 
+First, we need to use connect to the cluster using Cloud Shell. In the navigation on the left, click `Kubernetes Engine -> Cluster` then click the `Connect` button next to your cluster:
 
+![Cluster Connect](../images/gke-connect.png)
+
+You will then be presented with options to connect to the cluster. Click `Run in Cloud Shell`. This will open Google Cloud Shell in the same browser tab. It will also paste a command into the terminal. All you need to do now is hit enter to run the command. 
+
+The command you are running will look like this:
 ```
 gcloud container clusters get-credentials <YOUR-CLUSTER-NAME> --zone us-west1-a --project <YOUR-PROJECT-NAME>
 ```
 
+## Task 6: Interacting with the Cluster using `kubectl`
+
+Helpful `kubectl` commands to interact with your cluster and its components:
+
+### Retrieve Info about your cluster
 ```
-kubectl get pods --all-namespaces
-kubectl get svc --all-namespaces
+# View your cluster credentials and location
+kubectl config view
+
+# View list of services running on your cluster
+kubectl cluster-info
+
+# View node info
+kubectl describe nodes
 ```
 
-We are now set up with an operational cluster.
+### Interact with running pods 
+```
+# Display all pods in all namespaces in the cluster
+kubectl get pods --all-namespaces
+
+# Use -o wide to show more detail
+kubectl get pod -o wide --all-namespaces
+
+# List all services running in the cluster
+kubectl get svc --all-namespaces
+
+# Get a shell in a container within the pod
+kubectl exec -it <you-pod-name> --namespace=<namespace> /bin/bash
+```
+
+### View Logs
+```
+# View pods logs (first container in pod)
+kubectl logs <your-pod-name>
+
+# View pod logs (specific container)
+kubectl logs <your-pod-name> -c <your-container-name>
+```
+For more useful `kubectl` commands check out the [kubectl cheat sheet](https://kubernetes.io/docs/reference/kubectl/cheatsheet/#interacting-with-nodes-and-cluster)
