@@ -89,6 +89,20 @@ You will notice that the Pod launches successfully:
 kubectl get pods
 ```
 
+## Task 6: Restrict Volume Mounts
+If you take a close look at the Deployment manifest in the `manifests/non-root-pod` directory you will see that it is requesting to mount a...questionable...directory.
+
+Your task now is to modify the PodSecurityPolicy to whitelist known-valid and safe volume mounts. More info can be found [here](https://kubernetes.io/docs/concepts/policy/pod-security-policy/#example-policies) on writing granular PodSecurityPolicies.
+
+## Bonus
+Audit your PodSecurityPolicy using [kube-psp-advisor](https://github.com/sysdiglabs/kube-psp-advisor)
+
+Kubernetes Pod Security Policy Advisor is an opensource tool from Sysdig that can automatically generate the Pod Security Policy for all the resources in the entire cluster.
+
+More info from Sysdig can be found [here](https://sysdig.com/blog/enable-kubernetes-pod-security-policy/).
+
+Note: This is a very new project and at the time of this writing is having problems running in Cloud Shell. You may have to run it on your local machine (proceed with caution).
+
 ### Clean Up
 1. In the `manifests` directory:
 ```

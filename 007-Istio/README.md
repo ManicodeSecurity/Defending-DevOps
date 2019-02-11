@@ -10,7 +10,7 @@ To interact with Istio, we will use `istioctl` which is bundled as a binary with
 
 Note: The Istio directory included in the lab is an extremely stripped down version of what comes with the Istio 1.0 release.
 ```
-# In the istio-1.0.0 directory
+# In the istio-1.0.5 directory
 export PATH=$PWD/bin:$PATH
 
 # Ensure the binary is available
@@ -18,11 +18,11 @@ istioctl version
 ```
 
 ### Task 2: Install Istio Components and Enable Automatic Sidecar Injection
-Istio is a massive project. Check out the yaml file located at `istio-1.0.0/install/kubernetes/istio-demo-auth.yaml`. Wow. Many configs. Such Yaml.
+Istio is a massive project. Check out the yaml file located at `istio-1.0.5/install/kubernetes/istio-demo-auth.yaml`. Wow. Many configs. Such Yaml.
 
 Let's install the components necessary in our cluster:
 ```
-# In the istio-1.0.0 directory 
+# In the istio-1.0.5 directory 
 kubectl create -f install/kubernetes
 ```
 Each pod in the mesh must be running an Istio compatible sidecar. The sidecar is how all traffic to and from pods in the mesh
@@ -47,7 +47,7 @@ The unshorten service will spin up a load balancer. Ensure the API is accessible
 kubectl -n istio-system get service istio-ingressgateway
 ```
 
-Now, paste the IP address with a shortened link as follows in your browser and you will see that there are some issues. Egress is blocked by default. The API is not able to make outbound connections by default.
+Now, paste the IP address with a shortened link as follows in your browser and you will see that there are some issues. Egress traffic is blocked by default. The API is not able to make outbound connections to follow redirects.
 ```
 http://35.197.37.188/api/check?url=https://bit.ly/hi
 # NOT ALLOWED or fail to resolve 
@@ -91,7 +91,7 @@ Since `t.co` is not explicitly allowed per our egress rules we see the graphs ch
 Take some time and explore the rest of the Grafana graphs.
 
 ### Task 6: Cleanup
-In the `istio-1.0.0/install/kubernetes` directory:
+In the `istio-1.0.5/install/kubernetes` directory:
 ```
 kubectl delete -f istio-demo-auth.yaml
 ```
