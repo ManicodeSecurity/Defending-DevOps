@@ -28,6 +28,6 @@ spec:
         prefix: /api
     route:
     - destination:
-        host: link-unshorten-service.default.svc.culster.local
+        host: link-unshorten-service
         port:
           number: 8080

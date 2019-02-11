@@ -8,7 +8,7 @@ metadata:
     app: unshorten-api
 spec:
   # One replica of the Pod is created
-  replicas: 2
+  replicas: 1
   # The selector field defines how our link-unshorten deployment finds which pods to manage. In this example we select on the label previously created called app: unshorten-api
   selector:
     matchLabels:
