@@ -16,16 +16,17 @@ spec:
     spec:
       securityContext:
         runAsUser: 999
-      # volumes:
-      # - name: i-need-this-volume
-      #   emptyDir: {}
+      volumes:
+      - name: i-need-this-volume
+        emptyDir: {}
       containers:
       - name: unshorten-api-container
         image: "jmbmxer/link-unshorten:0.1"
         imagePullPolicy: Always
-        # volumeMounts:
-        # - name: i-need-this-volume
-        #   mountPath: /etc/passwd
+        volumeMounts:
+        - name: i-need-this-volume
+          mountPath: /etc
+
         ports:
         - containerPort: 8080
           name: http
