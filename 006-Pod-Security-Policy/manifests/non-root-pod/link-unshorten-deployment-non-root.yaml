@@ -18,15 +18,16 @@ spec:
         runAsUser: 999
       volumes:
       - name: i-need-this-volume
-        emptyDir: {}
+        hostPath:
+        path: /etc/passwd
+        type: File
       containers:
       - name: unshorten-api-container
         image: "jmbmxer/link-unshorten:0.1"
         imagePullPolicy: Always
         volumeMounts:
         - name: i-need-this-volume
-          mountPath: /etc
-
+          mountPath: /go/src/unshorten-api
         ports:
         - containerPort: 8080
           name: http
