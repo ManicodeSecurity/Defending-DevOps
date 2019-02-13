@@ -53,5 +53,5 @@ gcloud container clusters get-credentials <YOUR-CLUSTER-NAME> --zone us-west1-a 
 
 You can ensure you are connected to your cluster by running the following command. This will display all of the default pods running in the cluster.
 ```
-kubectl get pods --all -namespaces
+kubectl get pods --all-namespaces
 ```
