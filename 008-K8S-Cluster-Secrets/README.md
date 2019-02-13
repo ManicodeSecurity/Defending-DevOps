@@ -43,7 +43,8 @@ Note: The order in which these pods are deployed matters. Make sure MySQL is up 
 
 6. After everything is running and healthy, let's look under the hood at the environment variable that was injected into the link-unshorten Pod:
 ```
-kubectl exec -it <podname> /bin/bash
+kubectl exec -it <link-unshorten-podname> /bin/bash
+# Once you have a shell in the container run the following
 env | grep UNSHORTEN_DB_PASSWORD
 ```
 
@@ -145,7 +146,12 @@ curl \
 
 ## Task 4: Using Vault to Store and inject our MySQL Password ()
 
-We can now call the Vault API to inject our secret into our `kubectl create` command on the fly as follows:
+We can now call the Vault API to inject our secret into our `kubectl create` command on the fly as follows.
+
+First, delete `mysql-secrets` from our cluster:
+```
+kubectl delete secret mysql-secrets 
+```
 
 navigate to `manifests/secrets` and run:
 ```
@@ -158,6 +164,7 @@ Let's tear down the objects created in this lab.
 kubectl delete -f vault -f secrets -f api -f mysql
 ```
 
-## Discussion Question: What secrets management systems are you using in-house? How could they better plug into DevOps pipelines?
+## Discussion Question
+What secrets management systems are you using in-house? How could they better plug into DevOps pipelines?
 
 

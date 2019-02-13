@@ -8,23 +8,30 @@ kubectl create clusterrolebinding cluster-admin-binding \
 
 To interact with Istio, we will use `istioctl` which is bundled as a binary with the Istio install package. 
 
-Note: The Istio directory included in the lab is an extremely stripped down version of what comes with the Istio 1.0.5 release.
+
 ```
-# In the istio-1.0.5 directory
+# In the `007-Istio` directory
 export PATH=$PWD/bin:$PATH
 
 # Ensure the binary is available
 istioctl version
 ```
 
-### Task 2: Install Istio Components and Enable Automatic Sidecar Injection
-Istio is a massive project. Check out the yaml file located at `istio-1.0.5/install/kubernetes/istio-demo-auth.yaml`. Wow. Many configs. Such Yaml.
+### Task 2: Verify our Istio Installation
+Istio is a massive project. Luckily, GKE recently released Istio support out of the box by passing a few beta feature flags upon cluster creation.
 
-Let's install the components necessary in our cluster:
+First, let's verify that Istio is installed and running properly in our cluster. Ensure the following Kubernetes services are deployed: istio-pilot, istio-ingressgateway, istio-policy, istio-telemetry, prometheus, istio-galley, and, optionally, istio-sidecar-injector.
+
 ```
-# In the istio-1.0.5 directory 
-kubectl create -f install/kubernetes
+kubectl get svc -n istio-system
 ```
+Ensure the corresponding Kubernetes pods are deployed and all containers are up and running: istio-pilot-*, istio-ingressgateway-*, istio-egressgateway-*, istio-policy-*, istio-telemetry-*, istio-citadel-*, prometheus-*, istio-galley-*, and, optionally, istio-sidecar-injector-*.
+```
+kubectl get pods -n istio-system
+```
+
+### Task 3: Enable Automatic Sidecar Injection
+
 Each pod in the mesh must be running an Istio compatible sidecar. The sidecar is how all traffic to and from pods in the mesh
 
 Manual injection modifies the controller configuration, e.g. deployment. It does this by modifying the pod template spec such that all pods for that deployment are created with the injected sidecar. Adding/Updating/Removing the sidecar requires modifying the entire deployment.
@@ -36,7 +43,7 @@ The following command will enable automatic injection for the `default` namespac
 kubectl label namespace default istio-injection=enabled
 ```
 
-### Task 3: Launch our API in the Istio Service Mesh
+### Task 4: Launch our API in the Istio Service Mesh
 Since we have automatic injection enabled for the `default` namespace, any deployments created in that namespace will now have an extra container aka "sidecar" automatically injected. This now places the pod into the Istio service mesh.
 ```
 # In the manifests/api directory
@@ -53,7 +60,9 @@ http://35.197.37.188/api/check?url=https://bit.ly/hi
 # NOT ALLOWED or fail to resolve 
 ```
 
-### Task 4: Build Egress Rules
+Note: You must use `https` in the above URL. 
+
+### Task 5: Build Egress Rules
 Lets build some rules to explicit allow outbound egress traffic to only bit.ly. This can be accomplished by using a `ServiceEntry`. Check out the file `link-unshorten-egress.yaml` located in the `istio-rules` directory and create it as follows:
 
 ```
@@ -63,34 +72,31 @@ kubectl create -f .
 
 Once the rules are created, try to visit the API again and you should be able to successfully unshorten links to `bit.ly` domains only. 
 
-### Task 5: Logging and Monitoring with Istio
+### Task 6: Logging and Monitoring with Istio and Stackdriver
 
-Grafana is an open source visualization tool that can be used on top of a variety of different data stores and comes with a Prometheus integration out of the box in our Istio deployment.
-```
-kubectl -n istio-system port-forward $(kubectl -n istio-system get pod -l app=grafana -o jsonpath='{.items[0].metadata.name}') 8080:3000
-```
-Then Click "Web Preview" in cloud shell
+Google Stackdriver is a monitoring service that provides ops and security teams with performance data about applications and virtual machines running on your GCP resources (as well as AWS).
 
-Go to `Istio Mesh Dashboard` to see a high-level overview of our Istio service mesh.
+In many cluster deployments using Istio, Grafana is still the defacto for collecting and aggregating this type data but with Google being Google, they push Stackdriver for a more seamless integration.
 
-The `Istio Workload Dashboard`  gives details about metrics for each workload and then inbound workloads (workloads that are sending request to this workload) and outbound services (services to which this workload send requests) for that workload.
+In our clusters, Istio is pushing metrics to Stackdriver by default. Click 
 
-We can visualize our outbound requests by running the following command in your local terminal:
+First, go to the following URL to open up the Stackdriver dashboard:
+https://app.google.stackdriver.com/
+
+Log in with your provided `manicode.us` credentials.
+
+In the navigation on the left, go to `Resources -> Metrics Explorer` to see a high-level overview of our Istio service mesh.
+
+Digging into metrics starts to get complex, fast. For this lab just explore some of the logs that are being sent to Stackdriver. In the `Metrics Explorer` view we can view things like client request counts, and latency. 
+
+We can simulate requests by running the following command in your local terminal:
 ```
 for ((i=1;i<=1000;i++)); do   curl -v --header "Connection: keep-alive" "http://<YOUR-IP>/api/check?url=https://bit.ly/hi"; done
 ```
 
-As you can see our `Outbound Services` graphs are looking normal. Keep this dashboard up and run the following command:
+In the `Metrics Explorer` page, search for `istio` to drill down on some of the metrics being collected. 
 
-```
-for ((i=1;i<=1000;i++)); do   curl -v --header "Connection: keep-alive" "http://<YOUR-IP>/api/check?url=https://t.co/hi"; done
-```
-
-Since `t.co` is not explicitly allowed per our egress rules we see the graphs change drastically.
-
-Take some time and explore the rest of the Grafana graphs.
-
-### Task 6: Cleanup
+### Task 7: Cleanup
 In the `istio-1.0.5/install/kubernetes` directory:
 ```
 kubectl delete -f istio-demo-auth.yaml
@@ -105,3 +111,6 @@ kubectl delete -f api -f istio-rules
 kubectl label namespace default istio-injection= --overwrite
 ```
 Make sure Grafana is also shut down by killing the port-forward.
+
+### Bonus
+[Prometheus](https://istio.io/docs/tasks/telemetry/querying-metrics/) is bundled with Istio in GKE for metrics collection. Can you get the dashboard up and start looking at some metrics from your cluster? You will need to do a `port-forward` similar to earlier labs to use web preview.

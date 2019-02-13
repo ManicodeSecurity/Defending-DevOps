@@ -5,6 +5,13 @@ This lab will spin up Jenkins in our cluster along with a private Docker image r
 ## Task 1: Create the Jenkins Service Account
 Jenkins does not need full administrative access in our cluster. It is crucial to implement RBAC policies that allow Jenkins to carry out the necessary tasks but nothing more. Take a look at the Jenkins Service Account and associated ClusterRole and ClusterRoleBinding then create the SA as follows:
 
+First we need to make sure that our user is `cluster-admin`
+```
+kubectl create clusterrolebinding cluster-admin-binding \
+  --clusterrole cluster-admin \
+  --user $(gcloud config get-value account)
+```
+
 1. In the `manifests/service-account` directory run the following:
 
 ```
@@ -92,3 +99,6 @@ In the `manifests` directory:
 ```
 kubectl delete -f jenkins -f registry -f service-account
 ```
+
+### Bonus
+Check out the popular build workflow tool called [Skaffold](https://github.com/GoogleContainerTools/skaffold).

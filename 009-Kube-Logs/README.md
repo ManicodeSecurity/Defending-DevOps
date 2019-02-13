@@ -2,10 +2,9 @@
 A recent addition to Kubernetes, (https://kubernetes.io/docs/tasks/debug-application-cluster/audit/)
 [auditing] gives administrators and security teams the ability to log and monitor security-related events occurring on a cluster. By using audit policies, we can create granular rulesets to focus on only on the meaningful events and cut down on the noise. 
  
-
 ### Task 1: Inspect the Default Audit Policy
 1. Since GKE uses a shared master node, we can't easily apply our own audit policies to a cluster. GKE clusters are bootstrapped with a default sane policy that can be found in the `manifests` directory. The policy summary can be found in the (https://cloud.google.com/kubernetes-engine/docs/concepts/audit-policy)[Kubernetes docs].
- 
+
 
 ### Task 2: Open Audit Logs in Stackdriver
 In the main navigation in GCP, navigate to `Logging` then `Logs`

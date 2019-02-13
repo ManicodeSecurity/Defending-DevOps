@@ -117,6 +117,9 @@ gcloud container clusters list
 # Disable PSP
 gcloud beta container clusters update <CLUSTER-NAME> --no-enable-pod-security-policy --region=us-west1-a
 
+# Disable Legacy Authorization
+gcloud container clusters update <CLUSTER-NAME> --no-enable-legacy-authorization --region=us-west1-a
+
 # Grab another coffee..this will take a few minutes
 ```
 
