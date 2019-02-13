@@ -1,0 +1,15 @@
+kind: NetworkPolicy
+apiVersion: networking.k8s.io/v1
+metadata:
+  name: hello-allow-from-unshorten
+spec:
+  policyTypes:
+  - Ingress
+  podSelector:
+    matchLabels:
+      app: unshorten-api
+  ingress:
+  - from:
+    - podSelector:
+        matchLabels:
+          app: unshorten-fe
