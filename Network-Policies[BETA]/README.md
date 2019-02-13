@@ -6,7 +6,7 @@ Suppose we have an application called my-app that stores data in a Postgres data
 ### Task 1: Enable Network Policies in our Cluster
 Network policy enforcement is only available for clusters running Kubernetes version 1.7.6 or later. GKE uses the popular [Calico](https://www.projectcalico.org/) overlay network when using Network Policies. 
 
-First, enable Network Policies and Calico on our GKE clusters (Hang tight, this may take a few minutes):
+First, enable Network Policies and Calico on our GKE clusters (hang tight, this may take a few minutes):
 ```
 gcloud container clusters update [CLUSTER_NAME] --update-addons=NetworkPolicy=ENABLED --region=us-west1-a
 gcloud container clusters update [CLUSTER_NAME] --enable-network-policy --region=us-west1-a
