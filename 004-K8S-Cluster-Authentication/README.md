@@ -129,7 +129,7 @@ yes
 ### Task 4: Create RBAC Rules 
 Our user `<your-intern-email>@manicode.us` is a restricted user so we only want to grant access to read pods in the `development` namespace and nothing more. We will use RBAC to enforce a policy
 
-Now, open the file `user-role.yaml` in the `manifests/role` directory and replace <your-intern-email> with the one provided to you. It will be the same as your admin account but with the word `intern` at the end (eg. `manicode0003intern@manicode.us`). 
+Now, open the file `user-role-binding.yaml` in the `manifests/role` directory and replace <your-intern-email> with the one provided to you. It will be the same as your admin account but with the word `intern` at the end (eg. `manicode0003intern@manicode.us`). 
 ```
 # In the manifests/role directory
 kubectl create -f .
