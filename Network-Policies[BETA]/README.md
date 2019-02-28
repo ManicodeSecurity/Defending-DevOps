@@ -8,8 +8,8 @@ Network policy enforcement is only available for clusters running Kubernetes ver
 
 First, enable Network Policies and Calico on our GKE clusters (hang tight, this may take a few minutes):
 ```
-gcloud container clusters update [CLUSTER_NAME] --update-addons=NetworkPolicy=ENABLED --region=us-west1-a
-gcloud container clusters update [CLUSTER_NAME] --enable-network-policy --region=us-west1-a
+gcloud container clusters update [CLUSTER_NAME] --update-addons=NetworkPolicy=ENABLED --region=us-west1-a --project=<yourproject_id>
+gcloud container clusters update [CLUSTER_NAME] --enable-network-policy --region=us-west1-a --project <yourproject_id>
 ```
 
 ### Task 2: Create our Network Policy
@@ -38,14 +38,17 @@ kubectl run -l app=unshorten-fe --image=alpine --restart=Never --rm -i -t test-1
 ```
 Once you get a shell, try to run a `wget` hitting the `unshorten-api-service`:
 ```
-# This should be allowed (correct label name)
+# This should be allowed (because our pod has a permitted label name)
 wget -qO- --timeout=2 http://unshorten-api:80/api/check?url=bit.ly/test
 ```
+Now type `exit` to exit the shell of the pod.
 
 ### Task 5: Launch a Blocked Pod
 ```
 # This should NOT be allowed (wrong label name)
 kubectl run -l app=other-teams-app --image=alpine --restart=Never --rm -i -t test-1
+
+wget -qO- --timeout=2 http://unshorten-api:80/api/check?url=bit.ly/test
 ```
 
 ### Task 6: Cleanup
