@@ -155,7 +155,18 @@ kubectl delete -f development -f production -f role
 ```
 
 ### Bonus 1
-Perform an audit on the `Minimal GKE` role. Apply the rule of least privilege to ensure only the absolute necessary permissions are granted.
+Perform an audit on the `Minimal GKE` role. Apply the rule of least privilege to ensure only the absolute necessary permissions are granted. Below is are the assigned permissions included in this role:
+
+```
+container.apiServices.get
+container.apiServices.list
+container.clusters.delete
+container.clusters.get
+container.clusters.getCredentials
+container.clusters.list
+resourcemanager.projects.get
+resourcemanager.projects.list
+```
 
 ### Bonus 2
 Our intern just got promoted to Jr. DevSecOpsSysAdminNinja! Can you change the permissions to allow `get`, `watch`, `list`, `update`, and `delete`, on all resources *except* for `secrets` in the `development` and `production` namespaces?
