@@ -52,6 +52,8 @@ docker exec -it <container_name> /bin/bash
 2. If we use the `whoami` command inside of the container we will see that the user is root
 ```
 whoami
+# root
+exit
 ```
 3. Check out the `Dockerfile` located in the `src/link-unshorten` directory and remove the commented lines that declare a new user and build a new version of the image:
 
@@ -59,7 +61,7 @@ whoami
 # First, stop the running container
 docker stop <container_name>
 
-# Build the new image
+# Uncomment the User lines in the Dockerfile then build the new image
 docker build -t <yourname>/link-unshorten:0.2 .
 
 # Run the image
