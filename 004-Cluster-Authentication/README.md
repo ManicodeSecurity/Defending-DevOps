@@ -27,13 +27,13 @@ container.clusters.getCredentials
 ### Task 1: Launch Your Infrastructure
 First, we will spin up our application in both a `development` and `production` namespace. 
 
-Note: You should be logged in to Cloud Shell using the custom account given to you on the slip of paper to run the following commands, not `<your-intern-email>@manicode.us`.
+Note: You should be logged in to Cloud Shell using the admin account provided at the beginning of class to run the following commands, NOT `<your-intern-email>@manicode.us`.
 
 We need to retrieve the credentials of our running cluster using the following `gcloud` command. This command updates our kubeconfig in Cloud Shell file with appropriate credentials and endpoint information to point kubectl at a specific cluster in Google Kubernetes Engine. 
 
 ```
 # Use gcloud get-credentials to retrieve the cert
-gcloud container clusters get-credentials (gcloud container clusters list --format json | jq -r '.[].name') --zone us-west1-a --project <project-id>
+gcloud container clusters get-credentials $(gcloud container clusters list --format json | jq -r '.[].name') --zone us-west1-a --project $GOOGLE_CLOUD_PROJECT
 ```
 Now we launch our pods and services for each Namespace:
 ```
