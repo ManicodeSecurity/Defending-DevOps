@@ -8,8 +8,9 @@ Network policy enforcement is only available for clusters running Kubernetes ver
 
 First, enable Network Policies and Calico on our GKE clusters (hang tight, this may take a few minutes):
 ```
-gcloud container clusters update [CLUSTER_NAME] --update-addons=NetworkPolicy=ENABLED --region=us-west1-a --project=<yourproject_id>
-gcloud container clusters update [CLUSTER_NAME] --enable-network-policy --region=us-west1-a --project <yourproject_id>
+gcloud container clusters update $(gcloud container clusters list --format json | jq -r '.[].name') --update-addons=NetworkPolicy=ENABLED --region=us-west1-a --project=$GOOGLE_CLOUD_PROJECT
+
+gcloud container clusters update $(gcloud container clusters list --format json | jq -r '.[].name') --enable-network-policy --region=us-west1-a --project=$GOOGLE_CLOUD_PROJECT
 ```
 
 ### Task 2: Create our Network Policy
@@ -59,5 +60,5 @@ kubectl delete -f api -f network-policies
 
 Disable Network Security Policies in our Cluster:
 ```
-gcloud container clusters update [CLUSTER_NAME] --no-enable-network-policy --region=us-west1-a
+gcloud container clusters update $(gcloud container clusters list --format json | jq -r '.[].name') --no-enable-network-policy --region=us-west1-a
 ```

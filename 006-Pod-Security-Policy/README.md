@@ -38,11 +38,8 @@ We need to enable PSP in our GKE cluster. Warning! If you enable the PodSecurity
 
 In Cloud Shell, run the following command:
 ```
-# Retrieve the name of your cluster using the following command:
-gcloud container clusters list
-
 # Enable PSP
-gcloud beta container clusters update <CLUSTER-NAME> --enable-pod-security-policy --region=us-west1-a
+gcloud beta container clusters update $(gcloud container clusters list --format json | jq -r '.[].name') --enable-pod-security-policy --region=us-west1-a
 
 # Grab a coffee..this will take a few minutes
 ```
@@ -64,7 +61,7 @@ kubectl get pods
 kubectl get events
 
 # Events are in non-sequential order by default - use this to order by timestamp
-kubectl get events  --sort-by='.metadata.creationTimestamp'  -o 'go-template={{range .items}}{{.involvedObject.name}}{{"\t"}}{{.involvedObject.kind}}{{"\t"}}{{.message}}{{"\t"}}{{.reason}}{{"\t"}}{{.type}}{{"\t"}}{{.firstTimestamp}}{{"\n"}}{{end}}'
+kubectl get events --sort-by='.metadata.creationTimestamp' -o 'go-template={{range .items}}{{.involvedObject.name}}{{"\t"}}{{.involvedObject.kind}}{{"\t"}}{{.message}}{{"\t"}}{{.reason}}{{"\t"}}{{.type}}{{"\t"}}{{.firstTimestamp}}{{"\n"}}{{end}}'
 ```
 3. Delete the Deployment and Service
 ```
@@ -111,14 +108,11 @@ kubectl delete -f psp -f role -f non-root-pod -f root-pod
 
 2. (!!) *IMPORTANT* (!!) Disable PSP on your cluster
 ```
-# Retrieve the name of your cluster using the following command:
-gcloud container clusters list
-
 # Disable PSP
-gcloud beta container clusters update <CLUSTER-NAME> --no-enable-pod-security-policy --region=us-west1-a
+gcloud beta container clusters update $(gcloud container clusters list --format json | jq -r '.[].name')  --no-enable-pod-security-policy --region=us-west1-a
 
 # Disable Legacy Authorization
-gcloud container clusters update <CLUSTER-NAME> --no-enable-legacy-authorization --region=us-west1-a
+gcloud container clusters update $(gcloud container clusters list --format json | jq -r '.[].name') --no-enable-legacy-authorization --region=us-west1-a
 
 # Grab another coffee..this will take a few minutes
 ```

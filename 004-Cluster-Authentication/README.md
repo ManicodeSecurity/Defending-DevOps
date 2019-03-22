@@ -33,7 +33,7 @@ We need to retrieve the credentials of our running cluster using the following `
 
 ```
 # Use gcloud get-credentials to retrieve the cert
-gcloud container clusters get-credentials <cluster-id> --zone us-west1-a --project <project-id>
+gcloud container clusters get-credentials (gcloud container clusters list --format json | jq -r '.[].name') --zone us-west1-a --project <project-id>
 ```
 Now we launch our pods and services for each Namespace:
 ```
@@ -75,7 +75,8 @@ Now open up Cloud Shell and use the following `gcloud get-credentials` command t
 gcloud container clusters list 
 
 # Now authenticate to the cluster
-gcloud container clusters get-credentials <cluster-id> --zone us-west1-a --project <project-id>
+```
+gcloud container clusters get-credentials $(gcloud container clusters list --format json | jq -r '.[].name') --zone us-west1-a --project $GOOGLE_CLOUD_PROJECT
 
 ```
 Now, attempt to run some `kubectl` queries on the cluster.
@@ -155,7 +156,7 @@ kubectl delete -f development -f production -f role
 ```
 
 ### Bonus 1
-Perform an audit on the `Minimal GKE` role. Apply the rule of least privilege to ensure only the absolute necessary permissions are granted. Below is are the assigned permissions included in this role:
+Perform an audit on the following `Minimal GKE` role. Apply the rule of least privilege to ensure only the absolute necessary permissions are granted. Below is are the assigned permissions included in this role:
 
 ```
 container.apiServices.get

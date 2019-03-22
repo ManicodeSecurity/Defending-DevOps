@@ -6,13 +6,8 @@ The goal of this lab is to successfully setup a Kubernetes cluster using Google 
 To minimize software and configuration on your local machine, will be using a service called [Google Cloud Shell](https://cloud.google.com/shell/docs/) which provides you with command-line access to your cloud resources directly from your browser. Cloud Shell supports the latest versions of Google Chrome, Mozilla Firefox, Microsoft Edge, Microsoft Internet Explorer 11+ and Apple Safari 8+. Safari in private browser mode is not supported.
 
 ## About GKE
-Kubernetes Engine is a managed, production-ready environment for deploying containerized applications in Google Cloud Platform. Each student has been provisioned with a Google account under the `manicode.us` domain as well as a cluster with the following specs:
-```
-Cluster Size: 4 Nodes
-Total Ram: 15GB
-Total Cores: 4vCPUs
-Location: US-West1-a
-```
+Kubernetes Engine is a managed, production-ready environment for deploying containerized applications in Google Cloud Platform. Each student has been provisioned with a Google account under the `manicode.us` domain as well as a multi-node cluster.
+
 The cluster master runs the Kubernetes control plane processes, including the Kubernetes API server, scheduler, and core resource controllers. The master's lifecycle is managed by Kubernetes Engine when you create or delete a cluster. This includes upgrades to the Kubernetes version running on the cluster master, which Kubernetes Engine performs automatically, or manually at your request if you prefer to upgrade earlier than the automatic schedule.
 
 ## Task 1: Authenticate to Google Cloud Platform

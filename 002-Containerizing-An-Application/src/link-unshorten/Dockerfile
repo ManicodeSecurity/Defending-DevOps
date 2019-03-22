@@ -14,6 +14,9 @@ WORKDIR /go/src/unshorten-api
 RUN go install .
 RUN go build
 
+# RUN useradd -ms /bin/bash nonrootuser
+# USER nonrootuser
+
 CMD ["./unshorten-api"]
 
 

@@ -39,7 +39,47 @@ Replace URL path with like so (your URL will look slightly different):
 
 `https://8080-dot-1234567-dot-devshell.appspot.com/api/check?url=bit.ly/test`
 
-### Bonus: Change the value for `port` in main.go an environment variable instead of a hardcoded value
+### Task 4: Run Container as Non-Root User
+1. First, let's take a look at the user our container is running as by using `exec` to get a shell.
+```
+# Grab container name from docker ps
+docker ps
+
+# use exec to get a shell into the running container
+docker exec -it <container_name> /bin/bash
+```
+
+2. If we use the `whoami` command inside of the container we will see that the user is root
+```
+whoami
+```
+3. Check out the `Dockerfile` located in the `src/link-unshorten` directory and remove the commented lines that declare a new user and build a new version of the image:
+
+```
+# First, stop the running container
+docker stop <container_name>
+
+# Build the new image
+docker build -t <yourname>/link-unshorten:0.2 .
+
+# Run the image
+docker run -d -p 8080:8080 <yourname>/link-unshorten:0.2
+```
+
+4. Run the following command to ensure you are no longer running as root:
+
+```
+# Get a shell to the new running container
+docker exec -it <yourname>/link-unshorten:0.2 /bin/bash
+
+# Once you are in the shell run the following commands
+whoami
+groups nonrootuser
+```
+
+### Bonus 1: Use the `--user` flag in `docker run` to run the original container as a non-root user.
+
+### Bonus 2: Change the value for `port` in main.go an environment variable instead of a hardcoded value
 
 Hint 1: Check out the [OS](https://golang.org/pkg/os) package for Golang
 
@@ -49,8 +89,3 @@ Hint 3: Yes, the answer is commented in the source code
 
 Hint 4: You will need to run `docker stop` on the first running container before running another one with the same port
 
-### Bonus+
-Check out [Anchore](https://anchore.io) and investigate some popular Docker images and their vulnerabilities. 
-
-
-### Discussion Question: How would you plug a Docker vulnerability scanning utility into your current CI/CD pipeline? 

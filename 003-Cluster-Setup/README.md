@@ -174,7 +174,7 @@ kubectl delete service link-unshorten-service
 ### Bonus
  A critical RCE vulnerability was just reported through a bug bounty and was fixed late into the night. Roll out a new version of the app (0.2) in your cluster to patch the vulnerability on each of your three running pods. No downtime allowed! Show the deployment history using `kubectl rollout history` 
 
-### Bonus
+### Bonus 2
 The new version you just rolled out contains a critical bug! Quickly rollback the deployment to 0.1 (Yes, 0.1 is the vulnerable version, but this is just for practice!)
 
 ### Discussion Questions
