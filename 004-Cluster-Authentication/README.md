@@ -71,13 +71,9 @@ Note: *Using the same password for multiple accounts is bad. Don't do this at ho
 Now open up Cloud Shell and use the following `gcloud get-credentials` command to retrieve the credentials for your user so we can start interacting with the cluster. This is the same cluster you just launched the `production` and `development` infrastructure in. 
 
 ```
-# This role has the ability to list clusters - do this to get the name of the cluster
-gcloud container clusters list 
+# Authenticate to the cluster
 
-# Now authenticate to the cluster
-```
 gcloud container clusters get-credentials $(gcloud container clusters list --format json | jq -r '.[].name') --zone us-west1-a --project $GOOGLE_CLOUD_PROJECT
-
 ```
 Now, attempt to run some `kubectl` queries on the cluster.
 ```
