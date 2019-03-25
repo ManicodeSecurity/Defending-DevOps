@@ -76,5 +76,10 @@ kubectl delete -f api -f istio-rules
 kubectl label namespace default istio-injection= --overwrite
 ```
 
+Now, disable Istio (just to be safe):
+```
+gcloud beta container clusters update $(gcloud container clusters list --format json | jq -r '.[].name') --update-addons=Istio=DISABLED --region=us-west1-a
+```
+
 ### Bonus
 [Prometheus](https://istio.io/docs/tasks/telemetry/querying-metrics/) is bundled with Istio in GKE for metrics collection. Can you get the dashboard up and start looking at some metrics from your cluster? You will need to do a `port-forward` similar to earlier labs to use web preview.
