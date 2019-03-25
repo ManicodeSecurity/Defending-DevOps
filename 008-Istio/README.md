@@ -9,6 +9,7 @@ kubectl create clusterrolebinding cluster-admin-binding \
 Now, we Install Istio using the GKE Addon:
 ```
 gcloud beta container clusters update $(gcloud container clusters list --format json | jq -r '.[].name') --update-addons=Istio=ENABLED --istio-config=auth=MTLS_STRICT --region=us-west1-a
+```
 
 ### Task 2: Verify our Istio Installation
 Istio is a massive project. Luckily, GKE recently released Istio support out of the box by passing a few beta feature flags upon cluster creation.
