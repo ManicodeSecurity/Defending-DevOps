@@ -72,7 +72,7 @@ docker run -d -p 8080:8080 <yourname>/link-unshorten:0.2
 
 ```
 # Get a shell to the new running container
-docker exec -it <yourname>/link-unshorten:0.2 /bin/bash
+docker exec -it <container_name> /bin/bash
 
 # Once you are in the shell run the following commands
 whoami
