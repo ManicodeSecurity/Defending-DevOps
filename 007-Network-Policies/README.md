@@ -3,6 +3,13 @@ For network policies to be at their most effective, we want to ensure that traff
 
 Suppose we have an application called my-app that stores data in a Postgres database. The following example defines a policy that allows traffic from my-app to my-postgres on the default port for Postgres:
 
+## CLEAN UP
+First, remove all deployments, pods, etc. from prior labs:
+```
+kubectl delete daemonsets,replicasets,services,deployments,pods,rc --all --namespace default
+kubectl delete daemonsets,replicasets,services,deployments,pods,rc --all --namespace development
+kubectl delete daemonsets,replicasets,services,deployments,pods,rc --all --namespace production 
+```
 ### Task 1: Enable Network Policies in our Cluster
 Network policy enforcement is only available for clusters running Kubernetes version 1.7.6 or later. GKE uses the popular [Calico](https://www.projectcalico.org/) overlay network when using Network Policies. 
 
