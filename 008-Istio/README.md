@@ -1,3 +1,13 @@
+# Lab 008 - Istio
+
+## CLEAN UP
+First, remove all deployments, pods, etc. from prior labs:
+```
+kubectl delete daemonsets,replicasets,services,deployments,pods,rc --all --namespace default
+kubectl delete daemonsets,replicasets,services,deployments,pods,rc --all --namespace development
+kubectl delete daemonsets,replicasets,services,deployments,pods,rc --all --namespace production 
+```
+
 ### Task 1: Cluster Prep
 Istio is a complex collection of Kubernetes objects. This task will help us prep our cluster for successful installation. Since we will be creating some RBAC rules, we want to first make sure that we are cluster admin (it is ok to run this again to be safe). Run the following command in Cloud Shell:
 ```
