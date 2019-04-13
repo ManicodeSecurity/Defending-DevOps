@@ -15,10 +15,13 @@ echo "Default Namespace Switched:" $(kubectl get sa default -o jsonpath='{.metad
 ### Task 1: Enable Network Policies in our Cluster
 Network policy enforcement is only available for clusters running Kubernetes version 1.7.6 or later. GKE uses the popular [Calico](https://www.projectcalico.org/) overlay network when using Network Policies. 
 
-First, enable Network Policies and Calico on our GKE clusters (hang tight, this may take a few minutes):
+First, update the addons for our cluster to support Network Policies:
 ```
 gcloud container clusters update $(gcloud container clusters list --format json | jq -r '.[].name') --update-addons=NetworkPolicy=ENABLED --region=us-west1-a --project=$GOOGLE_CLOUD_PROJECT
+```
 
+Next, enable Network Policies:
+```
 gcloud container clusters update $(gcloud container clusters list --format json | jq -r '.[].name') --enable-network-policy --quiet --region=us-west1-a --project=$GOOGLE_CLOUD_PROJECT
 ```
 
