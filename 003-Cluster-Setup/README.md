@@ -91,10 +91,9 @@ The `LoadBalancer` type spins up a load balancer in GCP automatically.
 1. To expose the application we create a Service with the type of LoadBalancer:
 ```
 kubectl expose pod link-unshorten --type=LoadBalancer
-
 ```
 
-2. We can now see our new Service details by running the following command:
+2. We can now see our new Service details by running the following command (The loadbalancer may take a few minutes to create):
 ```
 kubectl get svc
 kubectl describe svc link-unshorten
@@ -179,22 +178,26 @@ kubectl replace -f link-unshorten-deployment.yaml
  kubectl get pods 
  ```
 
-7. Un-comment the redis container lines in the link-unshorten-deployment.yaml manifest to deploy a second container within our Pod. Use `kubectl replace -f link-unshorten-deployment.yaml` to commit the changes after the lines have been un-commented.
+### Multi-Conatiner Pods
 
-8. If you are curious about container-to-container communication within a running Pod, exec into the Redis container using the following command. The name of the Redis container is `unshorten-redis-cache` which is declared in the link-unshorten-deployment.yaml file.
+First, Un-comment the redis container lines in the `link-unshorten-deployment.yaml` manifest to deploy a second container within our Pod. Use `kubectl replace -f link-unshorten-deployment.yaml` to commit the changes after the lines have been un-commented.
+
+1. Exec into the Redis container using the following command. The name of the Redis container is `unshorten-redis-cache` which is declared in the link-unshorten-deployment.yaml file.
 ```
 kubectl exec -it <PodName> -c unshorten-redis-cache /bin/bash
 redis-cli ping
 ```
 
-9. This Redis container has very few Linux packages installed (a good thing!) so we can go get curl using the following command. This is for demonstration purposes. It is not recommended to install ad hoc tools in running containers...remember CATTLE not PETS!
+2. This Redis container has very few Linux packages installed (a good thing!) so we can go get curl using the following command. This is for demonstration purposes. It is not recommended to install ad hoc tools in running containers...remember CATTLE not PETS!
 ```
 apt-get update && apt-get install curl
 ```
 
-10. Since containers within a Pod communicate over Localhost, we are able to access our API endpoint using curl as follows:
+3. Since containers within a Pod communicate over Localhost, we are able to access our API endpoint using curl as follows:
 ```
 curl 127.0.0.1:8080/api/check?url=bit.ly/test
+# HTTP Response Successful
+exit
 ```
 
 ### Bonus

@@ -27,12 +27,14 @@ kubectl create clusterrolebinding cluster-admin-binding \
 
 ```
 # In the manifests directory
-kubectl apply -f dashboard.yaml
+kubectl create -f dashboard.yaml
 ```
 
 2. Since Kubernetes 1.9, authentication to the dashboard is enabled by default. We need to retrieve a service account token that has the appropriate access. In Cloud Shell run the following command:
 
 Note: The token below is auth token `kubectl` uses itself to authenticate as you. You can use any valid token to authenticate to the dashboard. 
+
+A newline may have been added to the token value - just paste it into a text editor first to ensure the token is on one line.
 
 ```
 gcloud config config-helper --format=json | jq -r '.credential.access_token'
@@ -50,8 +52,6 @@ https://8080-dot-4279646-dot-devshell.appspot.com/api/v1/namespaces/kube-system/
 ```
 
 5. Paste your token from the previous command into the dashboard to authenticate.
-
-*Note*: You may need to paste the token into a text editor first and remove the newline.
 
 6. Take a look around the dashboard. What data can you extract from it? Check out the `Secrets` listed in the namespace `kube-system`. 
 

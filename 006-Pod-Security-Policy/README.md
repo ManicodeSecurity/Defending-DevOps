@@ -113,7 +113,7 @@ Note: This is a very new project and at the time of this writing is having probl
 # psp isn't tied to a namespace so we need to delete manually
 
 kubectl delete psp restrict-root && \
-kubectl delete ns lab006 \
+kubectl delete ns lab006 && \
 kubectl config set-context $(kubectl config current-context) --namespace default && \
 echo "Default Namespace Switched:" $(kubectl get sa default -o jsonpath='{.metadata.namespace}')
 ```
