@@ -55,7 +55,7 @@ whoami
 # root
 exit
 ```
-3. Check out the `Dockerfile` located in the `src/link-unshorten` directory and remove the commented lines that declare a new user and build a new version of the image:
+3. Open the `Dockerfile` located in the `src/link-unshorten` directory and remove the commented lines that declare a new user and build a new version of the image:
 
 ```
 # First, stop the running container

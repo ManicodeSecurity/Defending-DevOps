@@ -3,13 +3,15 @@ For network policies to be at their most effective, we want to ensure that traff
 
 Suppose we have an application called my-app that stores data in a Postgres database. The following example defines a policy that allows traffic from my-app to my-postgres on the default port for Postgres:
 
-## CLEAN UP
-First, remove all deployments, pods, etc. from prior labs:
+### Create the `lab007` Namespace and Use as Default
+
+We will create a new Namespace for every lab and switch contexts to ensure it is the default when using `kubectl`.
 ```
-kubectl delete daemonsets,replicasets,services,deployments,pods,rc --all --namespace default
-kubectl delete daemonsets,replicasets,services,deployments,pods,rc --all --namespace development
-kubectl delete daemonsets,replicasets,services,deployments,pods,rc --all --namespace production 
+kubectl create ns lab007 && \
+kubectl config set-context $(kubectl config current-context) --namespace lab007 && \
+echo "Default Namespace Switched:" $(kubectl get sa default -o jsonpath='{.metadata.namespace}')
 ```
+
 ### Task 1: Enable Network Policies in our Cluster
 Network policy enforcement is only available for clusters running Kubernetes version 1.7.6 or later. GKE uses the popular [Calico](https://www.projectcalico.org/) overlay network when using Network Policies. 
 
@@ -17,7 +19,7 @@ First, enable Network Policies and Calico on our GKE clusters (hang tight, this 
 ```
 gcloud container clusters update $(gcloud container clusters list --format json | jq -r '.[].name') --update-addons=NetworkPolicy=ENABLED --region=us-west1-a --project=$GOOGLE_CLOUD_PROJECT
 
-gcloud container clusters update $(gcloud container clusters list --format json | jq -r '.[].name') --enable-network-policy --region=us-west1-a --project=$GOOGLE_CLOUD_PROJECT
+gcloud container clusters update $(gcloud container clusters list --format json | jq -r '.[].name') --enable-network-policy --quiet --region=us-west1-a --project=$GOOGLE_CLOUD_PROJECT
 ```
 
 ### Task 2: Create our Network Policy
@@ -57,12 +59,15 @@ Now type `exit` to exit the shell of the pod.
 kubectl run -l app=other-teams-app --image=alpine --restart=Never --rm -i -t test-1
 
 wget -qO- --timeout=2 http://unshorten-api:80/api/check?url=bit.ly/test
+# timeout
 ```
 
 ### Task 6: Cleanup
-In the `manifests` directory:
+Don't forget to delete the `lab007` namespace when you are done with the Bonuses.
 ```
-kubectl delete -f api -f network-policies
+kubectl delete ns lab007 && \
+kubectl config set-context $(kubectl config current-context) --namespace default && \
+echo "Default Namespace Switched:" $(kubectl get sa default -o jsonpath='{.metadata.namespace}')
 ```
 
 Disable Network Security Policies in our Cluster:

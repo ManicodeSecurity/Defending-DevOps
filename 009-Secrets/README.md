@@ -2,12 +2,16 @@
 
 The goal of this lab is to utilize the native Kubernetes Secrets functionality to create and consume Kubernetes secrets within our application.
 
-### Task 1: Create a Mysql Deployment and Service (the insecure way)
+### Create the `lab009` Namespace and Use as Default
 
-First, make sure all Istio objects and prior unshorten deployments are deleted:
+We will create a new Namespace for every lab and switch contexts to ensure it is the default when using `kubectl`.
 ```
-kubectl label --overwrite namespace default istio-injection=
+kubectl create ns lab009 && \
+kubectl config set-context $(kubectl config current-context) --namespace lab009 && \
+echo "Default Namespace Switched:" $(kubectl get sa default -o jsonpath='{.metadata.namespace}')
 ```
+
+### Task 1: Create a Mysql Deployment and Service (the insecure way)
 
 1. We now must create our Secret using kubectl. This will allow our API to communicate with MySQL.
 ```
@@ -157,14 +161,14 @@ navigate to `manifests/secrets` and run:
 ```
 vault_mysql_pass=`curl -H "X-Vault-Token: not-intended-for-production-deployments" http://127.0.0.1:8200/v1/secret/mysql | jq -r '.data.password' | base64`; cat mysql-secrets.yaml | sed "s/\$\$MYSQL_PASSWORD/$vault_mysql_pass/" | kubectl create -f -
 ```
-### Clean Up
-Let's tear down the objects created in this lab.
+### Cleanup
+
+Don't forget to delete the `lab009` namespace when you are done with the Bonuses.
 ```
-# In the manifests directory
-kubectl delete -f vault -f secrets -f api -f mysql
+kubectl delete ns lab009 && \
+kubectl config set-context $(kubectl config current-context) --namespace default && \
+echo "Default Namespace Switched:" $(kubectl get sa default -o jsonpath='{.metadata.namespace}')
 ```
 
 ## Discussion Question
 What secrets management systems are you using in-house? How could they better plug into DevOps pipelines?
-
-

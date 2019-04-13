@@ -24,6 +24,7 @@ container.apiServices.list
 container.clusters.get
 container.clusters.getCredentials
 ```
+
 ### Task 1: Launch Your Infrastructure
 First, we will spin up our application in both a `development` and `production` namespace. 
 
@@ -145,12 +146,6 @@ kubectl get pods --namespace=production
 
 We have successfully limited access using RBAC.
 
-### Task 6: Cleanup
-In the `manifests` directory:
-```
-kubectl delete -f development -f production -f role
-```
-
 ### Bonus 1
 Perform an audit on the following `Minimal GKE` role. Apply the rule of least privilege to ensure only the absolute necessary permissions are granted. Below is are the assigned permissions included in this role:
 
@@ -168,3 +163,8 @@ resourcemanager.projects.list
 ### Bonus 2
 Our intern just got promoted to Jr. DevSecOpsSysAdminNinja! Can you change the permissions to allow `get`, `watch`, `list`, `update`, and `delete`, on all resources *except* for `secrets` in the `development` and `production` namespaces?
 
+### Task 6: Cleanup
+Don't forget to delete the `development` and `production` namespace when you are done with the Bonuses.
+```
+kubectl delete ns development production
+```

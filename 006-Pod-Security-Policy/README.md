@@ -8,6 +8,15 @@ kubectl create clusterrolebinding cluster-admin-binding \
   --user $(gcloud config get-value account)
 ```
 
+### Create the `lab006` Namespace and Use as Default
+
+We will create a new Namespace for every lab and switch contexts to ensure it is the default when using `kubectl`.
+```
+kubectl create ns lab006 && \
+kubectl config set-context $(kubectl config current-context) --namespace lab006 && \
+echo "Default Namespace Switched:" $(kubectl get sa default -o jsonpath='{.metadata.namespace}')
+```
+
 ### Task 1: Define our PodSecurityPolicy
 
 1. In the `manifests/psp` directory, take a look at the `pod-security-policy.yaml` file and launch it into our new cluster:
@@ -26,7 +35,7 @@ When a PodSecurityPolicy resource is created, it does nothing. In order to use i
 
 RBAC is used to create a Role or ClusterRole that grants the desired service accounts access to PodSecurityPolicies. A ClusterRole grants cluster-wide permissions, and a Role grants permissions within a namespace that you define.
 
-For simplicity, we will create a ClusterRole and ClusterRolebinding that applies to all authenticated users in a default namespace.
+For simplicity, we will create a ClusterRole and ClusterRolebinding that applies to all authenticated users in the `lab006` namespace.
 
 ```
 # in the manifests/role directory run
@@ -50,8 +59,7 @@ gcloud beta container clusters update $(gcloud container clusters list --format 
 2. Launch the Deployment and service:
 ```
 # In the manifests/root-pod directory
-kubectl create -f link-unshorten-deployment.yaml
-kubectl create -f link-unshorten-service.yaml
+kubectl create -f .
 ```
 
 You will notice that the Pod fails to instantiate:
@@ -77,8 +85,7 @@ Great job! We just stopped a container running as r00t.
 2. Launch the Deployment and service:
 ```
 # In the manifests/non-root-pod directory
-kubectl create -f link-unshorten-deployment-non-root.yaml
-kubectl create -f link-unshorten-service-non-root.yaml
+kubectl create -f .
 ```
 
 You will notice that the Pod launches successfully:
@@ -103,18 +110,17 @@ Note: This is a very new project and at the time of this writing is having probl
 ### Clean Up
 1. In the `manifests` directory:
 ```
-kubectl delete -f psp -f role -f non-root-pod -f root-pod
+# psp isn't tied to a namespace so we need to delete manually
+
+kubectl delete psp restrict-root && \
+kubectl delete ns lab006 \
+kubectl config set-context $(kubectl config current-context) --namespace default && \
+echo "Default Namespace Switched:" $(kubectl get sa default -o jsonpath='{.metadata.namespace}')
 ```
 
 2. (!!) *IMPORTANT* (!!) Disable PSP on your cluster
 ```
 # Disable PSP
-gcloud beta container clusters update $(gcloud container clusters list --format json | jq -r '.[].name')  --no-enable-pod-security-policy --region=us-west1-a
 
-# Disable Legacy Authorization
-gcloud container clusters update $(gcloud container clusters list --format json | jq -r '.[].name') --no-enable-legacy-authorization --region=us-west1-a
-
-# Grab another coffee..this will take a few minutes
+gcloud beta container clusters update $(gcloud container clusters list --format json | jq -r '.[].name') --no-enable-pod-security-policy --region=us-west1-a
 ```
-
-

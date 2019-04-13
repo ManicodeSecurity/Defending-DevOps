@@ -1,6 +1,14 @@
 # Security Pipeline and Automation
 This lab will spin up Jenkins in our cluster along with a private Docker image repository. Jenkins will also handle zero-downtime deploys of the unshorten API upon a successful build. The humble beginnings of a self-contained DevSecOps pipeline. 
 
+### Create the `lab010` Namespace and Use as Default
+
+We will create a new Namespace for every lab and switch contexts to ensure it is the default when using `kubectl`.
+```
+kubectl create ns lab010 && \
+kubectl config set-context $(kubectl config current-context) --namespace lab010 && \
+echo "Default Namespace Switched:" $(kubectl get sa default -o jsonpath='{.metadata.namespace}')
+```
 
 ## Task 1: Create the Jenkins Service Account
 Jenkins does not need full administrative access in our cluster. It is crucial to implement RBAC policies that allow Jenkins to carry out the necessary tasks but nothing more. Take a look at the Jenkins Service Account and associated ClusterRole and ClusterRoleBinding then create the SA as follows:

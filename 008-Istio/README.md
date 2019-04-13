@@ -1,13 +1,5 @@
 # Lab 008 - Istio
 
-## CLEAN UP
-First, remove all deployments, pods, etc. from prior labs:
-```
-kubectl delete daemonsets,replicasets,services,deployments,pods,rc --all --namespace default
-kubectl delete daemonsets,replicasets,services,deployments,pods,rc --all --namespace development
-kubectl delete daemonsets,replicasets,services,deployments,pods,rc --all --namespace production 
-```
-
 ### Task 1: Cluster Prep
 Istio is a complex collection of Kubernetes objects. This task will help us prep our cluster for successful installation. Since we will be creating some RBAC rules, we want to first make sure that we are cluster admin (it is ok to run this again to be safe). Run the following command in Cloud Shell:
 ```
@@ -19,6 +11,15 @@ kubectl create clusterrolebinding cluster-admin-binding \
 Now, we Install Istio using the GKE Addon:
 ```
 gcloud beta container clusters update $(gcloud container clusters list --format json | jq -r '.[].name') --update-addons=Istio=ENABLED --istio-config=auth=MTLS_STRICT --region=us-west1-a
+```
+
+### Create the `lab008` Namespace and Use as Default
+
+We will create a new Namespace for every lab and switch contexts to ensure it is the default when using `kubectl`.
+```
+kubectl create ns lab008 && \
+kubectl config set-context $(kubectl config current-context) --namespace lab008 && \
+echo "Default Namespace Switched:" $(kubectl get sa default -o jsonpath='{.metadata.namespace}')
 ```
 
 ### Task 2: Verify our Istio Installation
@@ -42,13 +43,13 @@ Manual injection modifies the controller configuration, e.g. deployment. It does
 
 Automatic injection injects at pod creation time. The controller resource is unmodified. Sidecars can be updated selectively by manually deleting a pods or systematically with a deployment rolling update.
 
-The following command will enable automatic injection for the `default` namespace:
+The following command will enable automatic injection for the `lab008` namespace:
 ```
-kubectl label namespace default istio-injection=enabled
+kubectl label namespace lab008 istio-injection=enabled
 ```
 
 ### Task 4: Launch our API in the Istio Service Mesh
-Since we have automatic injection enabled for the `default` namespace, any deployments created in that namespace will now have an extra container aka "sidecar" automatically injected. This now places the pod into the Istio service mesh.
+Since we have automatic injection enabled for the `lab008` namespace, any deployments created in that namespace will now have an extra container aka "sidecar" automatically injected. This now places the pod into the Istio service mesh.
 ```
 # In the manifests/api directory
 kubectl create -f .
@@ -74,22 +75,24 @@ kubectl create -f .
 
 Once the rules are created, try to visit the API again and you should be able to successfully unshorten links to `bit.ly` domains only. 
 
+### Bonus
+[Prometheus](https://istio.io/docs/tasks/telemetry/querying-metrics/) is bundled with Istio in GKE for metrics collection. Can you get the dashboard up and start looking at some metrics from your cluster? You will need to do a `port-forward` similar to earlier labs to use web preview.
 
-### Task 7: Cleanup
+### Cleanup
 
-In the `manifests` directory:
+Don't forget to delete the `lab008` namespace when you are done with the Bonuses.
 ```
-kubectl delete -f api -f istio-rules
-```
-(!!) *IMPORTANT* (!!)  Disable auto istio-injection for the `default` namespace:
-```
-kubectl label namespace default istio-injection= --overwrite
+kubectl delete ns lab008 && \
+kubectl config set-context $(kubectl config current-context) --namespace default && \
+echo "Default Namespace Switched:" $(kubectl get sa default -o jsonpath='{.metadata.namespace}')
 ```
 
-Now, disable Istio (just to be safe):
+Disable auto istio-injection for the `lab008` namespace:
+```
+kubectl label namespace lab008 istio-injection= --overwrite
+```
+
+Now, disable Istio:
 ```
 gcloud beta container clusters update $(gcloud container clusters list --format json | jq -r '.[].name') --update-addons=Istio=DISABLED --region=us-west1-a
 ```
-
-### Bonus
-[Prometheus](https://istio.io/docs/tasks/telemetry/querying-metrics/) is bundled with Istio in GKE for metrics collection. Can you get the dashboard up and start looking at some metrics from your cluster? You will need to do a `port-forward` similar to earlier labs to use web preview.
