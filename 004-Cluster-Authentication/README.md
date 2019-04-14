@@ -161,7 +161,7 @@ resourcemanager.projects.list
 ```
 
 ### Bonus 2
-Our intern just got promoted to Jr. DevSecOpsSysAdminNinja! Can you change the permissions to allow `get`, `watch`, `list`, `update`, and `delete`, on all resources *except* for `secrets` in the `development` and `production` namespaces?
+Our intern just got promoted to Jr. DevSecOpsSysAdminNinja! Change the permissions to allow `get`, `watch`, `list`, `update`, and `delete`, on `secrets` objects in the `development` and `production` namespaces?
 
 ### Task 6: Cleanup
 Don't forget to delete the `development` and `production` namespace when you are done with the Bonuses.
