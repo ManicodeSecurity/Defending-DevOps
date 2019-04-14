@@ -147,7 +147,7 @@ kubectl get pods --namespace=production
 We have successfully limited access using RBAC.
 
 ### Bonus 1
-Perform an audit on the following `Minimal GKE` role. Apply the rule of least privilege to ensure only the absolute necessary permissions are granted. Below is are the assigned permissions included in this role:
+You are tasked with performing an audit of the `Minimal GKE` role in GCP below. What would you change?
 
 ```
 container.apiServices.get
