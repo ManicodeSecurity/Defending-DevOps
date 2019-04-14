@@ -1,6 +1,6 @@
-### Defending Modern DevOps Environments 
+# Defending Modern DevOps Environments (Kubernetes Edition)
 
-This repository contains all of the labs for the two-day "Defending Modern DevOps Course"
+This repository contains all of the labs for the two-day "Defending Modern DevOps Course" by Manicode Secure Coding Education
 
 ## Useful `kubectl` Commands
 Helpful `kubectl` commands to interact with your cluster and its components:
