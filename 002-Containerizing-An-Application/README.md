@@ -91,3 +91,9 @@ Hint 3: Yes, the answer is commented in the source code
 
 Hint 4: You will need to run `docker stop` on the first running container before running another one with the same port
 
+### Bonus 3: Inspect the Docker image
+[dive](https://github.com/wagoodman/dive) is an OSS project that helps with visualization and optimization of images. 
+
+Install `dive` in Cloud Shell and inspect the unshorten image that was created.
+
+Hint 1: Install using the instructions for Ubuntu/Debian.
