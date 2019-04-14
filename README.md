@@ -1,31 +1,6 @@
 ### Defending Modern DevOps Environments 
 
-This repository contains all of the labs for the Manicode "Defending Modern DevOps Course"
-
-# Agenda:
-001-Lab-Setup
-
-002-Containerizing-An-Application
-
-003-K8S-Cluster-Setup
-
-004-K8S-Cluster-Authentication
-
-005-K8S-Dashboard
-
-006-Pod-Security-Policy
-
-007-Istio
-
-008-K8S-Cluster-Secrets
-
-009-Kube-Logs
-
-010-Security-Pipeline
-
-DEMO-Attacking-Kubelet
-
-Finale
+This repository contains all of the labs for the two-day "Defending Modern DevOps Course"
 
 ## Useful `kubectl` Commands
 Helpful `kubectl` commands to interact with your cluster and its components:
