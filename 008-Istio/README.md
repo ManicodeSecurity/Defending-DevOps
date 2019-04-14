@@ -1,4 +1,14 @@
 # Lab 008 - Istio
+The goal of this lab is to enable Istio service mesh in your cluster and enforce an egress policy.
+
+### Create the `lab008` Namespace and Use as Default
+
+We will create a new Namespace for every lab and switch contexts to ensure it is the default when using `kubectl`.
+```
+kubectl create ns lab008 && \
+kubectl config set-context $(kubectl config current-context) --namespace lab008 && \
+echo "Default Namespace Switched:" $(kubectl get sa default -o jsonpath='{.metadata.namespace}')
+```
 
 ### Task 1: Cluster Prep
 Istio is a complex collection of Kubernetes objects. This task will help us prep our cluster for successful installation. Since we will be creating some RBAC rules, we want to first make sure that we are cluster admin (it is ok to run this again to be safe). Run the following command in Cloud Shell:
@@ -11,15 +21,6 @@ kubectl create clusterrolebinding cluster-admin-binding \
 Now, we Install Istio using the GKE Addon:
 ```
 gcloud beta container clusters update $(gcloud container clusters list --format json | jq -r '.[].name') --update-addons=Istio=ENABLED --istio-config=auth=MTLS_STRICT --region=us-west1-a
-```
-
-### Create the `lab008` Namespace and Use as Default
-
-We will create a new Namespace for every lab and switch contexts to ensure it is the default when using `kubectl`.
-```
-kubectl create ns lab008 && \
-kubectl config set-context $(kubectl config current-context) --namespace lab008 && \
-echo "Default Namespace Switched:" $(kubectl get sa default -o jsonpath='{.metadata.namespace}')
 ```
 
 ### Task 2: Verify our Istio Installation
