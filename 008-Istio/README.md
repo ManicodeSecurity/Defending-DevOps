@@ -3,7 +3,7 @@ The goal of this lab is to enable Istio service mesh in your cluster and enforce
 
 ### Ensure you are using the `default` namespace
 
-We will create a new Namespace for every lab and switch contexts to ensure it is the default when using `kubectl`.
+This lab will work best in the `default` namespace - the following command will ensure that is what we are using.
 ```
 kubectl config set-context $(kubectl config current-context) --namespace default && \
 echo "Default Namespace Switched:" $(kubectl get sa default -o jsonpath='{.metadata.namespace}')
