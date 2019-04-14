@@ -59,7 +59,7 @@ Now type `exit` to exit the shell of the pod.
 ### Task 5: Launch a Blocked Pod
 ```
 # This should NOT be allowed (wrong label name)
-kubectl run -l app=other-teams-app --image=alpine --restart=Never --rm -i -t test-1
+kubectl run -l app=other-teams-app --image=alpine --restart=Never --rm -i -t test-2
 
 wget -qO- --timeout=2 http://unshorten-api:80/api/check?url=bit.ly/test
 # timeout
@@ -73,7 +73,12 @@ kubectl config set-context $(kubectl config current-context) --namespace default
 echo "Default Namespace Switched:" $(kubectl get sa default -o jsonpath='{.metadata.namespace}')
 ```
 
-Disable Network Security Policies in our Cluster:
+Disable Network Security Policies in our Cluster (This will take several minutes):
 ```
 gcloud container clusters update $(gcloud container clusters list --format json | jq -r '.[].name') --no-enable-network-policy --region=us-west1-a
+```
+
+Ensure ALL upgrade operations are complete before moving on to the next lab:
+```
+gcloud beta container operations list
 ```
