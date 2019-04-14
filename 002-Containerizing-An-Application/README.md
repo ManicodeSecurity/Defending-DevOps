@@ -8,7 +8,7 @@ The source code for the application located in the `src/link-unshorten` director
 ### Task 1: Browse the Application
 Open up the files in `src/link-unshorten` in your favorite IDE or the Cloud Shell editor and familiarize yourself with the application.
 
-### Task 2: Build the Docker Container 
+### Task 2: Build the Docker Image 
 In the `src/link-unshorten` directory run the following command (substituting <yourname> with your own identifier) to build the image on the Cloud Shell VM:
 ```
 docker build -t <yourname>/link-unshorten:0.1 .
