@@ -1,12 +1,11 @@
 # Lab 008 - Istio
 The goal of this lab is to enable Istio service mesh in your cluster and enforce an egress policy.
 
-### Create the `lab008` Namespace and Use as Default
+### Ensure you are using the `default` namespace
 
 We will create a new Namespace for every lab and switch contexts to ensure it is the default when using `kubectl`.
 ```
-kubectl create ns lab008 && \
-kubectl config set-context $(kubectl config current-context) --namespace lab008 && \
+kubectl config set-context $(kubectl config current-context) --namespace default && \
 echo "Default Namespace Switched:" $(kubectl get sa default -o jsonpath='{.metadata.namespace}')
 ```
 
@@ -44,13 +43,13 @@ Manual injection modifies the controller configuration, e.g. deployment. It does
 
 Automatic injection injects at pod creation time. The controller resource is unmodified. Sidecars can be updated selectively by manually deleting a pods or systematically with a deployment rolling update.
 
-The following command will enable automatic injection for the `lab008` namespace:
+The following command will enable automatic injection for the `default` namespace:
 ```
-kubectl label namespace lab008 istio-injection=enabled
+kubectl label namespace default istio-injection=enabled
 ```
 
 ### Task 4: Launch our API in the Istio Service Mesh
-Since we have automatic injection enabled for the `lab008` namespace, any deployments created in that namespace will now have an extra container aka "sidecar" automatically injected. This now places the pod into the Istio service mesh.
+Since we have automatic injection enabled for the `default` namespace, any deployments created in that namespace will now have an extra container aka "sidecar" automatically injected. This now places the pod into the Istio service mesh.
 ```
 # In the manifests/api directory
 kubectl create -f .
@@ -81,16 +80,9 @@ Once the rules are created, try to visit the API again and you should be able to
 
 ### Cleanup
 
-Don't forget to delete the `lab008` namespace when you are done with the Bonuses.
+Disable auto istio-injection for the `default` namespace:
 ```
-kubectl delete ns lab008 && \
-kubectl config set-context $(kubectl config current-context) --namespace default && \
-echo "Default Namespace Switched:" $(kubectl get sa default -o jsonpath='{.metadata.namespace}')
-```
-
-Disable auto istio-injection for the `lab008` namespace:
-```
-kubectl label namespace lab008 istio-injection= --overwrite
+kubectl label namespace default istio-injection= --overwrite
 ```
 
 Now, disable Istio:
