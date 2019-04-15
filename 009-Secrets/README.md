@@ -96,7 +96,7 @@ kubectl create -f .
 
 Everything should now be up and running.
 
-## Task 3: Deploying Vault in our Cluster
+### Task 3: Deploying Vault in our Cluster
 HashiCorp Vault secures, stores, and tightly controls access to tokens, passwords, certificates, API keys, and other secrets in modern computing. Vault handles leasing, key revocation, key rolling, and auditing. Through a unified API, users can access an encrypted Key/Value store and network encryption-as-a-service, or generate AWS IAM/STS credentials, SQL/NoSQL databases, X.509 certificates, SSH credentials, and more.
 
 We can use Vault in our own Kubernetes to store and retrieve a variety of secrets.
@@ -148,7 +148,7 @@ curl \
     http://127.0.0.1:8200/v1/secret/mysql
 ```
 
-## Task 4: Using Vault to Store and inject our MySQL Password ()
+### Task 4: Using Vault to Store and inject our MySQL Password 
 
 We can now call the Vault API to inject our secret into our `kubectl create` command on the fly as follows.
 
@@ -170,5 +170,5 @@ kubectl config set-context $(kubectl config current-context) --namespace default
 echo "Default Namespace Switched:" $(kubectl get sa default -o jsonpath='{.metadata.namespace}')
 ```
 
-## Discussion Question
+### Discussion Question
 What secrets management systems are you using in-house? How could they better plug into DevOps pipelines?
