@@ -85,6 +85,11 @@ Disable auto istio-injection for the `default` namespace:
 kubectl label namespace default istio-injection= --overwrite
 ```
 
+Delete all of the Pods and Istio manifests. In the `/manifests` directory run:
+```
+kubectl delete -f api -f istio-rules
+```
+
 Now, disable Istio:
 ```
 gcloud beta container clusters update $(gcloud container clusters list --format json | jq -r '.[].name') --update-addons=Istio=DISABLED --region=us-west1-a
