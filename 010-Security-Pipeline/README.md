@@ -10,7 +10,7 @@ kubectl config set-context $(kubectl config current-context) --namespace lab010 
 echo "Default Namespace Switched:" $(kubectl get sa default -o jsonpath='{.metadata.namespace}')
 ```
 
-## Task 1: Create the Jenkins Service Account
+### Task 1: Create the Jenkins Service Account
 Jenkins does not need full administrative access in our cluster. It is crucial to implement RBAC policies that allow Jenkins to carry out the necessary tasks but nothing more. Take a look at the Jenkins Service Account and associated ClusterRole and ClusterRoleBinding then create the SA as follows:
 
 First we need to make sure that our user is `cluster-admin`
@@ -31,7 +31,7 @@ kubectl create -f .
  kubectl describe clusterrole jenkins-limited
  ```
 
-## Task 2: Build the Internal Registry and Launch Jenkins
+### Task 2: Build the Internal Registry and Launch Jenkins
 We need a location to store our versioned Docker images within our Kubernetes cluster. This deployment uses the official Registry image from Docker.
 
 1. In the `manifests/registry` directory run the following:
@@ -70,8 +70,7 @@ kubectl port-forward $POD_NAME 8080:8080 >> /dev/null &
 
 6. DO NOT INSTALL SUGGESTED PLUGINS! Click deselect all, and manually install the plugins needed for this lab. Only select two plugins from the web UI; `git` and `pipeline`. Use the search feature to find them.
 
-
-## Task 3: Build our Pipeline
+### Task 3: Build our Pipeline
 
 1. In the Jenkins UI, click `New Item` and select `Pipeline` as the project type. Click `Ok`.
 
@@ -86,7 +85,7 @@ https://github.com/ManicodeSecurity/unshorten-jenkins-demo
 
 5. Inspect the `Jenkinsfile` in the repo. It has the humble beginnings of an AppSec and DevSecOps pipeline. Each stage is meant to apply automation to the process where issues result in failed builds. 
 
-## Task 4: Trigger a Build
+### Task 4: Trigger a Build
 Most pipeline setups will trigger builds on a git commit or through some other automated manner. To simulate this, we will tell Jenkins to trigger a build manually:
 
 1. From the Jenkins Dashboard, click on our project name in the table.
@@ -95,18 +94,21 @@ Most pipeline setups will trigger builds on a git commit or through some other a
 
 3. Click on the actual build and inspect the `Console Output`. You will see each step of the build here running in Jenkins live.
 
-## The Build Broke?!
+### The Build Broke?!
 Use what we have learned so far to debug and fix the issue to run Jenkins with a clean build.
 
-## What Just Happened?
+### What Just Happened?
 
 Jenkins is taking the place of us running `kubectl` and `docker` commands locally. Through automation, we were able to build a Docker image, tag it appropriately, and use the Kubernetes rollout feature to ensure a zero-downtime deploy to our cluster. The Pipeline is very bare-bones but can be augmented with your favorite scanning tools for static analysis, dynamic testing, and container vulnerability scanning. This is the beginnings of DevSecOps.
 
-### Task 5: Clean Up
-In the `manifests` directory:
+### Cleanup
+
+Don't forget to delete the `lab010` namespace when you are done with the Bonuses.
 ```
-kubectl delete -f jenkins -f registry -f service-account
+kubectl delete ns lab010 && \
+kubectl config set-context $(kubectl config current-context) --namespace default && \
+echo "Default Namespace Switched:" $(kubectl get sa default -o jsonpath='{.metadata.namespace}')
 ```
 
-### Bonus
+### Further Reading
 Check out the popular build workflow tool called [Skaffold](https://github.com/GoogleContainerTools/skaffold).
