@@ -16,6 +16,10 @@ kubectl cluster-info
 # View node info
 kubectl describe nodes
 ```
+View API Resources
+```
+kubectl api-resources -o wide
+```
 
 ### Interact with running pods 
 ```
