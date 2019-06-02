@@ -1,28 +1,16 @@
 # Network Policies
 For network policies to be at their most effective, we want to ensure that traffic can flow only where it is needed, and nowhere else. We generally want to start with a `DenyAll` default policy that matches all pods with and then take a structured approach to adding network policies which will permit traffic between application pods as necessary.
 
-Suppose we have an application called my-app that stores data in a Postgres database. The following example defines a policy that allows traffic from my-app to my-postgres on the default port for Postgres:
+Network policy enforcement is only available for clusters running Kubernetes version 1.7.6 or later. GKE uses the popular [Calico](https://www.projectcalico.org/) overlay network when using Network Policies. The clusters provided for this training have Network Policies enabled. More info regarding Network Policies in GKE can be found [here](https://cloud.google.com/kubernetes-engine/docs/how-to/network-policy#enabling_network_policy_enforcement)
 
-### Create the `lab007` Namespace and Use as Default
+
+### Task 1: Create the `lab007` Namespace and Use as Default
 
 We will create a new Namespace for every lab and switch contexts to ensure it is the default when using `kubectl`.
 ```
 kubectl create ns lab007 && \
 kubectl config set-context $(kubectl config current-context) --namespace lab007 && \
 echo "Default Namespace Switched:" $(kubectl get sa default -o jsonpath='{.metadata.namespace}')
-```
-
-### Task 1: Enable Network Policies in our Cluster
-Network policy enforcement is only available for clusters running Kubernetes version 1.7.6 or later. GKE uses the popular [Calico](https://www.projectcalico.org/) overlay network when using Network Policies. 
-
-First, update the addons for our cluster to support Network Policies:
-```
-gcloud container clusters update $(gcloud container clusters list --format json | jq -r '.[].name') --update-addons=NetworkPolicy=ENABLED --region=us-west1-a --project=$GOOGLE_CLOUD_PROJECT
-```
-
-Next, enable Network Policies:
-```
-gcloud container clusters update $(gcloud container clusters list --format json | jq -r '.[].name') --enable-network-policy --quiet --region=us-west1-a --project=$GOOGLE_CLOUD_PROJECT
 ```
 
 ### Task 2: Create our Network Policy
@@ -71,14 +59,4 @@ Don't forget to delete the `lab007` namespace when you are done with the Bonuses
 kubectl delete ns lab007 && \
 kubectl config set-context $(kubectl config current-context) --namespace default && \
 echo "Default Namespace Switched:" $(kubectl get sa default -o jsonpath='{.metadata.namespace}')
-```
-
-Disable Network Security Policies in our Cluster (This will take several minutes):
-```
-gcloud container clusters update $(gcloud container clusters list --format json | jq -r '.[].name') --no-enable-network-policy --region=us-west1-a
-```
-
-Ensure ALL upgrade operations are complete before moving on to the next lab:
-```
-gcloud beta container operations list
 ```
