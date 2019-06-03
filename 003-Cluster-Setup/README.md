@@ -160,20 +160,26 @@ kubectl autoscale deployment/link-unshorten --min=1 --max=3
 kubectl delete deployment link-unshorten
 ```
 
-4. Relaunch our Deployment from the manifest file:
+4. `kubectl autoscale` creates a HorizontalPodAutoscaler that also needs to be deleted:
+```
+kubectl get hpa
+kubectl delete hpa <HPA_NAME>
+```
+
+5. Relaunch our Deployment from the manifest file:
 ```
 kubectl create -f link-unshorten-deployment.yaml
 kubectl get pods 
 # two pods should be running
 ```
 
-5. Desired state should always be maintained in a manifest and in source control. Open the Deployment manifest and scale the number of pods to six using `replicas: 6` in the `link-unshorten-deployment.yaml` file. Once the change has been made and saved, use the `replace` command to scale your Deployment. You can also use `apply` here to accomplish the same result.
+6. Desired state should always be maintained in a manifest and in source control. Open the Deployment manifest and scale the number of pods to six using `replicas: 6` in the `link-unshorten-deployment.yaml` file. Once the change has been made and saved, use the `replace` command to scale your Deployment. You can also use `apply` here to accomplish the same result.
 
 ```
 kubectl replace -f link-unshorten-deployment.yaml
 ```
 
-6. Inspect the Pods scaling. Note that others will be terminating at the same time:
+7. Inspect the Pods scaling. Note that others will be terminating at the same time:
  ```
  kubectl get pods 
  ```
