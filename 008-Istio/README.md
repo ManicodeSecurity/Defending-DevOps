@@ -9,6 +9,18 @@ kubectl config set-context $(kubectl config current-context) --namespace default
 echo "Default Namespace Switched:" $(kubectl get sa default -o jsonpath='{.metadata.namespace}')
 ```
 
+### Disable Network Policies  
+To avoid conflicting policy enforcement, it is best to disable Network Policies from the previous lab.
+
+```
+gcloud container clusters update $(gcloud container clusters list --format json | jq -r '.[].name') --region=us-west1-a --no-enable-network-policy
+```
+
+(!)Ensure all cluster operations are labeled `DONE` before continuing(!)
+```
+gcloud beta container operations list 
+```
+
 ### Task 1: Cluster Prep
 Istio is a complex collection of Kubernetes objects. This task will help us prep our cluster for successful installation. Since we will be creating some RBAC rules, we want to first make sure that we are cluster admin (it is ok to run this again to be safe). Run the following command in Cloud Shell:
 ```
@@ -20,6 +32,11 @@ kubectl create clusterrolebinding cluster-admin-binding \
 Now, we Install Istio using the GKE Addon:
 ```
 gcloud beta container clusters update $(gcloud container clusters list --format json | jq -r '.[].name') --update-addons=Istio=ENABLED --istio-config=auth=MTLS_STRICT --region=us-west1-a
+```
+
+(!)Ensure all cluster operations are labeled `DONE` before continuing(!)
+```
+gcloud beta container operations list 
 ```
 
 ### Task 2: Verify our Istio Installation
