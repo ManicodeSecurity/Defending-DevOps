@@ -16,7 +16,7 @@ To avoid conflicting policy enforcement, it is best to disable Network Policies 
 gcloud container clusters update $(gcloud container clusters list --format json | jq -r '.[].name') --region=us-west1-a --no-enable-network-policy
 ```
 
-(!)Ensure all cluster operations are labeled `DONE` before continuing(!)
+(!)Ensure all cluster operations are labeled `DONE` before continuing(!) THIS WILL TAKE SEVERAL MINUTES.
 ```
 gcloud beta container operations list 
 ```
@@ -76,14 +76,16 @@ The unshorten service will spin up a load balancer. Ensure the API is accessible
 kubectl -n istio-system get service istio-ingressgateway
 ```
 
-Now, paste the IP address with a shortened link as follows in your browser and you will see that there are some issues. Egress traffic is blocked by default. The API is not able to make outbound connections to follow redirects.
+Up until version 1.0, Istio’s default behavior was to block access to external endpoints which created connectivity issues and applications were breaking until all endpoints were configured. We are using a version of Istio that newer than 1.0 so egress is not blocked by default.
+
+Paste the IP address with a shortened link as follows in your browser:
 ```
 http://35.197.37.188/api/check?url=https://bit.ly/hi
-# NOT ALLOWED or fail to resolve 
+# This should resolve as expected
 ```
 
 ### Task 5: Build Egress Rules
-Lets build some rules to explicit allow outbound egress traffic to only bit.ly. This can be accomplished by using a `ServiceEntry`. Check out the file `link-unshorten-egress.yaml` located in the `istio-rules` directory and create it as follows:
+Lets build some rules to explicit allow outbound egress traffic to only bit.ly and no other endpoints. This can be accomplished by using a `ServiceEntry`. Check out the file `link-unshorten-egress.yaml` located in the `istio-rules` directory and create it as follows:
 
 ```
 # In the manifests/istio-rules directory
@@ -91,6 +93,14 @@ kubectl create -f .
 ```
 
 Once the rules are created, try to visit the API again and you should be able to successfully unshorten links to `bit.ly` domains only. 
+
+```
+http://35.197.37.188/api/check?url=https://bit.ly/hi
+# This should resolve normally
+
+http://35.197.37.188/api/check?url=https://tinyurl.com/news
+# This should NOT resolve
+```
 
 ### Bonus
 [Prometheus](https://istio.io/docs/tasks/telemetry/querying-metrics/) is bundled with Istio in GKE for metrics collection. Can you get the dashboard up and start looking at some metrics from your cluster? You will need to do a `port-forward` similar to earlier labs to use web preview.
