@@ -9,6 +9,6 @@ roleRef:
 subjects:
   - kind: ServiceAccount
     name: jenkins
-    namespace: default
+    namespace: lab010
 
     
