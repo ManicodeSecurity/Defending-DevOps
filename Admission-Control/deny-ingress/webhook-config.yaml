@@ -1,0 +1,21 @@
+apiVersion: admissionregistration.k8s.io/v1beta1
+kind: ValidatingWebhookConfiguration
+metadata:
+  name: prevent-exposing-services
+webhooks:
+  - name: deny-ingresses.questionable.services
+    sideEffects: None
+    rules:
+      - apiGroups:
+          - "extensions"
+          - "networking.k8s.io"
+        apiVersions:
+          - "*"
+        operations:
+          - "CREATE"
+          - "UPDATE"
+        resources:
+          - "ingresses"
+    failurePolicy: Fail
+    clientConfig:
+      url: "https://deny-it-sflxj773na-uc.a.run.app/admission-control/deny-ingresses"
