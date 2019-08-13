@@ -16,7 +16,7 @@ echo "Default Namespace Switched:" $(kubectl get sa default -o jsonpath='{.metad
 1. `kubectl` is the command line utility that we will use to interact with our Kubernetes cluster. The first task is to view the Pods that are running on our cluster with an out-of-the-box installation. Run the following command in you terminal:
 ```
 kubectl get pods
-``` 
+```
 
 2. As you can see no pods are running. This is because we are dropped into the `default` namespace and the `default` namespace has nothing deployed to it. Try running the same command with the following argument. This will list the pods used by the Kubernetes system itself:
 ```
@@ -86,7 +86,7 @@ exit
 ### Task 3: Exposing your Pod to the World
 There are a variety of ways to make our Pod accessible to the outside world. A Service with the type `LoadBalancer` will be used to give our Pod a stable existence and an IP we can reach from our web browser.
 
-The `LoadBalancer` type spins up a load balancer in GCP automatically. 
+The `LoadBalancer` type spins up a load balancer in GCP automatically.
 
 1. To expose the application we create a Service with the type of LoadBalancer:
 ```
@@ -106,7 +106,7 @@ http://<EXTERNAL-IP>:8080/api/check?url=bit.ly/test
 4. This is no way to manage a real Kubernetes cluster. Tear down your app using the following commands:
 ```
 kubectl delete pod link-unshorten && kubectl delete svc link-unshorten
-``` 
+```
 
 ### Task 4: "Codifying" Your Deployment
 Running ad hoc commands in a terminal are no way to maintain a proper DevOps infrastructure. Kubernetes is built with "Infrastructure as Code" in mind by using manifests. Manifests can be written in JSON and YAML. We will be using YAML for all labs.
@@ -124,7 +124,7 @@ kubectl create -f link-unshorten-service.yaml
 kubectl get pods
 ```
 
-4. Under the hood we can see the new ReplicaSet that was created. Remember, a Deployment actually creates a ReplicaSet. Deployments provide the same replication functions via ReplicaSets and also the ability to rollout changes and roll them back if necessary. 
+4. Under the hood we can see the new ReplicaSet that was created. Remember, a Deployment actually creates a ReplicaSet. Deployments provide the same replication functions via ReplicaSets and also the ability to rollout changes and roll them back if necessary.
 ```
 kubectl get replicaset
 ```
@@ -137,14 +137,14 @@ kubectl describe svc link-unshorten-service
 6. Similar to how we interacted with our application earlier, we use the IP from the above output and paste it into our browser.
 ```
 http://<EXTERNAL-IP>/api/check?url=bit.ly/test
-``` 
+```
 
 ### Task 5: Scale
 
 1. We will first increase the number of pods in our Deployment using `kubectl scale`. Note - This will not reflect what is defined in the manifest. These values will be out of sync.
 
 ```
-kubectl scale deployment/link-unshorten --replicas=4 
+kubectl scale deployment/link-unshorten --replicas=4
 kubectl get pods
 # 4 pods should be running
 ```
@@ -169,7 +169,7 @@ kubectl delete hpa <HPA_NAME>
 5. Relaunch our Deployment from the manifest file:
 ```
 kubectl create -f link-unshorten-deployment.yaml
-kubectl get pods 
+kubectl get pods
 # two pods should be running
 ```
 
@@ -181,7 +181,7 @@ kubectl replace -f link-unshorten-deployment.yaml
 
 7. Inspect the Pods scaling. Note that others will be terminating at the same time:
  ```
- kubectl get pods 
+ kubectl get pods
  ```
 
 ### Multi-Container Pods
@@ -207,7 +207,7 @@ exit
 ```
 
 ### Bonus
- A critical RCE vulnerability was just reported through a bug bounty and was fixed late into the night. Roll out a new version of the app (0.2) in your cluster to patch the vulnerability on each of your three running pods. No downtime allowed! Show the deployment history using `kubectl rollout history` 
+ A critical RCE vulnerability was just reported through a bug bounty and was fixed late into the night. Roll out a new version of the app (0.2) in your cluster to patch the vulnerability on each of your three running pods. No downtime allowed! Show the deployment history using `kubectl rollout history`
 
 ### Bonus 2
 The new version you just rolled out contains a critical bug! Quickly rollback the deployment to 0.1 (Yes, 0.1 is the vulnerable version, but this is just for practice!)
@@ -221,6 +221,6 @@ echo "Default Namespace Switched:" $(kubectl get sa default -o jsonpath='{.metad
 ```
 
 ### Discussion Questions
-1. What would be a good piece of your application or infrastructure to start breaking up into Pods within Kubernetes? 
+1. What would be a good piece of your application or infrastructure to start breaking up into Pods within Kubernetes?
 
-2. What security challenges does administering a Kubernetes cluster using a tool like kubectl present? 
+2. What security challenges does administering a Kubernetes cluster using a tool like kubectl present?

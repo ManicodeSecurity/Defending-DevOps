@@ -5,7 +5,7 @@ metadata:
   name: jenkins-limited
 rules:
 - apiGroups: [""]
-  resources: 
+  resources:
     - pods
     - pods/log
     - pods/attach

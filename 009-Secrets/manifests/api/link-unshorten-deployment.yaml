@@ -9,7 +9,7 @@ spec:
   selector:
     matchLabels:
       app: unshorten-api
-  template: 
+  template:
     metadata:
       labels:
         app: unshorten-api

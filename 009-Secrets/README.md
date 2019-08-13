@@ -148,13 +148,13 @@ curl \
     http://127.0.0.1:8200/v1/secret/mysql
 ```
 
-### Task 4: Using Vault to Store and inject our MySQL Password 
+### Task 4: Using Vault to Store and inject our MySQL Password
 
 We can now call the Vault API to inject our secret into our `kubectl create` command on the fly as follows.
 
 First, delete `mysql-secrets` from our cluster:
 ```
-kubectl delete secret mysql-secrets 
+kubectl delete secret mysql-secrets
 ```
 
 navigate to `manifests/secrets` and run:

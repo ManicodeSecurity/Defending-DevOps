@@ -1,5 +1,5 @@
 # Security Pipeline and Automation
-This lab will spin up Jenkins in our cluster along with a private Docker image repository. Jenkins will also handle zero-downtime deploys of the unshorten API upon a successful build. The humble beginnings of a self-contained DevSecOps pipeline. 
+This lab will spin up Jenkins in our cluster along with a private Docker image repository. Jenkins will also handle zero-downtime deploys of the unshorten API upon a successful build. The humble beginnings of a self-contained DevSecOps pipeline.
 
 ### Create the `lab010` Namespace and Use as Default
 
@@ -39,7 +39,7 @@ We need a location to store our versioned Docker images within our Kubernetes cl
 kubectl create -f .
 ```
 
-2. Once all of the Pods and Services are up and healthy, grab the URL for our freshly created registry and visit it in your browser. 
+2. Once all of the Pods and Services are up and healthy, grab the URL for our freshly created registry and visit it in your browser.
 
 Note: The registry runs on port `8080`.
 ```
@@ -83,7 +83,7 @@ kubectl port-forward $POD_NAME 8080:8080 >> /dev/null &
 https://github.com/ManicodeSecurity/unshorten-jenkins-demo
 ```
 
-5. Inspect the `Jenkinsfile` in the repo. It has the humble beginnings of an AppSec and DevSecOps pipeline. Each stage is meant to apply automation to the process where issues result in failed builds. 
+5. Inspect the `Jenkinsfile` in the repo. It has the humble beginnings of an AppSec and DevSecOps pipeline. Each stage is meant to apply automation to the process where issues result in failed builds.
 
 ### Task 4: Trigger a Build
 Most pipeline setups will trigger builds on a git commit or through some other automated manner. To simulate this, we will tell Jenkins to trigger a build manually:

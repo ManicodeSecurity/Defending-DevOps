@@ -14,7 +14,7 @@ echo "Default Namespace Switched:" $(kubectl get sa default -o jsonpath='{.metad
 ```
 
 ### Task 2: Create our Network Policy
-Go to the `manifests/network-policies` directory and inspect the Network policy named `hello-unshorten.yaml`. This policy simply selects Pods with label `app=unshorten-api` and specifies an ingress policy to allow traffic only from Pods with the label `app=unshorten-fe`. We only want to allow traffic from pods that are acting as frontends to our API. 
+Go to the `manifests/network-policies` directory and inspect the Network policy named `hello-unshorten.yaml`. This policy simply selects Pods with label `app=unshorten-api` and specifies an ingress policy to allow traffic only from Pods with the label `app=unshorten-fe`. We only want to allow traffic from pods that are acting as frontends to our API.
 
 In the `manifests/network-policies` directory run:
 ```

@@ -22,24 +22,24 @@ Note: You may need to refresh the page a few times before seeing your Kubernetes
 In the navigation on the left side of the console, click `Kubernetes Engine`. Here you will find the details about the cluster and a GUI for accessing and administering workloads and services.
 
 ## Task 3: Launch Cloud Shell
-There is a button titled `Activate Google Cloud Shell` located in the top-bar navigation of the console. When clicked, a terminal will appear in the lower half of the console. This gives you direct command-line access to your Kubernetes cluster. 
+There is a button titled `Activate Google Cloud Shell` located in the top-bar navigation of the console. When clicked, a terminal will appear in the lower half of the console. This gives you direct command-line access to your Kubernetes cluster.
 
 Cloud shell comes packaged with a beta feature called `code editor` which gives you a minimal IDE for viewing and editing files. This will be used throughout the remainder of the labs. The link is found in the upper-right hand corner of the terminal.
 
 ## Task 4: Clone the Git Repository
 In your home directory, we are going to pull in the documentation and source code used for the course labs. We can do this by running the following command:
 ```
-git clone https://github.com/ManicodeSecurity/Defending-DevOps/ 
+git clone https://github.com/ManicodeSecurity/Defending-DevOps/
 ```
 
 ## Task 5: Connect to your Kubernetes Cluster
-Most of the tools necessary to complete the labs come pre-installed in Google Cloud Shell including `kubectl` which is used extensively to interact with your cluster. Ensure your cluster is operational by running the following commands. 
+Most of the tools necessary to complete the labs come pre-installed in Google Cloud Shell including `kubectl` which is used extensively to interact with your cluster. Ensure your cluster is operational by running the following commands.
 
 First, we need to use connect to the cluster using Cloud Shell. In the navigation on the left, click `Kubernetes Engine -> Cluster` then click the `Connect` button next to your cluster:
 
 ![Cluster Connect](../images/gke-connect.png)
 
-You will then be presented with options to connect to the cluster. Click `Run in Cloud Shell`. This will open Google Cloud Shell in the same browser tab. It will also paste a command into the terminal. All you need to do now is hit enter to run the command. 
+You will then be presented with options to connect to the cluster. Click `Run in Cloud Shell`. This will open Google Cloud Shell in the same browser tab. It will also paste a command into the terminal. All you need to do now is hit enter to run the command.
 
 The command you are running will look like this:
 ```

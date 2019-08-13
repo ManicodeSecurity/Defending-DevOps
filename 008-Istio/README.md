@@ -24,7 +24,7 @@ gcloud beta container clusters update $(gcloud container clusters list --format 
 
 (!)Ensure all cluster operations are labeled `DONE` before continuing(!)
 ```
-gcloud beta container operations list 
+gcloud beta container operations list
 ```
 
 ### Task 2: Verify our Istio Installation
@@ -80,7 +80,7 @@ Lets build some rules to explicit allow outbound egress traffic to only bit.ly a
 kubectl create -f .
 ```
 
-Once the rules are created, try to visit the API again and you should be able to successfully unshorten links to `bit.ly` domains only. 
+Once the rules are created, try to visit the API again and you should be able to successfully unshorten links to `bit.ly` domains only.
 
 ```
 http://35.197.37.188/api/check?url=https://bit.ly/hi
