@@ -17,3 +17,4 @@ export KUBECONFIG=~/.kube/goat-config
 - Open Dashboard
 - Revealing Secrets
 - Sensitive Data Exposure
+- API Authentication Issues
