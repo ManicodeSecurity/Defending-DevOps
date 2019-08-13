@@ -17,7 +17,7 @@ First, inspect the `ValidatingWebhookConfiguration` located at `deny-ingress/web
 Create the `ValidatingWebhookConfiguration` object:
 ```
 #in the deny-ingress directory
-kubectl create -f webhook-config.yaml`
+kubectl create -f webhook-config.yaml
 ```
 
 Now, to test that the Admission Control is working properly, create a simple Ingress object as follows:
