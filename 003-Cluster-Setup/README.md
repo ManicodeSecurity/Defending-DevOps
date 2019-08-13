@@ -184,7 +184,7 @@ kubectl replace -f link-unshorten-deployment.yaml
  kubectl get pods 
  ```
 
-### Multi-Conatiner Pods
+### Multi-Container Pods
 
 First, Un-comment the redis container lines in the `link-unshorten-deployment.yaml` manifest to deploy a second container within our Pod. Use `kubectl replace -f link-unshorten-deployment.yaml` to commit the changes after the lines have been un-commented.
 
