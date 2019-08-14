@@ -7,7 +7,7 @@ A recent addition to Kubernetes, [auditing](https://kubernetes.io/docs/tasks/deb
 
 ### Task 2: Open Audit Logs in Stackdriver
 In the main navigation in GCP, click the "hamburger" icon (≡), and then navigate to `Stackdriver` -> `Logging` -> `Logs Viewer`.
-Under the `Resources` drop-down select `Kubernetes Cluster` then the name of your cluster
+Under the `Resources` drop-down select `Kubernetes Cluster` then the name of your cluster.
 
 Here you will see a list of audit events associated with your cluster.
 
