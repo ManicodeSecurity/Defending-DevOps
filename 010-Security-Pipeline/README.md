@@ -83,7 +83,7 @@ kubectl port-forward $POD_NAME 8080:8080 >> /dev/null &
 https://github.com/ManicodeSecurity/unshorten-jenkins-demo
 ```
 
-5. Inspect the `Jenkinsfile` in the repo. It has the humble beginnings of an AppSec and DevSecOps pipeline. Each stage is meant to apply automation to the process where issues result in failed builds.
+5. Inspect the [`Jenkinsfile`](https://github.com/ManicodeSecurity/unshorten-jenkins-demo/blob/master/Jenkinsfile) in the repo. It has the humble beginnings of an AppSec and DevSecOps pipeline. Each stage is meant to apply automation to the process where issues result in failed builds.
 
 ### Task 4: Trigger a Build
 Most pipeline setups will trigger builds on a git commit or through some other automated manner. To simulate this, we will tell Jenkins to trigger a build manually:
