@@ -18,5 +18,5 @@ webhooks:
           - "services"
     failurePolicy: Fail
     clientConfig:
-      url: "https://deny-it-sflxj773na-uc.a.run.app/deny-public-services/gcp"
+      url: "https://deny-it-sflxj773na-uc.a.run.app/admission-control/deny-public-services/gcp"
 
