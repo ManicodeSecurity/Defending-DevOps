@@ -58,5 +58,6 @@ Don't forget to delete the `lab007` namespace when you are done with the Bonuses
 ```
 kubectl delete ns lab007 && \
 kubectl config set-context $(kubectl config current-context) --namespace default && \
-echo "Default Namespace Switched:" $(kubectl get sa default -o jsonpath='{.metadata.namespace}')
+echo "Default Namespace Switched:" $(kubectl get sa default -o jsonpath='{.metadata.namespace}') \
+kubectl delete networkpolicy hello-allow-from-unshorten
 ```
