@@ -54,7 +54,7 @@ gcloud beta container clusters update $(gcloud container clusters list --format 
 ```
 
 ### Task 4: Launch a Pod That Runs as Root
-1. Inspect the modified Unshorten API deployment located in the `manifests` directory and notice the new `runAsUser` field. This field specifies that for any Containers in the Pod, the first process runs with user ID 0 (root). 
+1. Inspect the modified Unshorten API deployment located in the `manifests/root-pod` directory and notice the new `runAsUser` field. This field specifies that for any Containers in the Pod, the first process runs with user ID 0 (root). 
 
 2. Launch the Deployment and service:
 ```
@@ -80,7 +80,7 @@ kubectl delete -f .
 Great job! We just stopped a container running as r00t.
 
 ### Task 5: Launch a Pod That Runs as Non-Root
-1. Inspect the modified Unshorten API deployment located in the `manifests` directory and notice the new `runAsUser` field. This field specifies that for any Containers in the Pod, the first process runs with user ID 999 (non-root). 
+1. Inspect the modified Unshorten API deployment located in the `manifests/non-root-pod` directory and notice the new `runAsUser` field. This field specifies that for any Containers in the Pod, the first process runs with user ID 999 (non-root). 
 
 2. Launch the Deployment and service:
 ```
