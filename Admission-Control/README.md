@@ -12,11 +12,11 @@ The webhooks are hosted using [Cloud Run](https://cloud.google.com/run/) on GCP.
 
 An Ingress object in Kubernetes may expose unnecessary external IP addresses to the internet. This can lead to unexpected compromise.
 
-First, inspect the `ValidatingWebhookConfiguration` located at `deny-ingress/webhook-configuration.yaml`. You will see that we are using an open API endpoint hosted on Cloud Run to inspect the request.
+First, inspect the `ValidatingWebhookConfiguration` located at `deny-ingress/webhook-config.yaml`. You will see that we are using an open API endpoint hosted on Cloud Run to inspect the request.
 
 Create the `ValidatingWebhookConfiguration` object:
 ```
-#in the deny-ingress directory
+# in the deny-ingress directory
 kubectl create -f webhook-config.yaml
 ```
 
@@ -30,10 +30,10 @@ Due to the rules built in the [DenyIngresses](https://github.com/elithrar/admiss
 
 ## Block Public Load Balancers
 
-Similar to Ingress objects, spinning up a public Loadbalancer may turn into a security issue. Let's us our Admission Webhook to block any public Loadbalancers from being created in the cluster:
+Similar to Ingress objects, spinning up a public Loadbalancer may turn into a security issue. Let's use our Admission Webhook to block any public Loadbalancers from being created in the cluster:
 
 ```
-#in the deny-public-lb directory
+# in the deny-public-lb directory
 kubectl create -f webhook-config.yaml
 ```
 Now, to test that the Admission Control is working properly, create a simple Ingress object as follows:
@@ -55,6 +55,6 @@ kubectl delete -f deny-public-lb
 ```
 
 ## Shout Out
-Shout out to the `Admission Control` repo from `elithrar`. Check it out on Github if you are looking for a robust framework for spinning up Admission Control in your clusters.
+Shout out to the `Admission Control` repo from `elithrar`. Check it out on GitHub if you are looking for a robust framework for spinning up Admission Control in your clusters.
 
 [https://github.com/elithrar/admission-control](https://github.com/elithrar/admission-control)
