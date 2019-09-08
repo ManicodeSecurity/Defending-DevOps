@@ -13,12 +13,12 @@ minikube delete
 minikube start
 ```
 
-2. The Kubelet API runs on every node in a cluster. If an individual has network access to a node in the kubernetes cluster, they are able to do some interesting things by default, including "exec-ing" into running pods. 
+2. The Kubelet API runs on every node in a cluster. If an individual has network access to a node in the kubernetes cluster, they are able to do some interesting things by default, including "exec-ing" into running pods.
 ```
 # port 10250 is the read/write port that the Kubelet API uses for communication to the master node
 minikube ip
 curl --insecure https://$(minikube ip):10250/pods | jq
-# jq is a tool to prettify JSON output - it is optional 
+# jq is a tool to prettify JSON output - it is optional
 ```
 
 3. As you can see, using a default implementation of Minikube (and many other kubernetes production bootstrappers) we are able to list all of the pods running on a given node with a simple `curl` command. This seems bad, right? Let's try to Exec and do some real damage. First, we launch some victim pods to take over. In the `manifests` directory, run the following command:
@@ -43,7 +43,7 @@ curl --insecure -v -H "X-Stream-Protocol-Version: v2.channel.k8s.io" -H "X-Strea
 ```
 wscat -c "https://$(minikube ip):10250/cri/exec/<valueFrom302>" --no-check
 ```
-    
+
 You can use cURL too:
 ### !! Please note that this command only works reliably with the newer versions of cURL. If you are getting errors, try updating cURL !!
 ```
@@ -56,7 +56,7 @@ curl -k --include \
      https://$(minikube ip):10250/cri/exec/<valueFrom302>
 ```
 
-8. These are *all of the environment variables* for our unshorten-api pod, printed to the screen, unauthenticated. 
+8. These are *all of the environment variables* for our unshorten-api pod, printed to the screen, unauthenticated.
 
 See any issues here?
 
@@ -78,7 +78,7 @@ minikube ssh
 sudo cat /etc/kubernetes/kubelet.conf
 ```
 
-3. You will see that our config defines a set of certificates which successfully enables authentication between the Master and Nodes. 
+3. You will see that our config defines a set of certificates which successfully enables authentication between the Master and Nodes.
 
 ### Note: `kubeadm` does this by default but this is not always the case for other bootstrap mechanisms or scratch-built clusters! Always manually check that this configuration is enforced!
 

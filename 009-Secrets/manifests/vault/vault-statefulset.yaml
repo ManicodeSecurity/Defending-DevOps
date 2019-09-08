@@ -1,5 +1,5 @@
 apiVersion: apps/v1beta1
-# StatefulSets are intended to be used with stateful applications and distributed systems. 
+# StatefulSets are intended to be used with stateful applications and distributed systems.
 kind: StatefulSet
 metadata:
   name: vault

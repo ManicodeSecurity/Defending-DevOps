@@ -8,7 +8,7 @@ The source code for the application located in the `src/link-unshorten` director
 ### Task 1: Browse the Application
 Open up the files in `src/link-unshorten` in your favorite IDE or the Cloud Shell editor and familiarize yourself with the application.
 
-### Task 2: Build the Docker Image 
+### Task 2: Build the Docker Image
 In the `src/link-unshorten` directory run the following command (substituting <yourname> with your own identifier) to build the image on the Cloud Shell VM:
 ```
 docker build -t <yourname>/link-unshorten:0.1 .
@@ -92,7 +92,7 @@ Hint 3: Yes, the answer is commented in the source code
 Hint 4: You will need to run `docker stop` on the first running container before running another one with the same port
 
 ### Bonus 3: Inspect the Docker image
-[dive](https://github.com/wagoodman/dive) is an OSS project that helps with visualization and optimization of images. 
+[dive](https://github.com/wagoodman/dive) is an OSS project that helps with visualization and optimization of images.
 
 Install `dive` in Cloud Shell and inspect the unshorten image that was created.
 

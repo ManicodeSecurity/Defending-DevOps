@@ -22,7 +22,7 @@ kubectl create clusterrolebinding cluster-admin-binding \
   --clusterrole cluster-admin \
   --user $(gcloud config get-value account)
 ```
-  
+
 1. The Dashboard UI is not always deployed by default. To deploy it, run the following command in Cloud Shell:
 
 ```
@@ -32,9 +32,9 @@ kubectl create -f dashboard.yaml
 
 2. Since Kubernetes 1.9, authentication to the dashboard is enabled by default. We need to retrieve a service account token that has the appropriate access. In Cloud Shell run the following command:
 
-Note: The token below is auth token `kubectl` uses itself to authenticate as you. You can use any valid token to authenticate to the dashboard. 
+Note: The token below is auth token `kubectl` uses itself to authenticate as you. You can use any valid token to authenticate to the dashboard.
 
-A newline may have been added to the token value - just paste it into a text editor first to ensure the token is on one line.
+Since the token may span multiple lines in the Cloud Shell, a newline may have been added *within* the copied token value - just paste it into a text editor and remove whitespace to ensure the token is on one line, and then copy the result.
 
 ```
 gcloud config config-helper --format=json | jq -r '.credential.access_token'
@@ -53,7 +53,7 @@ https://8080-dot-4279646-dot-devshell.appspot.com/api/v1/namespaces/kube-system/
 
 5. Paste your token from the previous command into the dashboard to authenticate.
 
-6. Take a look around the dashboard. What data can you extract from it? Check out the `Secrets` listed in the namespace `kube-system`. 
+6. Take a look around the dashboard. What data can you extract from it? Check out the `Secrets` listed in the namespace `kube-system`.
 
 ## Bonus 1
 Launch and scale the unshorten-api deployment using only the dashboard.
@@ -64,7 +64,7 @@ The Service Account that the dashboard uses to launch is located in the `manifes
 ## Bonus 3
 Authenticate to the dashboard using a token that is has a more restricted RBAC policy attached (maybe an intern?). Does the dashboard look any different?
 
-### Task 2: Cleanup 
+### Task 2: Cleanup
 Don't forget to delete the `lab005` namespace when you are done with the Bonuses.
 ```
 kubectl delete ns lab005 && \

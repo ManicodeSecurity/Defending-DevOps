@@ -1,7 +1,7 @@
 ## PodSecurityPolicy
 Pod security policies provide a framework to ensure that pods and containers run only with the appropriate privileges and access only a finite set of resources. Security policies also provide a way for cluster administrators to control resource creation, by limiting the capabilities available to specific roles, groups or namespaces.
 
-If you haven't already or have been checking email and Slacking for the past 5 labs, please ensure you are `cluster-admin`. 
+If you haven't already or have been checking email and Slacking for the past 5 labs, please ensure you are `cluster-admin`.
 ```
 kubectl create clusterrolebinding cluster-admin-binding \
   --clusterrole cluster-admin \
@@ -54,8 +54,7 @@ gcloud beta container clusters update $(gcloud container clusters list --format 
 ```
 
 ### Task 4: Launch a Pod That Runs as Root
-1. Inspect the modified Unshorten API deployment located in the `manifests/root-pod` directory and notice the new `runAsUser` field. This field specifies that for any Containers in the Pod, the first process runs with user ID 0 (root). 
-
+1. Inspect the modified Unshorten API deployment located in the `manifests/root-pod` directory and notice the new `runAsUser` field. This field specifies that for any Containers in the Pod, the first process runs with user ID 0 (root).
 2. Launch the Deployment and service:
 ```
 # In the manifests/root-pod directory
@@ -80,8 +79,7 @@ kubectl delete -f .
 Great job! We just stopped a container running as r00t.
 
 ### Task 5: Launch a Pod That Runs as Non-Root
-1. Inspect the modified Unshorten API deployment located in the `manifests/non-root-pod` directory and notice the new `runAsUser` field. This field specifies that for any Containers in the Pod, the first process runs with user ID 999 (non-root). 
-
+1. Inspect the modified Unshorten API deployment located in the `manifests/non-root-pod` directory and notice the new `runAsUser` field. This field specifies that for any Containers in the Pod, the first process runs with user ID 999 (non-root).
 2. Launch the Deployment and service:
 ```
 # In the manifests/non-root-pod directory

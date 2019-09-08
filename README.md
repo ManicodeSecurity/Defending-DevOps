@@ -21,7 +21,7 @@ View API Resources
 kubectl api-resources -o wide
 ```
 
-### Interact with running pods 
+### Interact with running pods
 ```
 # Display all pods in all namespaces in the cluster
 kubectl get pods --all-namespaces
@@ -48,8 +48,8 @@ kubectl logs <your-pod-name> -c <your-container-name>
 ```
 kubectl get logs <podname>
 kubectl exec -it <podname> /bin/bash
-kubectl describe pod|service|deployment <name> 
-kubectl get secret <secretname> 
+kubectl describe pod|service|deployment <name>
+kubectl get secret <secretname>
 kubectl get events | grep <thething>
 kubectl create --v 10 -f .
 ```

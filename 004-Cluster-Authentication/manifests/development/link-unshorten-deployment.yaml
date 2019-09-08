@@ -4,7 +4,7 @@ metadata:
   # A Deployment named link-unshorten is created using the metadata: name field
   name: link-unshorten
   namespace: development
-  # We give the deployment a label 
+  # We give the deployment a label
   labels:
     app: unshorten-api
 spec:
@@ -14,7 +14,7 @@ spec:
   selector:
     matchLabels:
       app: unshorten-api
-  template: 
+  template:
     metadata:
       labels:
         # We label all Pods in this deployment as app: unshorten-api
