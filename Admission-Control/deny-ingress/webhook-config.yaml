@@ -18,4 +18,4 @@ webhooks:
           - "ingresses"
     failurePolicy: Fail
     clientConfig:
-      url: "https://deny-it-sflxj773na-uc.a.run.app/admission-control/deny-ingresses"
+      url: "https://denyit-7xkbwdndta-ue.a.run.app/admission-control/deny-ingresses"
