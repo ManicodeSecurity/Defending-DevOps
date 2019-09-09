@@ -50,8 +50,8 @@ Hint: You will need to modify the `webhook-config.yaml` file.
 
 ## Clean up
 ```
-kubectl delete -f deny-ingress
-kubectl delete -f deny-public-lb
+kubectl delete ValidatingWebhookConfiguration deny-public-load-balancers && \
+  kubectl delete ValidatingWebhookConfiguration prevent-exposing-services
 ```
 
 ## Shout Out
