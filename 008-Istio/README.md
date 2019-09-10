@@ -17,17 +17,37 @@ kubectl create clusterrolebinding cluster-admin-binding \
   --user="$(gcloud config get-value core/account)"
 ```
 
-Now, we Install Istio using the GKE Addon:
+### Task 2: Install Istio
+
+Download and extract the Istio release:
 ```
-gcloud beta container clusters update $(gcloud container clusters list --format json | jq -r '.[].name') --update-addons=Istio=ENABLED --istio-config=auth=MTLS_STRICT --region=us-west1-a
+wget https://github.com/istio/istio/releases/download/1.1.13/istio-1.1.13-linux.tar.gz && \
+  tar -xvzf istio-1.1.13-linux.tar.gz && \
+  cd istio-1.1.13
 ```
 
-(!)Ensure all cluster operations are labeled `DONE` before continuing(!)
+Create a namespace for the istio-system components:
 ```
-gcloud beta container operations list
+kubectl create namespace istio-system
 ```
 
-### Task 2: Verify our Istio Installation
+Install all the Istio Custom Resource Definitions (CRDs) using `kubectl apply`, and wait a few seconds for the CRDs to be committed in the Kubernetes API-server:
+```
+helm template install/kubernetes/helm/istio-init --name istio-init --namespace istio-system | kubectl apply -f -
+```
+
+Use helm to install the `demo` configuration profile which enables egress-gateway:
+```
+helm template install/kubernetes/helm/istio --name istio --namespace istio-system \
+    --values install/kubernetes/helm/istio/values-istio-demo.yaml | kubectl apply -f -
+```
+
+Ensure egress blocking is enabled by switching the mode from `ALLOW_ANY` to `REGISTRY_ONLY` in the Istio ConfigMap:
+```
+kubectl get configmap istio -n istio-system -o yaml | sed 's/mode: ALLOW_ANY/mode: REGISTRY_ONLY/g' | kubectl replace -n istio-system -f -
+```
+
+### Task 3: Verify our Istio Installation
 Istio is a massive project. Luckily, GKE recently released Istio support out of the box by passing a few beta feature flags upon cluster creation.
 
 First, let's verify that Istio is installed and running properly in our cluster. Ensure the following Kubernetes services are deployed: istio-pilot, istio-ingressgateway, istio-policy, istio-telemetry, prometheus, istio-galley, and, optionally, istio-sidecar-injector.
@@ -36,11 +56,8 @@ First, let's verify that Istio is installed and running properly in our cluster.
 kubectl get svc -n istio-system
 ```
 Ensure the corresponding Kubernetes pods are deployed and all containers are up and running: istio-pilot-*, istio-ingressgateway-*, istio-egressgateway-*, istio-policy-*, istio-telemetry-*, istio-citadel-*, prometheus-*, istio-galley-*, and, optionally, istio-sidecar-injector-*.
-```
-kubectl get pods -n istio-system
-```
 
-### Task 3: Enable Automatic Sidecar Injection
+### Task 4: Enable Automatic Sidecar Injection
 
 Each pod in the mesh must be running an Istio compatible sidecar. The sidecar is how all traffic to and from pods in the mesh
 
@@ -53,7 +70,7 @@ The following command will enable automatic injection for the `default` namespac
 kubectl label namespace default istio-injection=enabled
 ```
 
-### Task 4: Launch our API in the Istio Service Mesh
+### Task 5: Launch our API in the Istio Service Mesh
 Since we have automatic injection enabled for the `default` namespace, any deployments created in that namespace will now have an extra container aka "sidecar" automatically injected. This now places the pod into the Istio service mesh.
 ```
 # In the manifests/api directory
@@ -66,13 +83,7 @@ kubectl -n istio-system get service istio-ingressgateway
 
 Up until version 1.0, Istio’s default behavior was to block access to external endpoints which created connectivity issues and applications were breaking until all endpoints were configured. We are using a version of Istio that newer than 1.0 so egress is not blocked by default.
 
-Paste the IP address with a shortened link as follows in your browser:
-```
-http://35.197.37.188/api/check?url=https://bit.ly/hi
-# This should resolve as expected
-```
-
-### Task 5: Build Egress Rules
+### Task 6: Build Egress Rules
 Lets build some rules to explicit allow outbound egress traffic to only bit.ly and no other endpoints. This can be accomplished by using a `ServiceEntry`. Check out the file `link-unshorten-egress.yaml` located in the `istio-rules` directory and create it as follows:
 
 ```
@@ -107,5 +118,5 @@ kubectl delete -f api -f istio-rules
 
 Now, disable Istio:
 ```
-gcloud beta container clusters update $(gcloud container clusters list --format json | jq -r '.[].name') --update-addons=Istio=DISABLED --region=us-west1-a
+kubectl delete ns istio-system
 ```
