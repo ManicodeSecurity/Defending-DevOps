@@ -29,7 +29,7 @@ Cloud shell comes packaged with a beta feature called `code editor` which gives 
 ## Task 4: Clone the Git Repository
 In your home directory, we are going to pull in the documentation and source code used for the course labs. We can do this by running the following command:
 ```
-git clone https://github.com/ManicodeSecurity/Defending-DevOps/
+git clone https://github.com/ManicodeSecurity/Defending-DevOps
 ```
 
 ## Task 5: Connect to your Kubernetes Cluster
