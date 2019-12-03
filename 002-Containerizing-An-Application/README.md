@@ -81,7 +81,7 @@ groups nonrootuser
 
 ### Bonus 1: Use the `--user` flag in `docker run` to run the original container as a non-root user.
 
-### Bonus 2: Change the value for `port` in main.go an environment variable instead of a hardcoded value
+### Bonus 2: Change the value for `port` in main.go to an environment variable instead of a hardcoded value
 
 Hint 1: Check out the [OS](https://golang.org/pkg/os) package for Golang
 
