@@ -14,7 +14,7 @@ spec:
       serviceAccountName: jenkins
       containers:
       - name: jenkins
-        image: manicode/jenkins-dind
+        image: manicode/jenkins-dind:2
         ports:
         - containerPort: 8080
         imagePullPolicy: Always
